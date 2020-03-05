@@ -5,7 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Vantage.WPF.Interfaces;
 using Vantage.WPF.ViewModels;
+using Vantage.WPF.Views;
 
 namespace Vantage.WPF
 {

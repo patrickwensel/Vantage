@@ -1,7 +1,11 @@
-﻿using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
+﻿using System;
+using System.ComponentModel;
+using System.Threading;
+using System.Windows.Controls;
+using System.Security;
 using Vantage.WPF;
+using Vantage.WPF.Interfaces;
+using Vantage.WPF.Views;
 
 namespace Vantage.WPF.ViewModels
 {
