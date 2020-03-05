@@ -5,8 +5,9 @@ namespace Vantage.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite("Data Source=VantageDB.db");
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        { }
 
         public virtual DbSet<Infraction> Infractions { get; set; }
         public virtual DbSet<Lesson> Lessons { get; set; }
@@ -23,6 +24,8 @@ namespace Vantage.Data
             #endregion
 
             #region SeedData
+
+            modelBuilder.Entity<Product>().HasData(new Product { ProductID = 1, Name = "FleetDriver" });
 
             #endregion
 
