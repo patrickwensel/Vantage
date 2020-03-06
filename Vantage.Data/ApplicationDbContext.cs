@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Vantage.Data.Models;
 
 namespace Vantage.Data
@@ -8,6 +9,11 @@ namespace Vantage.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=C:\\Vantage\\Data\\VantageDB.db");
+        }
 
         public virtual DbSet<Infraction> Infractions { get; set; }
         public virtual DbSet<Lesson> Lessons { get; set; }
