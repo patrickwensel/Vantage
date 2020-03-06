@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Vantage.WPF.Interfaces;
@@ -21,7 +22,11 @@ namespace Vantage.WPF
 
             //Create a custom principal with an anonymous identity at startup
             CustomPrincipal customPrincipal = new CustomPrincipal();
+
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
+            Thread.CurrentPrincipal = customPrincipal;
+            var currentPrincipal = Thread.CurrentPrincipal;
+            AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.UnauthenticatedPrincipal);
 
             base.OnStartup(e);
 

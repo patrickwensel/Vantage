@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Security;
 using System.Threading;
 using System.Windows.Controls;
-using System.Security;
 using Vantage.WPF;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Views;
@@ -75,6 +75,8 @@ namespace Vantage.WPF.ViewModels
 
                 //Get the current principal object
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                var currentPrincipal = Thread.CurrentPrincipal;
+
                 if (customPrincipal == null)
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
 
@@ -126,7 +128,7 @@ namespace Vantage.WPF.ViewModels
 
         public bool IsAuthenticated
         {
-            get { return Thread.CurrentPrincipal.Identity.IsAuthenticated; }
+            get { return Thread.CurrentPrincipal != null ? Thread.CurrentPrincipal.Identity.IsAuthenticated : false; }
         }
 
         private void ShowView(object parameter)
