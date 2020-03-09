@@ -22,6 +22,7 @@ namespace Vantage.WPF.Views
     {
         public LoginWindow(AuthenticationViewModel viewModel)
         {
+            viewModel.OnRequestClose += CloseWindow;
             ViewModel = viewModel;
             InitializeComponent();
         }
@@ -33,5 +34,10 @@ namespace Vantage.WPF.Views
             set { DataContext = value; }
         }
         #endregion
+
+        private void CloseWindow(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

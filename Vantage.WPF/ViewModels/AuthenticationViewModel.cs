@@ -18,6 +18,9 @@ namespace Vantage.WPF.ViewModels
         private readonly DelegateCommand _loginCommand;
         private readonly DelegateCommand _logoutCommand;
         private readonly DelegateCommand _showViewCommand;
+
+        public EventHandler OnRequestClose;
+
         private string _username;
         private string _status;
 
@@ -104,7 +107,7 @@ namespace Vantage.WPF.ViewModels
                 IView dashboard = new Dashboard();
                 dashboard.Show();
 
-                IsLoginWindowVisible = false;
+                OnRequestClose?.Invoke(this, new EventArgs());
             }
             catch (UnauthorizedAccessException)
             {
