@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Security;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using Vantage.WPF;
 using Vantage.WPF.Interfaces;
@@ -19,6 +20,8 @@ namespace Vantage.WPF.ViewModels
         private readonly DelegateCommand _showViewCommand;
         private string _username;
         private string _status;
+
+        private bool _isLoginWindowVisible = true;
 
         public AuthenticationViewModel(IAuthenticationService authenticationService)
         {
@@ -53,6 +56,12 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _status; }
             set { _status = value; NotifyPropertyChanged("Status"); }
+        }
+
+        public bool IsLoginWindowVisible 
+        {
+            get { return _isLoginWindowVisible; }
+            set { _isLoginWindowVisible = value; NotifyPropertyChanged("IsLoginWindowVisible"); }
         }
         #endregion
 
@@ -91,6 +100,11 @@ namespace Vantage.WPF.ViewModels
                 Username = string.Empty; //reset
                 passwordBox.Password = string.Empty; //reset
                 Status = string.Empty;
+
+                IView dashboard = new Dashboard();
+                dashboard.Show();
+
+                IsLoginWindowVisible = false;
             }
             catch (UnauthorizedAccessException)
             {
