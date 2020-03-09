@@ -23,6 +23,7 @@ namespace Vantage.WPF.Views
         public LoginWindow(AuthenticationViewModel viewModel)
         {
             viewModel.OnRequestClose += CloseWindow;
+            viewModel.OnRequestFocus += RequestFocus;
             ViewModel = viewModel;
             InitializeComponent();
         }
@@ -44,6 +45,11 @@ namespace Vantage.WPF.Views
         private void CloseWindow(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void RequestFocus(object sender, EventArgs e)
+        {
+            TxtUsername.Focus();
         }
     }
 }

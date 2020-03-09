@@ -18,6 +18,7 @@ namespace Vantage.WPF.ViewModels
         private readonly DelegateCommand _showViewCommand;
 
         public EventHandler OnRequestClose;
+        public EventHandler OnRequestFocus;
 
         private string _username;
         private string _status;
@@ -109,7 +110,10 @@ namespace Vantage.WPF.ViewModels
             }
             catch (UnauthorizedAccessException)
             {
-                Status = "Login failed! Please provide some valid credentials.";
+                Status = "Please enter valid admin name and password.";
+                passwordBox.Password = string.Empty;
+                Username = string.Empty;
+                OnRequestFocus?.Invoke(this, new EventArgs());
             }
             catch (Exception ex)
             {
