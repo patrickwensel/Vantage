@@ -3,7 +3,7 @@ using System.Security.Principal;
 
 namespace Vantage.WPF
 {
-    class CustomPrincipal : IPrincipal
+    public class CustomPrincipal : IPrincipal
     {
         private CustomIdentity _identity;
 

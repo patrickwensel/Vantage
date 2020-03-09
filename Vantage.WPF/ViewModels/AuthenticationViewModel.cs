@@ -41,8 +41,8 @@ namespace Vantage.WPF.ViewModels
             {
                 if (IsAuthenticated)
                     return string.Format("Signed in as {0}. {1}",
-                          Thread.CurrentPrincipal.Identity.Name,
-                          Thread.CurrentPrincipal.IsInRole("Administrators") ? "You are an administrator!"
+                          App.CurrentPrincipal.Identity.Name,
+                          App.CurrentPrincipal.IsInRole("Administrators") ? "You are an administrator!"
                               : "You are NOT a member of the administrators group.");
 
                 return "Not authenticated!";
@@ -74,7 +74,7 @@ namespace Vantage.WPF.ViewModels
                 User user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 //Get the current principal object
-                CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                CustomPrincipal customPrincipal = App.CurrentPrincipal as CustomPrincipal;
                 var currentPrincipal = Thread.CurrentPrincipal;
 
                 if (customPrincipal == null)
@@ -109,7 +109,7 @@ namespace Vantage.WPF.ViewModels
 
         private void Logout(object parameter)
         {
-            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+            CustomPrincipal customPrincipal = App.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal != null)
             {
                 customPrincipal.Identity = new AnonymousIdentity();
@@ -128,7 +128,7 @@ namespace Vantage.WPF.ViewModels
 
         public bool IsAuthenticated
         {
-            get { return Thread.CurrentPrincipal != null ? Thread.CurrentPrincipal.Identity.IsAuthenticated : false; }
+            get { return App.CurrentPrincipal != null ? App.CurrentPrincipal.Identity.IsAuthenticated : false; }
         }
 
         private void ShowView(object parameter)
