@@ -2,9 +2,7 @@
 using System.ComponentModel;
 using System.Security;
 using System.Threading;
-using System.Windows;
 using System.Windows.Controls;
-using Vantage.WPF;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Views;
 

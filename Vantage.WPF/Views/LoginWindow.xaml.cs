@@ -27,6 +27,12 @@ namespace Vantage.WPF.Views
             InitializeComponent();
         }
 
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            TxtUsername.Focus();
+        }
+
         #region IView Members
         public IViewModel ViewModel
         {
