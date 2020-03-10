@@ -22,8 +22,16 @@ namespace Vantage.WPF.Views
     {
         public LoginWindow(AuthenticationViewModel viewModel)
         {
+            viewModel.OnRequestClose += CloseWindow;
+            viewModel.OnRequestFocus += RequestFocus;
             ViewModel = viewModel;
             InitializeComponent();
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            TxtUsername.Focus();
         }
 
         #region IView Members
@@ -33,5 +41,15 @@ namespace Vantage.WPF.Views
             set { DataContext = value; }
         }
         #endregion
+
+        private void CloseWindow(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void RequestFocus(object sender, EventArgs e)
+        {
+            TxtUsername.Focus();
+        }
     }
 }
