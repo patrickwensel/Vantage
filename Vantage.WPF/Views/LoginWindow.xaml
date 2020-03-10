@@ -6,19 +6,14 @@
              xmlns:local="clr-namespace:Vantage.WPF.Views"
              mc:Ignorable="d"
 		     WindowStartupLocation="CenterScreen"
-             Title="Login" Height="450" Width="800" MinWidth="500" MinHeight="320">
+             Title="Login" Height="246" Width="474" MinWidth="500" MinHeight="320">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
     </Window.Resources>
     <StackPanel
 		Orientation="Vertical"
-		Margin="20">
-        <Image
-			HorizontalAlignment="Stretch"
-            IsEnabled="False"
-			Source="https://upload.wikimedia.org/wikipedia/commons/3/30/Googlelogo.png"
-			Height="80" />
-        <Grid HorizontalAlignment="Right" Margin="10">
+		Margin="20,0,20,0" Height="140">
+		<Grid HorizontalAlignment="Right" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="350"/>
@@ -44,12 +39,5 @@
             HorizontalAlignment="Center" FontSize="16" Width="100" Margin="5,2" TabIndex="2"/>
             <!--</StackPanel>-->
         </Grid>
-        <TextBlock Text="Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in civil and criminal penalties, and will be prosecuted to the full extent possible under the law." 
-               FontSize="14"
-				   FontWeight="Bold"
-				   HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" />
-        <TextBlock Text="v 2.0" 
-               FontSize="14" HorizontalAlignment="Right" TextWrapping="Wrap" FontWeight="Bold"
-               Margin="2,10"/>
-    </StackPanel>
+	</StackPanel>
 </Window>
