@@ -4,9 +4,9 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Vantage.API.Services;
 using Vantage.Data;
 using Vantage.Data.Models;
+
 
 
 namespace Vantage.API.Controllers
@@ -15,12 +15,12 @@ namespace Vantage.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUserService _userService;
         private readonly ApplicationDbContext _context;
 
         public UsersController(ApplicationDbContext context)
         {
             _context = context;
+
         }
 
         // GET: api/Users
@@ -90,18 +90,34 @@ namespace Vantage.API.Controllers
 
         [HttpPost("authenticate")]
         [SwaggerOperation("GetUserAuthenticate")]
-        public User AuthenticateAsync([FromBody] User loginParam)
+        public UserReturnObject Authenticate([FromBody] User loginParam)
         {
-            User user = _userService.AuthenticateAsync(loginParam.UserName, loginParam.Password);
+            var upperUserName = loginParam.UserName.ToUpper();
+            User user = _context.Users.Where(u => u.UserName.ToUpper().Contains(upperUserName)).FirstOrDefault();
 
-            if (user == null)
+            if (user != null)
             {
-                //return NotFound();
+                if (user.Password == loginParam.Password)
+                {
+
+                    List<string> roles = _context.UserRoles
+                        .Where(ur => ur.UserID == user.UserID)
+                        .Select(r => r.Role.Name).ToList();
+
+                    UserReturnObject userReturnObject = new UserReturnObject
+                    {
+                        UserName = user.UserName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Roles = roles
+                    };
+
+                    return userReturnObject;
+                }
                 return null;
             }
 
-            //return Ok(user);
-            return user;
+            return null;
         }
 
         // DELETE: api/Users/5
@@ -124,5 +140,16 @@ namespace Vantage.API.Controllers
         {
             return _context.Users.Any(e => e.UserID == id);
         }
+
+
+    }
+
+    public class UserReturnObject
+    {
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public List<string> Roles { get; set; }
+
     }
 }
