@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Security;
 using System.Threading;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Views;
 
@@ -81,6 +82,17 @@ namespace Vantage.WPF.ViewModels
             string clearTextPassword = passwordBox.Password;
             try
             {
+                IView dashboard = new Dashboard();
+                // Allow user to login if username and password both empty
+                if (string.IsNullOrEmpty(Username) && string.IsNullOrEmpty(clearTextPassword))
+                {
+                    dashboard.Show();
+
+                    OnRequestClose?.Invoke(this, new EventArgs());
+                    return;
+                }
+
+                App.Current.MainWindow.Cursor = Cursors.Wait;
                 //Validate credentials through the authentication service
                 User user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
@@ -102,14 +114,16 @@ namespace Vantage.WPF.ViewModels
                 Username = string.Empty; //reset
                 passwordBox.Password = string.Empty; //reset
                 Status = string.Empty;
+                App.Current.MainWindow.Cursor = Cursors.Arrow;
 
-                IView dashboard = new Dashboard();
                 dashboard.Show();
 
                 OnRequestClose?.Invoke(this, new EventArgs());
             }
             catch (UnauthorizedAccessException)
             {
+                App.Current.MainWindow.Cursor = Cursors.Arrow;
+
                 Status = "Please enter valid admin name and password.";
                 passwordBox.Password = string.Empty;
                 Username = string.Empty;
@@ -117,6 +131,7 @@ namespace Vantage.WPF.ViewModels
             }
             catch (Exception ex)
             {
+                App.Current.MainWindow.Cursor = Cursors.Arrow;
                 Status = string.Format("ERROR: {0}", ex.Message);
             }
         }

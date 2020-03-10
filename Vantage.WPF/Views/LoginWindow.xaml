@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Vantage.WPF.Views"
              mc:Ignorable="d"
 		     WindowStartupLocation="CenterScreen"
-             Title="Login" Height="450" Width="800">
+             Title="Login" Height="450" Width="800" MinWidth="500" MinHeight="320">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
     </Window.Resources>
@@ -18,10 +18,6 @@
             IsEnabled="False"
 			Source="https://upload.wikimedia.org/wikipedia/commons/3/30/Googlelogo.png"
 			Height="80" />
-        <TextBlock Text="{Binding AuthenticatedUser}" 
-                   IsEnabled="False"
-               FontSize="14" HorizontalAlignment="Right" TextWrapping="Wrap" FontWeight="Bold"
-               Margin="2,2,2,2"/>
         <Grid HorizontalAlignment="Right" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
