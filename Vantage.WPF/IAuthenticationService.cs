@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Vantage.WPF
 {
     public interface IAuthenticationService
     {
-        User AuthenticateUser(string username, string password);
+        UserReturnObject AuthenticateUser(string username, string password);
     }
     public class AuthenticationService : IAuthenticationService
     {
@@ -54,14 +59,47 @@ namespace Vantage.WPF
             "hMaLizwzOQ5LeOnMuj+C6W75Zl5CXXYbwDSHWW9ZOXc=", new string[] { })
         };
 
-        public User AuthenticateUser(string username, string clearTextPassword)
+        public UserReturnObject AuthenticateUser(string username, string clearTextPassword)
         {
-            InternalUserData userData = _users.FirstOrDefault(u => u.Username.Equals(username)
-                && u.HashedPassword.Equals(CalculateHash(clearTextPassword, u.Username)));
-            if (userData == null)
-                throw new UnauthorizedAccessException("Access denied. Please provide some valid credentials.");
 
-            return new User(userData.Username, userData.Email, userData.Roles);
+
+            var hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);
+            UserAuthentication userAuthentication = new UserAuthentication
+            {
+                UserName = username,
+                Password = hashedPassword
+
+            };
+
+            Task<ActionResult<UserReturnObject>> userReturnObject = Authenticate(userAuthentication);
+
+            return userReturnObject;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<UserReturnObject>> Authenticate(UserAuthentication userAuthentication)
+        {
+            UserReturnObject userReturnObject = new UserReturnObject();
+            using (var httpClient = new HttpClient())
+            {
+                //httpClient.DefaultRequestHeaders.Add("Key", "Secret@123");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(userAuthentication), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync("http://localhost:59721/api/users/authenticate", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        userReturnObject = JsonConvert.DeserializeObject<UserReturnObject>(apiResponse);
+                    }
+                    catch (Exception ex)
+                    {
+                        //ViewBag.Result = apiResponse;
+                        //return View();
+                    }
+                }
+            }
+            return userReturnObject;
         }
 
         private string CalculateHash(string clearTextPassword, string salt)
@@ -76,30 +114,45 @@ namespace Vantage.WPF
         }
     }
 
-    public class User
+    //public class User
+    //{
+    //    public User(string username, string email, string[] roles)
+    //    {
+    //        Username = username;
+    //        Email = email;
+    //        Roles = roles;
+    //    }
+    //    public string Username
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    public string Email
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    public string[] Roles
+    //    {
+    //        get;
+    //        set;
+    //    }
+    //}
+
+    public class UserAuthentication
     {
-        public User(string username, string email, string[] roles)
-        {
-            Username = username;
-            Email = email;
-            Roles = roles;
-        }
-        public string Username
-        {
-            get;
-            set;
-        }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
 
-        public string Email
-        {
-            get;
-            set;
-        }
+    public class UserReturnObject
+    {
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public List<string> Roles { get; set; }
 
-        public string[] Roles
-        {
-            get;
-            set;
-        }
     }
 }

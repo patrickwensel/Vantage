@@ -61,7 +61,7 @@ namespace Vantage.WPF.ViewModels
             set { _status = value; NotifyPropertyChanged("Status"); }
         }
 
-        public bool IsLoginWindowVisible 
+        public bool IsLoginWindowVisible
         {
             get { return _isLoginWindowVisible; }
             set { _isLoginWindowVisible = value; NotifyPropertyChanged("IsLoginWindowVisible"); }
@@ -94,7 +94,7 @@ namespace Vantage.WPF.ViewModels
 
                 App.Current.MainWindow.Cursor = Cursors.Wait;
                 //Validate credentials through the authentication service
-                User user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
+                UserReturnObject user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 //Get the current principal object
                 CustomPrincipal customPrincipal = App.CurrentPrincipal as CustomPrincipal;
@@ -104,7 +104,7 @@ namespace Vantage.WPF.ViewModels
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
 
                 //Authenticate the user
-                customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
+                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Roles);
 
                 //Update UI
                 NotifyPropertyChanged("AuthenticatedUser");

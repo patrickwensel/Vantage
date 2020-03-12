@@ -10,16 +10,14 @@ namespace Vantage.WPF
 {
     public class CustomIdentity : IIdentity
     {
-        public CustomIdentity(string name, string email, string[] roles)
+        public CustomIdentity(string name, List<string> roles)
         {
             Name = name;
-            Email = email;
             Roles = roles;
         }
 
         public string Name { get; private set; }
-        public string Email { get; private set; }
-        public string[] Roles { get; private set; }
+        public List<string> Roles { get; private set; }
 
 
         public string AuthenticationType { get { return "Custom authentication"; } }
