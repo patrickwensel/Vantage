@@ -76,7 +76,7 @@ namespace Vantage.WPF.ViewModels
         public DelegateCommand ShowViewCommand { get { return _showViewCommand; } }
         #endregion
 
-        private void Login(object parameter)
+        private async void Login(object parameter)
         {
             PasswordBox passwordBox = parameter as PasswordBox;
             string clearTextPassword = passwordBox.Password;
@@ -94,7 +94,7 @@ namespace Vantage.WPF.ViewModels
 
                 App.Current.MainWindow.Cursor = Cursors.Wait;
                 //Validate credentials through the authentication service
-                UserReturnObject user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
+                UserReturnObject user = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 //Get the current principal object
                 CustomPrincipal customPrincipal = App.CurrentPrincipal as CustomPrincipal;

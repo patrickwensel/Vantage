@@ -13,7 +13,7 @@ namespace Vantage.WPF
 {
     public interface IAuthenticationService
     {
-        UserReturnObject AuthenticateUser(string username, string password);
+        Task<UserReturnObject> AuthenticateUser(string username, string password);
     }
     public class AuthenticationService : IAuthenticationService
     {
@@ -59,25 +59,22 @@ namespace Vantage.WPF
             "hMaLizwzOQ5LeOnMuj+C6W75Zl5CXXYbwDSHWW9ZOXc=", new string[] { })
         };
 
-        public UserReturnObject AuthenticateUser(string username, string clearTextPassword)
+        public async Task<UserReturnObject> AuthenticateUser(string username, string clearTextPassword)
         {
-
-
             var hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);
             UserAuthentication userAuthentication = new UserAuthentication
             {
                 UserName = username,
                 Password = hashedPassword
-
             };
 
-            Task<ActionResult<UserReturnObject>> userReturnObject = Authenticate(userAuthentication);
+            UserReturnObject userReturnObject = await Authenticate(userAuthentication);
 
             return userReturnObject;
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserReturnObject>> Authenticate(UserAuthentication userAuthentication)
+        public async Task<UserReturnObject> Authenticate(UserAuthentication userAuthentication)
         {
             UserReturnObject userReturnObject = new UserReturnObject();
             using (var httpClient = new HttpClient())
@@ -85,7 +82,7 @@ namespace Vantage.WPF
                 //httpClient.DefaultRequestHeaders.Add("Key", "Secret@123");
                 StringContent content = new StringContent(JsonConvert.SerializeObject(userAuthentication), Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PostAsync("http://localhost:59721/api/users/authenticate", content))
+                using (var response = await httpClient.PostAsync($"{Config.BaseUrl}/api/users/authenticate", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     try
