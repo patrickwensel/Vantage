@@ -35,8 +35,9 @@ namespace Vantage.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
 
+            }
+            app.AddEfDiagrams<ApplicationDbContext>();
             app.UseRouting();
 
             app.UseAuthorization();

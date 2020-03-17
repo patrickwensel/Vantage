@@ -9,13 +9,13 @@ namespace Vantage.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int InfractionID { get; set; }
 
-        //ID that Unity uses to call the api
-        public string InfranctionCode { get; set; }
-
         public string Name { get; set; }
+        public string Enum { get; set; }
+        public int Deduction { get; set; }
 
-        [ForeignKey("Product")]
-        public int ProductID { get; set; }
-        public Product Product { get; set; }
+        [ForeignKey("Attempt")]
+        public int AttemptID { get; set; }
+        public Attempt Attempt { get; set; }
+
     }
 }

@@ -12,8 +12,11 @@ namespace Vantage.Data
         { }
 
         public virtual DbSet<Infraction> Infractions { get; set; }
-        public virtual DbSet<Lesson> Lessons { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Driver> Drivers { get; set; }
+        public virtual DbSet<Lesson> Lessons { get; set; }
+        public virtual DbSet<Attempt> Attempts { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
@@ -21,8 +24,24 @@ namespace Vantage.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
-            .HasMany(c => c.Infractions)
-            .WithOne(e => e.Product);
+                .HasMany(c => c.Groups)
+                .WithOne(e => e.Product);
+
+            modelBuilder.Entity<Group>()
+                .HasMany(c => c.Drivers)
+                .WithOne(e => e.Group);
+
+            modelBuilder.Entity<Driver>()
+                .HasMany(c => c.Attempts)
+                .WithOne(e => e.Driver);
+
+            modelBuilder.Entity<Attempt>()
+                .HasMany(c => c.Infractions)
+                .WithOne(e => e.Attempt);
+
+            modelBuilder.Entity<Lesson>()
+                .HasMany(c => c.Attempts)
+                .WithOne(e => e.Lesson);
 
             #region Users
 
