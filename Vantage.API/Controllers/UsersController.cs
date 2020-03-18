@@ -93,7 +93,7 @@ namespace Vantage.API.Controllers
         public UserReturnObject Authenticate([FromBody] User loginParam)
         {
             var upperUserName = loginParam.UserName.ToUpper();
-            User user = _context.Users.Where(u => u.UserName.ToUpper().Contains(upperUserName)).FirstOrDefault();
+            User user = _context.Users.Where(u => u.UserName.ToUpper() == (upperUserName)).FirstOrDefault();
 
             if (user != null)
             {

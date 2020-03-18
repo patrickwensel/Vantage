@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Vantage.WPF.Interfaces;
+using Vantage.WPF.Services;
 using Vantage.WPF.ViewModels;
 using Vantage.WPF.Views;
 

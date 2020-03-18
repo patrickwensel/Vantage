@@ -212,6 +212,11 @@ namespace Vantage.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserID", "FirstName", "LastName", "Password", "UserName" },
+                values: new object[] { 3, "Admin", "Admin", "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB", "a" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserID", "FirstName", "LastName", "Password", "UserName" },
                 values: new object[] { 2, "John", "Smith", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "JSmith" });
 
             migrationBuilder.InsertData(
@@ -223,6 +228,16 @@ namespace Vantage.Data.Migrations
                 table: "UserRoles",
                 columns: new[] { "UserRoleID", "RoleID", "UserID" },
                 values: new object[] { 2, 2, 1 });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "UserRoleID", "RoleID", "UserID" },
+                values: new object[] { 4, 1, 3 });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "UserRoleID", "RoleID", "UserID" },
+                values: new object[] { 5, 2, 3 });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",

@@ -32,5 +32,11 @@ namespace Vantage.WPF.Views
             set { DataContext = value; }
         }
         #endregion
+
+        private void openAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            AdminWindow adminWindow = new AdminWindow();
+            adminWindow.Show();
+        }
     }
 }

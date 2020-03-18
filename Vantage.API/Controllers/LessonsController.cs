@@ -12,48 +12,48 @@ namespace Vantage.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class LessonsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductsController(ApplicationDbContext context)
+        public LessonsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Lessons
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Lesson>>> GetLessons()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Lessons.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Lessons/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Lesson>> GetLesson(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var lesson = await _context.Lessons.FindAsync(id);
 
-            if (product == null)
+            if (lesson == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return lesson;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Lessons/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutLesson(int id, Lesson lesson)
         {
-            if (id != product.ProductID)
+            if (id != lesson.LessonID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Entry(lesson).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace Vantage.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!LessonExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace Vantage.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Lessons
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Lesson>> PostLesson(Lesson lesson)
         {
-            _context.Products.Add(product);
+            _context.Lessons.Add(lesson);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+            return CreatedAtAction("GetLesson", new { id = lesson.LessonID }, lesson);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Lessons/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<Lesson>> DeleteLesson(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var lesson = await _context.Lessons.FindAsync(id);
+            if (lesson == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Lessons.Remove(lesson);
             await _context.SaveChangesAsync();
 
-            return product;
+            return lesson;
         }
 
-        private bool ProductExists(int id)
+        private bool LessonExists(int id)
         {
-            return _context.Products.Any(e => e.ProductID == id);
+            return _context.Lessons.Any(e => e.LessonID == id);
         }
     }
 }

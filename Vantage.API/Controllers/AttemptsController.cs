@@ -12,48 +12,48 @@ namespace Vantage.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class AttemptsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductsController(ApplicationDbContext context)
+        public AttemptsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Attempts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Attempt>>> GetAttempts()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Attempts.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Attempts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Attempt>> GetAttempt(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var attempt = await _context.Attempts.FindAsync(id);
 
-            if (product == null)
+            if (attempt == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return attempt;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Attempts/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutAttempt(int id, Attempt attempt)
         {
-            if (id != product.ProductID)
+            if (id != attempt.AttemptID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Entry(attempt).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace Vantage.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!AttemptExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace Vantage.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Attempts
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Attempt>> PostAttempt(Attempt attempt)
         {
-            _context.Products.Add(product);
+            _context.Attempts.Add(attempt);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+            return CreatedAtAction("GetAttempt", new { id = attempt.AttemptID }, attempt);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Attempts/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<Attempt>> DeleteAttempt(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var attempt = await _context.Attempts.FindAsync(id);
+            if (attempt == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Attempts.Remove(attempt);
             await _context.SaveChangesAsync();
 
-            return product;
+            return attempt;
         }
 
-        private bool ProductExists(int id)
+        private bool AttemptExists(int id)
         {
-            return _context.Products.Any(e => e.ProductID == id);
+            return _context.Attempts.Any(e => e.AttemptID == id);
         }
     }
 }

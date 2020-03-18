@@ -8,13 +8,14 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Dashboard">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Dashboard" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
-    </Grid>
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Dashboard" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+		<Button x:Name="openAdmin" Content="Admin" HorizontalAlignment="Left" Margin="668,334,0,0" Height="45" VerticalAlignment="Top" Width="106" Click="openAdmin_Click"/>
+	</Grid>
 </Window>

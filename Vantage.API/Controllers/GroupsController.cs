@@ -12,48 +12,48 @@ namespace Vantage.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class GroupsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductsController(ApplicationDbContext context)
+        public GroupsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Groups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Groups.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Groups/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Group>> GetGroup(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var @group = await _context.Groups.FindAsync(id);
 
-            if (product == null)
+            if (@group == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return @group;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Groups/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutGroup(int id, Group @group)
         {
-            if (id != product.ProductID)
+            if (id != @group.GroupID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Entry(@group).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace Vantage.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!GroupExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace Vantage.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Groups
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Group>> PostGroup(Group @group)
         {
-            _context.Products.Add(product);
+            _context.Groups.Add(@group);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+            return CreatedAtAction("GetGroup", new { id = @group.GroupID }, @group);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Groups/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<Group>> DeleteGroup(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var @group = await _context.Groups.FindAsync(id);
+            if (@group == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Groups.Remove(@group);
             await _context.SaveChangesAsync();
 
-            return product;
+            return @group;
         }
 
-        private bool ProductExists(int id)
+        private bool GroupExists(int id)
         {
-            return _context.Products.Any(e => e.ProductID == id);
+            return _context.Groups.Any(e => e.GroupID == id);
         }
     }
 }

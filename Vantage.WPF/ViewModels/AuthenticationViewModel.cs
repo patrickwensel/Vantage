@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Vantage.WPF.Interfaces;
+using Vantage.WPF.Services;
 using Vantage.WPF.Views;
 
 namespace Vantage.WPF.ViewModels

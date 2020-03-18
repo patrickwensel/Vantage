@@ -233,6 +233,14 @@ namespace Vantage.Data.Migrations
                         },
                         new
                         {
+                            UserID = 3,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            Password = "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB",
+                            UserName = "a"
+                        },
+                        new
+                        {
                             UserID = 2,
                             FirstName = "John",
                             LastName = "Smith",
@@ -279,6 +287,18 @@ namespace Vantage.Data.Migrations
                             UserRoleID = 3,
                             RoleID = 2,
                             UserID = 2
+                        },
+                        new
+                        {
+                            UserRoleID = 4,
+                            RoleID = 1,
+                            UserID = 3
+                        },
+                        new
+                        {
+                            UserRoleID = 5,
+                            RoleID = 2,
+                            UserID = 3
                         });
                 });
 

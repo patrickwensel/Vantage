@@ -59,6 +59,15 @@ namespace Vantage.Data
 
             modelBuilder.Entity<User>().HasData(new User
             {
+                UserID = 3,
+                UserName = "a",
+                FirstName = "Admin",
+                LastName = "Admin",
+                Password = GenerateSHA256String("a")
+            });
+
+            modelBuilder.Entity<User>().HasData(new User
+            {
                 UserID = 2,
                 UserName = "JSmith",
                 FirstName = "John",
@@ -69,6 +78,8 @@ namespace Vantage.Data
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 1, RoleID = 1, UserID = 1 });
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 2, RoleID = 2, UserID = 1 });
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 3, RoleID = 2, UserID = 2 });
+            modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 4, RoleID = 1, UserID = 3 });
+            modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 5, RoleID = 2, UserID = 3 });
 
             #endregion
 

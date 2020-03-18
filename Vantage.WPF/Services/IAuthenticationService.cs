@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vantage.WPF
+namespace Vantage.WPF.Services
 {
     public interface IAuthenticationService
     {
