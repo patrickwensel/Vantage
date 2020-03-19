@@ -16,9 +16,10 @@ namespace Vantage.WPF.ViewModels
     {
         private readonly IProductService _productService;
 
-        public AdminWindowViewModel(IProductService productService)
+        public AdminWindowViewModel()
         {
-            _productService = productService;
+            _productService = new ProductService();
+            LoadData();
         }
 
         private ObservableCollection<Product> products;
@@ -36,14 +37,15 @@ namespace Vantage.WPF.ViewModels
             }
         }
 
-        public AdminWindowViewModel()
-        {
-            LoadData();
-        }
+        //public AdminWindowViewModel()
+        //{
+        //    LoadData();
+        //}
 
         private async void LoadData()
         {
             products = await _productService.GetAllProducts();
+            Console.WriteLine($"Products : {products}");
         }
 
         #region INotifyPropertyChanged Members

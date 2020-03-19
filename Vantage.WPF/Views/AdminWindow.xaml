@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:Vantage.WPF.Views"
              mc:Ignorable="d" 
              Title="AdminWindow" Height="300" Width="300"
-			xmlns:viewmodel="clr-namespace:Vantage.WPF.ViewModels"
-		>
+			xmlns:viewmodel="clr-namespace:Vantage.WPF.ViewModels">
 	<Window.DataContext>
 		<viewmodel:AdminWindowViewModel></viewmodel:AdminWindowViewModel>
 	</Window.DataContext>
