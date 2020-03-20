@@ -44,8 +44,8 @@ namespace Vantage.WPF.ViewModels
 
         private async void LoadData()
         {
-            products = await _productService.GetAllProducts();
-            Console.WriteLine($"Products : {products}");
+            Products = await _productService.GetAllProducts();
+            Console.WriteLine($"Products : {Products}");
         }
 
         #region INotifyPropertyChanged Members
