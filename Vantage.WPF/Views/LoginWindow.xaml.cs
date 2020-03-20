@@ -51,5 +51,10 @@ namespace Vantage.WPF.Views
         {
             TxtUsername.Focus();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

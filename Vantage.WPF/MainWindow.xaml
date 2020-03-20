@@ -3,10 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:Vantage.WPF.ViewModels"
         xmlns:local="clr-namespace:Vantage.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.Resources>
+        <viewmodel:AuthenticationViewModel x:Key="viewModel" IsLoggedIn="False"></viewmodel:AuthenticationViewModel>
+        </Window.Resources>
+    <Grid Background="{StaticResource gridBackgroundColor}" DataContext="{StaticResource viewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
+        <!-- Menu Area -->
+        <Menu Grid.Row="0"
+          IsMainMenu="True">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit"
+                  Tag="exit"
+                  Click="MenuItem_Click" />
+            </MenuItem>
+            <MenuItem Header="Groups"
+                IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}" />
+            <MenuItem Header="Drivers"
+                IsEnabled="{Binding IsAuthenticated}" />
+            <MenuItem Header="Reports"
+                IsEnabled="{Binding IsAuthenticated}" />
+            <MenuItem Header="Management"
+                IsEnabled="{Binding IsAuthenticated}" />
+            <MenuItem Header="Admin"
+                IsEnabled="{Binding IsAuthenticated}" />
+            <MenuItem Header="Login"
+                Tag="login"
+                HorizontalAlignment="Right"
+                Click="MenuItem_Click" />
+        </Menu>
+
+        <!-- Informational Message Area -->
+    
+
+        <!-- Content Area -->
+        <Grid Grid.Row="1"
+          Panel.ZIndex="1"
+          Name="contentArea"
+          Style="{StaticResource contentAreaStyle}" />
+
+        <!-- Status Message Area -->
+        <TextBlock Grid.Row="2"
+               Text="{Binding Path=StatusMessage}"
+               Style="{StaticResource statusAreaStyle}" />
     </Grid>
 </Window>

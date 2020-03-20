@@ -27,6 +27,10 @@ namespace Vantage.WPF.ViewModels
 
         private bool _isLoginWindowVisible = true;
 
+        public AuthenticationViewModel()
+        {
+
+        }
         public AuthenticationViewModel(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
@@ -107,9 +111,13 @@ namespace Vantage.WPF.ViewModels
                 //Authenticate the user
                 customPrincipal.Identity = new CustomIdentity(user.UserName, user.Roles);
 
+                IsLoggedIn = true;
                 //Update UI
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
+                
+
+                
                 _loginCommand.RaiseCanExecuteChanged();
                 _logoutCommand.RaiseCanExecuteChanged();
                 Username = string.Empty; //reset
@@ -117,7 +125,7 @@ namespace Vantage.WPF.ViewModels
                 Status = string.Empty;
                 App.Current.MainWindow.Cursor = Cursors.Arrow;
 
-                dashboard.Show();
+              //  dashboard.Show();
 
                 OnRequestClose?.Invoke(this, new EventArgs());
             }
@@ -166,6 +174,18 @@ namespace Vantage.WPF.ViewModels
             get { return App.CurrentPrincipal != null ? App.CurrentPrincipal.Identity.IsAuthenticated : false; }
         }
 
+        private bool _IsLoggedIn = false;
+
+        public bool IsLoggedIn
+        {
+            get { return _IsLoggedIn; }
+            set
+            {
+                _IsLoggedIn = value;
+                NotifyPropertyChanged("IsLoggedIn");
+            }
+        }
+
         private void ShowView(object parameter)
         {
             try
@@ -194,6 +214,8 @@ namespace Vantage.WPF.ViewModels
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+     
         #endregion
     }
 }

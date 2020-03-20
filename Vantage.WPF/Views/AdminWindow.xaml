@@ -8,7 +8,7 @@
              Title="AdminWindow" Height="300" Width="300"
 			xmlns:viewmodel="clr-namespace:Vantage.WPF.ViewModels">
 	<Window.DataContext>
-		<viewmodel:AdminWindowViewModel></viewmodel:AdminWindowViewModel>
+		<viewmodel:AdminWindowViewModel x:Name="viewModel"></viewmodel:AdminWindowViewModel>
 	</Window.DataContext>
     <Grid>
         <TextBlock Text="This window is only accessible for administrators..."/>

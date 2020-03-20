@@ -33,10 +33,7 @@ namespace Vantage.WPF
 
             base.OnStartup(e);
 
-            //Show the login view
-            AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
-            IView loginWindow = new LoginWindow(viewModel);
-            loginWindow.Show();
+          
 
         }
     }
