@@ -25,7 +25,7 @@ namespace Vantage.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-           // services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            // services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vantage API", Version = "v1" });
@@ -36,8 +36,7 @@ namespace Vantage.API
             {
                 conn = conn.Replace("%CONTENTROOTPATH%", _contentRootPath);
             }
-            services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlServer(conn));  //use conn
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(conn));  //use conn
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
