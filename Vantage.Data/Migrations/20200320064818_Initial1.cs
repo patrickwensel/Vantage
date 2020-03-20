@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vantage.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     LessonID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PackType = table.Column<string>(nullable: true),
                     PackID = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
@@ -28,7 +28,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     ProductID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Version = table.Column<string>(nullable: true)
                 },
@@ -42,7 +42,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     RoleID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -55,7 +55,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     UserID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
@@ -71,7 +71,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     GroupID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     ProductID = table.Column<int>(nullable: false)
                 },
@@ -91,7 +91,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     UserRoleID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(nullable: false),
                     RoleID = table.Column<int>(nullable: false)
                 },
@@ -117,7 +117,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     DriverID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
@@ -141,10 +141,10 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     AttemptID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Score = table.Column<int>(nullable: false),
-                    TimeToComplete = table.Column<TimeSpan>(nullable: false),
-                    CumulativeLessonTime = table.Column<TimeSpan>(nullable: false),
+                    TimeToComplete = table.Column<int>(nullable: false),
+                    CumulativeLessonTime = table.Column<int>(nullable: false),
                     DateCompleted = table.Column<DateTime>(nullable: false),
                     IsComplete = table.Column<bool>(nullable: false),
                     DriverID = table.Column<int>(nullable: false),
@@ -172,7 +172,7 @@ namespace Vantage.Data.Migrations
                 columns: table => new
                 {
                     InfractionID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Enum = table.Column<string>(nullable: true),
                     Deduction = table.Column<int>(nullable: false),
@@ -197,52 +197,33 @@ namespace Vantage.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "RoleID", "Name" },
-                values: new object[] { 1, "Instructor" });
-
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "RoleID", "Name" },
-                values: new object[] { 2, "Admin" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "UserID", "FirstName", "LastName", "Password", "UserName" },
-                values: new object[] { 1, "Admin", "Admin", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "Admin" });
+                values: new object[,]
+                {
+                    { 1, "Instructor" },
+                    { 2, "Admin" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserID", "FirstName", "LastName", "Password", "UserName" },
-                values: new object[] { 3, "Admin", "Admin", "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB", "a" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "UserID", "FirstName", "LastName", "Password", "UserName" },
-                values: new object[] { 2, "John", "Smith", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "JSmith" });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "UserRoleID", "RoleID", "UserID" },
-                values: new object[] { 1, 1, 1 });
+                values: new object[,]
+                {
+                    { 1, "Admin", "Admin", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "Admin" },
+                    { 3, "Admin", "Admin", "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB", "a" },
+                    { 2, "John", "Smith", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "JSmith" }
+                });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "UserRoleID", "RoleID", "UserID" },
-                values: new object[] { 2, 2, 1 });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "UserRoleID", "RoleID", "UserID" },
-                values: new object[] { 4, 1, 3 });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "UserRoleID", "RoleID", "UserID" },
-                values: new object[] { 5, 2, 3 });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "UserRoleID", "RoleID", "UserID" },
-                values: new object[] { 3, 2, 2 });
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 2, 1 },
+                    { 4, 1, 3 },
+                    { 5, 2, 3 },
+                    { 3, 2, 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attempts_DriverID",

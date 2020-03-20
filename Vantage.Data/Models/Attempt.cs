@@ -12,8 +12,8 @@ namespace Vantage.Data.Models
         public int AttemptID { get; set; }
 
         public int Score { get; set; }
-        public TimeSpan TimeToComplete { get; set; }
-        public TimeSpan CumulativeLessonTime { get; set; }
+        public int TimeToComplete { get; set; }
+        public int CumulativeLessonTime { get; set; }
         public DateTime DateCompleted { get; set; }
         public bool IsComplete { get; set; }
 
