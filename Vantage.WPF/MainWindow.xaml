@@ -4,13 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodel="clr-namespace:Vantage.WPF.ViewModels"
+        xmlns:converters="clr-namespace:Vantage.WPF.Converters"
         xmlns:local="clr-namespace:Vantage.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        <viewmodel:AuthenticationViewModel x:Key="viewModel" IsLoggedIn="False"></viewmodel:AuthenticationViewModel>
-        </Window.Resources>
-    <Grid Background="{StaticResource gridBackgroundColor}" DataContext="{StaticResource viewModel}">
+        <!--<viewmodel:AuthenticationViewModel x:Key="viewModel" IsLoggedIn="False"></viewmodel:AuthenticationViewModel>-->
+        <converters:BoolInverterConverter x:Key="BoolInverterConverter" />
+    </Window.Resources>
+    <Grid Background="{StaticResource gridBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -22,32 +24,72 @@
           IsMainMenu="True">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <DockPanel HorizontalAlignment="Stretch" />
+                    <!--<DockPanel HorizontalAlignment="Stretch" />-->
+                    <Grid
+                        HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
-            <MenuItem Header="_File">
+            <MenuItem Header="_File" Grid.Column="0">
                 <MenuItem Header="E_xit"
                   Tag="exit"
                   Click="MenuItem_Click" />
             </MenuItem>
-            <MenuItem Header="Groups"
+            <MenuItem Header="Groups" Grid.Column="1"
                 IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}" />
-            <MenuItem Header="Drivers"
+            <MenuItem Header="Drivers" Grid.Column="2"
                 IsEnabled="{Binding IsAuthenticated}" />
-            <MenuItem Header="Reports"
+            <MenuItem Header="Reports" Grid.Column="3"
                 IsEnabled="{Binding IsAuthenticated}" />
-            <MenuItem Header="Management"
+            <MenuItem Header="Management" Grid.Column="4"
                 IsEnabled="{Binding IsAuthenticated}" />
-            <MenuItem Header="Admin"
+            <MenuItem Header="Admin" Grid.Column="5"
                 IsEnabled="{Binding IsAuthenticated}" />
-            <MenuItem Header="Login"
+            <MenuItem Header="Login" Grid.Column="6"
                 Tag="login"
                 HorizontalAlignment="Right"
-                Click="MenuItem_Click" />
+                      FlowDirection="RightToLeft"
+                Click="MenuItem_Click">
+                <MenuItem.Style>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Visibility" Value="Visible"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoggedIn}" Value="True">
+                                <Setter Property="Visibility" Value="Hidden"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </MenuItem.Style>
+            </MenuItem>
+            <MenuItem Header="Logout" Grid.Column="6"
+                Tag="Logout"
+                Click="MenuItem_Click"
+                HorizontalAlignment="Right"
+                      FlowDirection="RightToLeft">
+                <MenuItem.Style>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Visibility" Value="Hidden"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoggedIn}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </MenuItem.Style>
+            </MenuItem>
         </Menu>
 
         <!-- Informational Message Area -->
-    
+
 
         <!-- Content Area -->
         <Grid Grid.Row="1"

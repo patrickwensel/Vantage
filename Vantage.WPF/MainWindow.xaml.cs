@@ -22,10 +22,17 @@ namespace Vantage.WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IView
     {
+        public IViewModel ViewModel
+        {
+            get { return DataContext as IViewModel; }
+            set { DataContext = value; }
+        }
+
         public MainWindow()
         {
+            ViewModel = new AuthenticationViewModel(new AuthenticationService());
             InitializeComponent();
         }
 
@@ -126,11 +133,12 @@ namespace Vantage.WPF
                     //}
 
                     //Show the login view
-                    AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
-                    IView loginWindow = new LoginWindow(viewModel);
+                    IView loginWindow = new LoginWindow(ViewModel as AuthenticationViewModel);
                     loginWindow.Show();
                     break;
-
+                case "logout":
+                    Console.WriteLine("Logout button pressed...");
+                    break;
                 default:
                     break;
             }
