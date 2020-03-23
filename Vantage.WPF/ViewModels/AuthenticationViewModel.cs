@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Security;
 using System.Threading;
 using System.Windows.Controls;
@@ -10,9 +9,7 @@ using Vantage.WPF.Views;
 
 namespace Vantage.WPF.ViewModels
 {
-    public interface IViewModel { }
-
-    public class AuthenticationViewModel : IViewModel, INotifyPropertyChanged
+    public class AuthenticationViewModel : BaseViewModel
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly DelegateCommand _loginCommand;
@@ -24,26 +21,15 @@ namespace Vantage.WPF.ViewModels
 
         private string _username;
         private string _status;
+        private bool _isLoggedIn = false;
 
         private bool _isLoginWindowVisible = true;
-
-        public AuthenticationViewModel()
-        {
-
-        }
-        public AuthenticationViewModel(IAuthenticationService authenticationService)
-        {
-            _authenticationService = authenticationService;
-            _loginCommand = new DelegateCommand(Login, CanLogin);
-            _logoutCommand = new DelegateCommand(Logout, CanLogout);
-            _showViewCommand = new DelegateCommand(ShowView, null);
-        }
 
         #region Properties
         public string Username
         {
             get { return _username; }
-            set { _username = value; NotifyPropertyChanged("Username"); }
+            set { SetProperty(ref _username, value); }
         }
 
         public string AuthenticatedUser
@@ -63,13 +49,13 @@ namespace Vantage.WPF.ViewModels
         public string Status
         {
             get { return _status; }
-            set { _status = value; NotifyPropertyChanged("Status"); }
+            set { SetProperty(ref _status, value); }
         }
 
         public bool IsLoginWindowVisible
         {
             get { return _isLoginWindowVisible; }
-            set { _isLoginWindowVisible = value; NotifyPropertyChanged("IsLoginWindowVisible"); }
+            set { SetProperty(ref _isLoginWindowVisible, value); }
         }
         #endregion
 
@@ -80,6 +66,14 @@ namespace Vantage.WPF.ViewModels
 
         public DelegateCommand ShowViewCommand { get { return _showViewCommand; } }
         #endregion
+
+        public AuthenticationViewModel(IAuthenticationService authenticationService)
+        {
+            _authenticationService = authenticationService;
+            _loginCommand = new DelegateCommand(Login, CanLogin);
+            _logoutCommand = new DelegateCommand(Logout, CanLogout);
+            _showViewCommand = new DelegateCommand(ShowView, null);
+        }
 
         private async void Login(object parameter)
         {
@@ -113,11 +107,9 @@ namespace Vantage.WPF.ViewModels
 
                 IsLoggedIn = true;
                 //Update UI
-                NotifyPropertyChanged("AuthenticatedUser");
-                NotifyPropertyChanged("IsAuthenticated");
-                
+                OnPropertyChanged("AuthenticatedUser");
+                OnPropertyChanged("IsAuthenticated");
 
-                
                 _loginCommand.RaiseCanExecuteChanged();
                 _logoutCommand.RaiseCanExecuteChanged();
                 Username = string.Empty; //reset
@@ -125,7 +117,7 @@ namespace Vantage.WPF.ViewModels
                 Status = string.Empty;
                 App.Current.MainWindow.Cursor = Cursors.Arrow;
 
-              //  dashboard.Show();
+                //  dashboard.Show();
 
                 OnRequestClose?.Invoke(this, new EventArgs());
             }
@@ -156,8 +148,8 @@ namespace Vantage.WPF.ViewModels
             if (customPrincipal != null)
             {
                 customPrincipal.Identity = new AnonymousIdentity();
-                NotifyPropertyChanged("AuthenticatedUser");
-                NotifyPropertyChanged("IsAuthenticated");
+                OnPropertyChanged("AuthenticatedUser");
+                OnPropertyChanged("IsAuthenticated");
                 _loginCommand.RaiseCanExecuteChanged();
                 _logoutCommand.RaiseCanExecuteChanged();
                 Status = string.Empty;
@@ -174,15 +166,12 @@ namespace Vantage.WPF.ViewModels
             get { return App.CurrentPrincipal != null ? App.CurrentPrincipal.Identity.IsAuthenticated : false; }
         }
 
-        private bool _IsLoggedIn = false;
-
         public bool IsLoggedIn
         {
-            get { return _IsLoggedIn; }
+            get { return _isLoggedIn; }
             set
             {
-                _IsLoggedIn = value;
-                NotifyPropertyChanged("IsLoggedIn");
+                SetProperty(ref _isLoggedIn, value);
             }
         }
 
@@ -204,18 +193,5 @@ namespace Vantage.WPF.ViewModels
                 Status = "You are not authorized!";
             }
         }
-
-
-        #region INotifyPropertyChanged Members
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-     
-        #endregion
     }
 }
