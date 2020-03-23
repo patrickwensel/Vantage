@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vantage.Data;
-using Vantage.Data.Models;
+using Vantage.Common.Models;
 
 namespace Vantage.API.Controllers
 {

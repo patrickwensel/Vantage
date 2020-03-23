@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Vantage.Data.Models
+namespace Vantage.Common.Models
 {
     public class Product
     {

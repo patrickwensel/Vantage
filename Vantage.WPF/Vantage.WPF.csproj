@@ -43,4 +43,8 @@
     <Folder Include="UserControls\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Vantage.Common\Vantage.Common.csproj" />
+  </ItemGroup>
+
 </Project>

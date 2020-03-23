@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vantage.Common\Vantage.Common.csproj" />
     <ProjectReference Include="..\Vantage.Data\Vantage.Data.csproj" />
   </ItemGroup>
 

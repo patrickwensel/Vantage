@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vantage.Data;
-using Vantage.Data.Models;
+using Vantage.Common.Models;
 
 namespace Vantage.API.Controllers
 {

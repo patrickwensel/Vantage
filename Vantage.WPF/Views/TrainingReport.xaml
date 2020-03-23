@@ -6,7 +6,19 @@
         xmlns:local="clr-namespace:Vantage.WPF.Views"
         mc:Ignorable="d"
         Title="TrainingReport" Height="450" Width="800">
-    <Grid>
-        
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            Text="Training Report" />
+        <DataGrid
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch" />
     </Grid>
 </Window>

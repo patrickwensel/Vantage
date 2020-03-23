@@ -21,6 +21,7 @@ namespace Vantage.WPF.ViewModels
 
         private string _username;
         private string _status;
+        private string _loggedInName;
         private bool _isLoggedIn = false;
 
         private bool _isLoginWindowVisible = true;
@@ -30,6 +31,12 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _username; }
             set { SetProperty(ref _username, value); }
+        }
+
+        public string LoggedInName 
+        {
+            get { return _loggedInName; }
+            set { SetProperty(ref _loggedInName, value); }
         }
 
         public string AuthenticatedUser
@@ -106,6 +113,8 @@ namespace Vantage.WPF.ViewModels
                 customPrincipal.Identity = new CustomIdentity(user.UserName, user.Roles);
 
                 IsLoggedIn = true;
+                LoggedInName = $"{user.FirstName} {user.LastName}";
+
                 //Update UI
                 OnPropertyChanged("AuthenticatedUser");
                 OnPropertyChanged("IsAuthenticated");

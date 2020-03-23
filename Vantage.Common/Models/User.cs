@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Vantage.Data.Models
+namespace Vantage.Common.Models
 {
     public class User
     {

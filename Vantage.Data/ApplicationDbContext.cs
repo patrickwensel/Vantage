@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
-using Vantage.Data.Models;
+using Vantage.Common.Models;
 
 namespace Vantage.Data
 {
