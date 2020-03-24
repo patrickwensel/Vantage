@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Security.Principal;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using Vantage.WPF.Interfaces;
-using Vantage.WPF.Services;
-using Vantage.WPF.ViewModels;
-using Vantage.WPF.Views;
+using Vantage.Common;
 
 namespace Vantage.WPF
 {
@@ -23,6 +15,8 @@ namespace Vantage.WPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            WireupDependency();
+
             //Create a custom principal with an anonymous identity at startup
             CustomPrincipal customPrincipal = new CustomPrincipal();
 
@@ -32,9 +26,13 @@ namespace Vantage.WPF
             AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.UnauthenticatedPrincipal);
 
             base.OnStartup(e);
+        }
 
-          
-
+        private void WireupDependency()
+        {
+            ContainerManager.Initialize();
+            CommonBootstrapper.Initialize(ContainerManager.Container);
+            WPFBootstrapper.Initialize(ContainerManager.Container);
         }
     }
 }

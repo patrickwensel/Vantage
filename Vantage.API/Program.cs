@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Unity.Microsoft.DependencyInjection;
+using Vantage.Common;
+using Vantage.Data;
 
 namespace Vantage.API
 {
@@ -13,14 +16,24 @@ namespace Vantage.API
     {
         public static void Main(string[] args)
         {
+            WireupdDependency();
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+            .UseUnityServiceProvider(ContainerManager.Container)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+
+        private static void WireupdDependency()
+        {
+            ContainerManager.Initialize();
+            CommonBootstrapper.Initialize(ContainerManager.Container);
+            DataBootstrapper.Initialize(ContainerManager.Container);
+            APIBootstrapper.Initialize(ContainerManager.Container);
+        }
     }
 }
