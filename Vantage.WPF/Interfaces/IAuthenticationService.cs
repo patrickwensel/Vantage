@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Vantage.WPF.Models;
+using Vantage.Common.Models;
 
 namespace Vantage.WPF.Interfaces
 {

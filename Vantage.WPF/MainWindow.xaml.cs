@@ -145,6 +145,10 @@ namespace Vantage.WPF
                     trainingWindow.Owner = this;
                     trainingWindow.Show();
                     break;
+                case "admin":
+                    IView adminWindow = new AdminWindow();
+                    adminWindow.Show();
+                    break;
                 default:
                     break;
             }
