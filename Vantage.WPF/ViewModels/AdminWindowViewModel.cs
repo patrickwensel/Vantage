@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Vantage.WPF.Models;
+using Vantage.WPF.Interfaces;
+using Vantage.Common.Models;
 using Vantage.WPF.Services;
 
 namespace Vantage.WPF.ViewModels

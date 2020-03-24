@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Vantage.WPF.Interfaces;
+using Vantage.WPF.Models;
 
 namespace Vantage.WPF.Services
 {
-    public interface IAuthenticationService
-    {
-        Task<UserReturnObject> AuthenticateUser(string username, string password);
-    }
     public class AuthenticationService : IAuthenticationService
     {
         private class InternalUserData
@@ -109,47 +105,5 @@ namespace Vantage.WPF.Services
             // Return the hash as a base64 encoded string to be compared to the stored password
             return Convert.ToBase64String(hash);
         }
-    }
-
-    //public class User
-    //{
-    //    public User(string username, string email, string[] roles)
-    //    {
-    //        Username = username;
-    //        Email = email;
-    //        Roles = roles;
-    //    }
-    //    public string Username
-    //    {
-    //        get;
-    //        set;
-    //    }
-
-    //    public string Email
-    //    {
-    //        get;
-    //        set;
-    //    }
-
-    //    public string[] Roles
-    //    {
-    //        get;
-    //        set;
-    //    }
-    //}
-
-    public class UserAuthentication
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class UserReturnObject
-    {
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public List<string> Roles { get; set; }
-
     }
 }

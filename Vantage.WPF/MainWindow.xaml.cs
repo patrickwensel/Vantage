@@ -134,10 +134,16 @@ namespace Vantage.WPF
 
                     //Show the login view
                     IView loginWindow = new LoginWindow(ViewModel as AuthenticationViewModel);
+                    loginWindow.Owner = this;
                     loginWindow.Show();
                     break;
                 case "logout":
                     Console.WriteLine("Logout button pressed...");
+                    break;
+                case "training":
+                    IView trainingWindow = new TrainingReport();
+                    trainingWindow.Owner = this;
+                    trainingWindow.Show();
                     break;
                 default:
                     break;

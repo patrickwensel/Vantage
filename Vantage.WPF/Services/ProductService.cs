@@ -8,14 +8,11 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Vantage.WPF.Models;
+using Vantage.WPF.Interfaces;
+using Vantage.Common.Models;
 
 namespace Vantage.WPF.Services
 {
-    public interface IProductService
-    {
-        Task<ObservableCollection<Product>> GetAllProducts();
-    }
     public class ProductService : IProductService
     {
         [HttpGet]
@@ -41,7 +38,6 @@ namespace Vantage.WPF.Services
             }
 
             return products;
-
         }
     }
 }

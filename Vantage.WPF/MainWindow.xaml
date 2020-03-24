@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodel="clr-namespace:Vantage.WPF.ViewModels"
         xmlns:converters="clr-namespace:Vantage.WPF.Converters"
-        xmlns:local="clr-namespace:Vantage.WPF"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
         <!--<viewmodel:AuthenticationViewModel x:Key="viewModel" IsLoggedIn="False"></viewmodel:AuthenticationViewModel>-->
@@ -48,9 +47,9 @@
                 IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}" />
             <MenuItem Header="Drivers" Grid.Column="2"
                 IsEnabled="{Binding IsAuthenticated}" />
-            <MenuItem Header="Reports" Grid.Column="3"
+            <MenuItem Header="_Reports" Grid.Column="3"
                 IsEnabled="{Binding IsAuthenticated}">
-                <MenuItem Header="Training" Tag="Training" />
+                <MenuItem Header="_Training" Tag="Training" Click="MenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Management" Grid.Column="4"
                 IsEnabled="{Binding IsAuthenticated}" />

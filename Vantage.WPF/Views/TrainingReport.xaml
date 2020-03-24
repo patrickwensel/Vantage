@@ -4,21 +4,80 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vantage.WPF.Views"
+        xmlns:converters="clr-namespace:Vantage.WPF.Converters"
         mc:Ignorable="d"
-        Title="TrainingReport" Height="450" Width="800">
+        WindowStartupLocation="CenterOwner"
+        Title="TrainingReport"
+        Height="450"
+        Width="800">
+    <Window.Resources>
+        <converters:ScoreToPassedStatusConverter x:Key="ScoreToPassedStatusConverter" />
+        <converters:LessonsAttemptCountConverter x:Key="LessonsAttemptCountConverter" />
+        <converters:CompletedLessonCountConverter x:Key="CompletedLessonCountConverter" />
+    </Window.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="0"
-            HorizontalAlignment="Center"
-            Text="Training Report" />
-        <DataGrid
-            Grid.Row="1"
-            Grid.Column="0"
-            HorizontalAlignment="Stretch" />
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   Text="Training Report" />
+        <DataGrid Grid.Row="1"
+                  Grid.Column="0"
+                  HorizontalAlignment="Stretch"
+                  RowDetailsVisibilityMode="VisibleWhenSelected"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Drivers}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Last Name"
+                                    Binding="{Binding LastName}" />
+                <DataGridTextColumn Header="First Name"
+                                    Binding="{Binding FirstName}" />
+                <DataGridTextColumn Header="Group"
+                                    Binding="{Binding Group.Name}" />
+                <DataGridTextColumn Header="Lessons Attempted"
+                                    Binding="{Binding Attempts,Converter={StaticResource LessonsAttemptCountConverter}}" />
+                <DataGridTextColumn Header="Lessons Completed"
+                                    Binding="{Binding Attempts, Converter={StaticResource CompletedLessonCountConverter}}" />
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DataGrid Margin="10,0"
+                              HorizontalAlignment="Left"
+                              RowDetailsVisibilityMode="VisibleWhenSelected"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding Attempts}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Lesson Name"
+                                                Binding="{Binding Lesson.Name}" />
+                            <DataGridTextColumn Header="Score"
+                                                Binding="{Binding Score}" />
+                            <DataGridTextColumn Header="Time to Complete"
+                                                Binding="{Binding TimeToComplete}" />
+                            <DataGridTextColumn Header="Passed"
+                                                Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}" />
+                        </DataGrid.Columns>
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <DataGrid Margin="10,0"
+                                          HorizontalAlignment="Left"
+                                          ItemsSource="{Binding Infractions}"
+                                          AutoGenerateColumns="False"
+                                          RowDetailsVisibilityMode="VisibleWhenSelected">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Infraction"
+                                                            Binding="{Binding Name}" />
+                                        <DataGridTextColumn Header="Deduction"
+                                                            Binding="{Binding Deduction}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
     </Grid>
 </Window>
