@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vantage.Data.Migrations
 {
-    public partial class Initial1 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,9 +190,33 @@ namespace Vantage.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Lessons",
+                columns: new[] { "LessonID", "IsActive", "Name", "PackID", "PackType" },
+                values: new object[,]
+                {
+                    { 1, true, "Lesson 1", "1", "ABC123" },
+                    { 9, true, "Lesson 9", "1", "ABC123" },
+                    { 8, true, "Lesson 8", "1", "ABC123" },
+                    { 7, true, "Lesson 7", "1", "ABC123" },
+                    { 6, true, "Lesson 6", "1", "ABC123" },
+                    { 10, true, "Lesson 10", "1", "ABC123" },
+                    { 4, true, "Lesson 4", "1", "ABC123" },
+                    { 3, true, "Lesson 3", "1", "ABC123" },
+                    { 2, true, "Lesson 2", "1", "ABC123" },
+                    { 5, true, "Lesson 5", "1", "ABC123" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "ProductID", "Name", "Version" },
-                values: new object[] { 1, "FleetDriver", null });
+                values: new object[,]
+                {
+                    { 1, "One Simple Decision", "1.0" },
+                    { 2, "Virtual Driving Essentials", "1.0" },
+                    { 3, "Advanced Driver Safety", "1.0" },
+                    { 4, "Advanced Driver Safety - Fleet Edition", "1.0" },
+                    { 5, "One Simple Decision", "1.0" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Roles",
@@ -208,9 +232,25 @@ namespace Vantage.Data.Migrations
                 columns: new[] { "UserID", "FirstName", "LastName", "Password", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "Admin", "Admin", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "Admin" },
                     { 3, "Admin", "Admin", "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB", "a" },
+                    { 1, "Admin", "Admin", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "Admin" },
                     { 2, "John", "Smith", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "JSmith" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Groups",
+                columns: new[] { "GroupID", "Name", "ProductID" },
+                values: new object[,]
+                {
+                    { 1, "Class 1", 2 },
+                    { 2, "Class 2", 2 },
+                    { 3, "Class 3", 2 },
+                    { 4, "Class 4", 2 },
+                    { 5, "Class 5", 2 },
+                    { 6, "Class 6", 2 },
+                    { 7, "Class 7", 2 },
+                    { 8, "Class 8", 2 },
+                    { 9, "Class 9", 2 }
                 });
 
             migrationBuilder.InsertData(

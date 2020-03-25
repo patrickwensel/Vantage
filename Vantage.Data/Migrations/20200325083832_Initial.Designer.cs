@@ -10,8 +10,8 @@ using Vantage.Data;
 namespace Vantage.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200320064818_Initial1")]
-    partial class Initial1
+    [Migration("20200325083832_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Vantage.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Vantage.Data.Models.Attempt", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Attempt", b =>
                 {
                     b.Property<int>("AttemptID")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace Vantage.Data.Migrations
                     b.ToTable("Attempts");
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Driver", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Driver", b =>
                 {
                     b.Property<int>("DriverID")
                         .ValueGeneratedOnAdd()
@@ -90,7 +90,7 @@ namespace Vantage.Data.Migrations
                     b.ToTable("Drivers");
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Group", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Group", b =>
                 {
                     b.Property<int>("GroupID")
                         .ValueGeneratedOnAdd()
@@ -108,9 +108,65 @@ namespace Vantage.Data.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("Groups");
+
+                    b.HasData(
+                        new
+                        {
+                            GroupID = 1,
+                            Name = "Class 1",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 2,
+                            Name = "Class 2",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 3,
+                            Name = "Class 3",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 4,
+                            Name = "Class 4",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 5,
+                            Name = "Class 5",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 6,
+                            Name = "Class 6",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 7,
+                            Name = "Class 7",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 8,
+                            Name = "Class 8",
+                            ProductID = 2
+                        },
+                        new
+                        {
+                            GroupID = 9,
+                            Name = "Class 9",
+                            ProductID = 2
+                        });
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Infraction", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Infraction", b =>
                 {
                     b.Property<int>("InfractionID")
                         .ValueGeneratedOnAdd()
@@ -136,7 +192,7 @@ namespace Vantage.Data.Migrations
                     b.ToTable("Infractions");
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Lesson", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Lesson", b =>
                 {
                     b.Property<int>("LessonID")
                         .ValueGeneratedOnAdd()
@@ -158,9 +214,91 @@ namespace Vantage.Data.Migrations
                     b.HasKey("LessonID");
 
                     b.ToTable("Lessons");
+
+                    b.HasData(
+                        new
+                        {
+                            LessonID = 1,
+                            IsActive = true,
+                            Name = "Lesson 1",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 2,
+                            IsActive = true,
+                            Name = "Lesson 2",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 3,
+                            IsActive = true,
+                            Name = "Lesson 3",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 4,
+                            IsActive = true,
+                            Name = "Lesson 4",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 5,
+                            IsActive = true,
+                            Name = "Lesson 5",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 6,
+                            IsActive = true,
+                            Name = "Lesson 6",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 7,
+                            IsActive = true,
+                            Name = "Lesson 7",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 8,
+                            IsActive = true,
+                            Name = "Lesson 8",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 9,
+                            IsActive = true,
+                            Name = "Lesson 9",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        },
+                        new
+                        {
+                            LessonID = 10,
+                            IsActive = true,
+                            Name = "Lesson 10",
+                            PackID = "1",
+                            PackType = "ABC123"
+                        });
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Product", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Product", b =>
                 {
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
@@ -181,11 +319,36 @@ namespace Vantage.Data.Migrations
                         new
                         {
                             ProductID = 1,
-                            Name = "FleetDriver"
+                            Name = "One Simple Decision",
+                            Version = "1.0"
+                        },
+                        new
+                        {
+                            ProductID = 2,
+                            Name = "Virtual Driving Essentials",
+                            Version = "1.0"
+                        },
+                        new
+                        {
+                            ProductID = 3,
+                            Name = "Advanced Driver Safety",
+                            Version = "1.0"
+                        },
+                        new
+                        {
+                            ProductID = 4,
+                            Name = "Advanced Driver Safety - Fleet Edition",
+                            Version = "1.0"
+                        },
+                        new
+                        {
+                            ProductID = 5,
+                            Name = "One Simple Decision",
+                            Version = "1.0"
                         });
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Role", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Role", b =>
                 {
                     b.Property<int>("RoleID")
                         .ValueGeneratedOnAdd()
@@ -212,7 +375,7 @@ namespace Vantage.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.User", b =>
+            modelBuilder.Entity("Vantage.Common.Models.User", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
@@ -262,7 +425,7 @@ namespace Vantage.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.UserRole", b =>
+            modelBuilder.Entity("Vantage.Common.Models.UserRole", b =>
                 {
                     b.Property<int>("UserRoleID")
                         .ValueGeneratedOnAdd()
@@ -316,57 +479,57 @@ namespace Vantage.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Attempt", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Attempt", b =>
                 {
-                    b.HasOne("Vantage.Data.Models.Driver", "Driver")
+                    b.HasOne("Vantage.Common.Models.Driver", "Driver")
                         .WithMany("Attempts")
                         .HasForeignKey("DriverID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Vantage.Data.Models.Lesson", "Lesson")
+                    b.HasOne("Vantage.Common.Models.Lesson", "Lesson")
                         .WithMany("Attempts")
                         .HasForeignKey("LessonID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Driver", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Driver", b =>
                 {
-                    b.HasOne("Vantage.Data.Models.Group", "Group")
+                    b.HasOne("Vantage.Common.Models.Group", "Group")
                         .WithMany("Drivers")
                         .HasForeignKey("GroupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Group", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Group", b =>
                 {
-                    b.HasOne("Vantage.Data.Models.Product", "Product")
+                    b.HasOne("Vantage.Common.Models.Product", "Product")
                         .WithMany("Groups")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.Infraction", b =>
+            modelBuilder.Entity("Vantage.Common.Models.Infraction", b =>
                 {
-                    b.HasOne("Vantage.Data.Models.Attempt", "Attempt")
+                    b.HasOne("Vantage.Common.Models.Attempt", "Attempt")
                         .WithMany("Infractions")
                         .HasForeignKey("AttemptID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Vantage.Data.Models.UserRole", b =>
+            modelBuilder.Entity("Vantage.Common.Models.UserRole", b =>
                 {
-                    b.HasOne("Vantage.Data.Models.Role", "Role")
+                    b.HasOne("Vantage.Common.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Vantage.Data.Models.User", "User")
+                    b.HasOne("Vantage.Common.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
