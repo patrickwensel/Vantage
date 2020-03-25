@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,7 +14,6 @@ namespace Vantage.WPF.ViewModels
         private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly DelegateCommand _loginCommand;
         private readonly DelegateCommand _logoutCommand;
-        private readonly DelegateCommand _showViewCommand;
 
         public EventHandler OnRequestClose;
         public EventHandler OnRequestFocus;
@@ -60,8 +58,6 @@ namespace Vantage.WPF.ViewModels
         public DelegateCommand LoginCommand { get { return _loginCommand; } }
 
         public DelegateCommand LogoutCommand { get { return _logoutCommand; } }
-
-        public DelegateCommand ShowViewCommand { get { return _showViewCommand; } }
         #endregion
 
         public AuthenticationViewModel(IAuthenticationService authenticationService, MainWindowViewModel mainWindowViewModel)
@@ -70,7 +66,6 @@ namespace Vantage.WPF.ViewModels
             _mainWindowViewModel = mainWindowViewModel;
             _loginCommand = new DelegateCommand(Login, CanLogin);
             _logoutCommand = new DelegateCommand(Logout, CanLogout);
-            _showViewCommand = new DelegateCommand(ShowView, null);
         }
 
         private async void Login(object parameter)
@@ -159,20 +154,6 @@ namespace Vantage.WPF.ViewModels
         private bool CanLogout(object parameter)
         {
             return IsAuthenticated;
-        }
-
-        private void ShowView(object parameter)
-        {
-            try
-            {
-                _mainWindowViewModel.Status = string.Empty;
-                IView view = new Admin();
-                //view.Show();
-            }
-            catch (SecurityException)
-            {
-                _mainWindowViewModel.Status = "You are not authorized!";
-            }
         }
     }
 }

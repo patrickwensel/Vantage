@@ -24,9 +24,9 @@ namespace Vantage.WPF.ViewModels
             }
         }
 
-        public AdminViewModel()
+        public AdminViewModel(IProductService productService)
         {
-            _productService = new ProductService();
+            _productService = productService;
             LoadData();
         }
 

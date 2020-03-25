@@ -13,8 +13,9 @@ namespace Vantage.WPF.Views
     [PrincipalPermission(SecurityAction.Demand, Role = "Administrators")]
     public partial class Admin : Page, IView
     {
-        public Admin()
+        public Admin(AdminViewModel adminViewModel)
         {
+            ViewModel = adminViewModel;
             InitializeComponent();
         }
 

@@ -10,11 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Vantage.WPF.Interfaces;
 using Vantage.Common.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Vantage.WPF.Services
 {
     public class ProductService : IProductService
     {
+        private readonly string _apiBaseUrl;
+        private readonly IConfiguration _configuration;
+
+        public ProductService(IConfiguration iConfig)
+        {
+            _configuration = iConfig;
+            _apiBaseUrl = _configuration.GetSection("ApiConfig").GetSection("BaseUrl").Value;
+        }
+
         [HttpGet]
         public async Task<ObservableCollection<Product>> GetAllProducts()
         {
@@ -22,7 +32,7 @@ namespace Vantage.WPF.Services
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync($"http://localhost:59721/api/products"))
+                using (var response = await httpClient.GetAsync($"{_apiBaseUrl}/api/products"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     try

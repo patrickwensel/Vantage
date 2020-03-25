@@ -5,13 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Vantage.WPF.Views"
       mc:Ignorable="d"
-      Title="AdminWindow"
-      Height="300"
-      Width="300"
-      xmlns:viewmodel="clr-namespace:Vantage.WPF.ViewModels">
-    <Page.DataContext>
-        <viewmodel:AdminViewModel x:Name="viewModel"></viewmodel:AdminViewModel>
-    </Page.DataContext>
+      Title="AdminWindow">
     <Grid>
         <TextBlock Text="This window is only accessible for administrators..." />
         <DataGrid x:Name="dataGrid"
