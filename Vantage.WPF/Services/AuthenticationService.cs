@@ -1,16 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Vantage.WPF.Interfaces;
 using Vantage.Common.Models;
+using Vantage.WPF.Interfaces;
 
 namespace Vantage.WPF.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private readonly IConfiguration _configuration;
+        public AuthenticationService(IConfiguration iConfig)
+        {
+            _configuration = iConfig;
+        }
+
         public async Task<UserReturnObject> AuthenticateUser(string username, string clearTextPassword)
         {
             var hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);
@@ -27,13 +34,14 @@ namespace Vantage.WPF.Services
 
         private async Task<UserReturnObject> Authenticate(UserAuthentication userAuthentication)
         {
+            string apiURL = _configuration.GetSection("ApiConfig").GetSection("BaseUrl").Value;
             UserReturnObject userReturnObject = new UserReturnObject();
             using (var httpClient = new HttpClient())
             {
                 //httpClient.DefaultRequestHeaders.Add("Key", "Secret@123");
                 StringContent content = new StringContent(JsonConvert.SerializeObject(userAuthentication), Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PostAsync($"{Config.BaseUrl}/api/users/authenticate", content))
+                using (var response = await httpClient.PostAsync(apiURL + "/api/users/authenticate", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     try

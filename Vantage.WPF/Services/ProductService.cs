@@ -22,7 +22,7 @@ namespace Vantage.WPF.Services
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync($"{Config.BaseUrl}/api/products"))
+                using (var response = await httpClient.GetAsync($"http://localhost:59721/api/products"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     try

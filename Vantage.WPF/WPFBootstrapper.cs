@@ -1,4 +1,7 @@
-﻿using Unity;
+﻿using Microsoft.Extensions.Configuration;
+using System.Configuration;
+using System.IO;
+using Unity;
 using Unity.Lifetime;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Services;
@@ -17,7 +20,7 @@ namespace Vantage.WPF
             RegisterViews(container);
         }
 
-        private static void RegisterViewModels(IUnityContainer container) 
+        private static void RegisterViewModels(IUnityContainer container)
         {
             container.RegisterType<MainWindowViewModel>(new HierarchicalLifetimeManager());
             container.RegisterType<AuthenticationViewModel>(new TransientLifetimeManager());
@@ -36,6 +39,13 @@ namespace Vantage.WPF
 
         private static void RegisterServices(IUnityContainer container)
         {
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            IConfiguration config = configBuilder.Build();
+
+            container.RegisterInstance<IConfiguration>(config);
             container.RegisterType<INavigationService, NavigationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProductService, ProductService>(new TransientLifetimeManager());
             container.RegisterType<IAuthenticationService, AuthenticationService>(new HierarchicalLifetimeManager());
