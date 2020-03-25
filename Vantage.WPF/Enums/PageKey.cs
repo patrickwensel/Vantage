@@ -9,6 +9,6 @@ namespace Vantage.WPF.Enums
         Login,
         TrainingReport,
         Admin,
-        Main
+        Dashboard
     }
 }

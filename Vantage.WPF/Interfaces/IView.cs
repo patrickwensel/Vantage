@@ -13,9 +13,5 @@ namespace Vantage.WPF.Interfaces
             get;
             set;
         }
-
-        void Show();
-
-        Window Owner { get; set; }
     }
 }

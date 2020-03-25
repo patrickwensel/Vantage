@@ -6,7 +6,7 @@ using Vantage.WPF.Services;
 
 namespace Vantage.WPF.ViewModels
 {
-    public class AdminWindowViewModel : BaseViewModel
+    public class AdminViewModel : BaseViewModel
     {
         private readonly IProductService _productService;
 
@@ -24,13 +24,13 @@ namespace Vantage.WPF.ViewModels
             }
         }
 
-        public AdminWindowViewModel()
+        public AdminViewModel()
         {
             _productService = new ProductService();
             LoadData();
         }
 
-        //public AdminWindowViewModel()
+        //public AdminViewModel()
         //{
         //    LoadData();
         //}

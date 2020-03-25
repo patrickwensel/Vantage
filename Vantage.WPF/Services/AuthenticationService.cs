@@ -11,7 +11,6 @@ namespace Vantage.WPF.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-
         public async Task<UserReturnObject> AuthenticateUser(string username, string clearTextPassword)
         {
             var hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);

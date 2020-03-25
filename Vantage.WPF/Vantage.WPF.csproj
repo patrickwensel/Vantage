@@ -14,10 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\AdminWindow.xaml.cs">
+    <Compile Update="Views\Admin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\LoginWindow.xaml.cs">
+    <Compile Update="Views\Login.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

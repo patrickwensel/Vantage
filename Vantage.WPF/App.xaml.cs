@@ -2,6 +2,7 @@
 using System.Security.Principal;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using Vantage.Common;
 
 namespace Vantage.WPF
@@ -17,6 +18,8 @@ namespace Vantage.WPF
         {
             WireupDependency();
 
+            MainWindow mainWindow = (MainWindow)ContainerManager.Container.Resolve(typeof(MainWindow), typeof(MainWindow).ToString());
+            
             //Create a custom principal with an anonymous identity at startup
             CustomPrincipal customPrincipal = new CustomPrincipal();
 
@@ -24,6 +27,8 @@ namespace Vantage.WPF
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
             Thread.CurrentPrincipal = customPrincipal;
             AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.UnauthenticatedPrincipal);
+
+            mainWindow.Show();
 
             base.OnStartup(e);
         }

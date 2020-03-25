@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
 using Vantage.WPF.Enums;
 
 namespace Vantage.WPF.Interfaces
@@ -9,9 +10,11 @@ namespace Vantage.WPF.Interfaces
     {
         PageKey CurrentPageKey { get; }
 
-        void NavigateTo(PageKey pageKey, IDictionary<string, object> parameters);
+        void Initialize(Frame frame);
 
-        void GoBack(int numberOfWindows = 0);
+        void NavigateTo(PageKey pageKey, IDictionary<string, object> parameters = null);
+
+        void GoBack(int numberOfWindows = 1);
 
         void GoBackToPage(PageKey pageKey);
 
