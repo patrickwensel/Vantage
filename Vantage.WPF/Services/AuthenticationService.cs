@@ -12,11 +12,11 @@ namespace Vantage.WPF.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private IConfiguration configuration;
-        public AuthenticationService(IConfiguration iConfig)
-        {
-            configuration = iConfig;
-        }
+        //private IConfiguration configuration;
+        //public AuthenticationService(IConfiguration iConfig)
+        //{
+        //    configuration = iConfig;
+        //}
 
         public async Task<UserReturnObject> AuthenticateUser(string username, string clearTextPassword)
         {
@@ -34,14 +34,14 @@ namespace Vantage.WPF.Services
 
         private async Task<UserReturnObject> Authenticate(UserAuthentication userAuthentication)
         {
-            string apiURL = configuration.GetSection("ApiConfig").GetSection("BaseUrl").Value;
+            //string apiURL = configuration.GetSection("ApiConfig").GetSection("BaseUrl").Value;
             UserReturnObject userReturnObject = new UserReturnObject();
             using (var httpClient = new HttpClient())
             {
                 //httpClient.DefaultRequestHeaders.Add("Key", "Secret@123");
                 StringContent content = new StringContent(JsonConvert.SerializeObject(userAuthentication), Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PostAsync(apiURL + "/api/users/authenticate", content))
+                using (var response = await httpClient.PostAsync($"{Config.BaseUrl}/api/users/authenticate", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     try
