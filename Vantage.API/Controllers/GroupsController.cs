@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Vantage.Data;
 using Vantage.Common.Models;
+using Vantage.Data;
 
 namespace Vantage.API.Controllers
 {
@@ -25,14 +23,20 @@ namespace Vantage.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
-            return await _context.Groups.ToListAsync();
+            return await _context.Groups
+                .Include(x => x.Drivers).ThenInclude(x => x.Attempts).ThenInclude(x => x.Infractions)
+                .Include(x => x.Drivers).ThenInclude(x => x.Attempts).ThenInclude(x => x.Lesson).AsNoTracking().ToListAsync();
         }
 
         // GET: api/Groups/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> GetGroup(int id)
         {
-            var @group = await _context.Groups.FindAsync(id);
+            var @group = await _context.Groups
+                .Include(x => x.Drivers).ThenInclude(x => x.Attempts).ThenInclude(x => x.Infractions)
+                .Include(x => x.Drivers).ThenInclude(x => x.Attempts).ThenInclude(x => x.Lesson)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.GroupID == id);
 
             if (@group == null)
             {

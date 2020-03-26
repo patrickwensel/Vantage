@@ -25,5 +25,9 @@ namespace Vantage.WPF.Services
         {
             return await GetRequest<IList<Group>>("/api/Groups");
         }
+        public async Task<Group> GetGroup(int Id)
+        {
+            return await GetRequest<Group>($"/api/Groups/{Id}");
+        }
     }
 }

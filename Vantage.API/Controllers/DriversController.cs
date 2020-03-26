@@ -26,14 +26,11 @@ namespace Vantage.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
         {
-            return await _context.Drivers.Include("Group").Include("Attempts").ToListAsync();
-        }
-
-        // GET: api/GetDriversByGroupId
-        [HttpGet("GetDriversByGroupId/{id}")]
-        public async Task<ActionResult<IEnumerable<Driver>>> GetDriversByGroupId(int id)
-        {
-            return await _context.Drivers.Include("Group").Include("Attempts").Where(x => x.GroupID == id).ToListAsync();
+            return await _context.Drivers
+                .Include(x => x.Group)
+                .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
+                .Include(x => x.Attempts).ThenInclude(x => x.Lesson)
+                .AsNoTracking().ToListAsync();
         }
 
         // GET: api/Drivers/5
