@@ -7,12 +7,12 @@ using Vantage.WPF.Interfaces;
 
 namespace Vantage.WPF.Services
 {
-    public class DriverService : BaseAPIService, IDriverService
+    public class GroupService : BaseAPIService, IGroupService
     {
         private readonly string _apiBaseUrl;
         private readonly IConfiguration _configuration;
 
-        public DriverService(IConfiguration iConfig)
+        public GroupService(IConfiguration iConfig)
         {
             _configuration = iConfig;
             _apiBaseUrl = Config.GetAPIBaseUrl(_configuration);

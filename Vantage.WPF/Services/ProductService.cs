@@ -1,20 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Vantage.WPF.Interfaces;
-using Vantage.Common.Models;
 using Microsoft.Extensions.Configuration;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Vantage.Common.Models;
+using Vantage.Common.Utility;
+using Vantage.WPF.Interfaces;
 
 namespace Vantage.WPF.Services
 {
-    public class ProductService : IProductService
+    public class ProductService : BaseAPIService, IProductService
     {
         private readonly string _apiBaseUrl;
         private readonly IConfiguration _configuration;
@@ -22,7 +16,8 @@ namespace Vantage.WPF.Services
         public ProductService(IConfiguration iConfig)
         {
             _configuration = iConfig;
-            _apiBaseUrl = _configuration.GetSection("ApiConfig").GetSection("BaseUrl").Value;
+            _apiBaseUrl = Config.GetAPIBaseUrl(_configuration);
+            SetBaseUrlAndTimeout(_apiBaseUrl);
         }
 
         [HttpGet]
@@ -30,22 +25,7 @@ namespace Vantage.WPF.Services
         {
             ObservableCollection<Product> products = new ObservableCollection<Product>();
 
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync($"{_apiBaseUrl}/api/products"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    try
-                    {
-                        products = JsonConvert.DeserializeObject<ObservableCollection<Product>>(apiResponse);
-                    }
-                    catch (Exception ex)
-                    {
-                        //ViewBag.Result = apiResponse;
-                        //return View();
-                    }
-                }
-            }
+            products = await GetRequest<ObservableCollection<Product>>("/api/products");
 
             return products;
         }

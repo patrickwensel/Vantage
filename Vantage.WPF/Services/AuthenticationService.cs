@@ -1,23 +1,23 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Vantage.Common.Models;
+using Vantage.Common.Utility;
 using Vantage.WPF.Interfaces;
 
 namespace Vantage.WPF.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : BaseAPIService, IAuthenticationService
     {
         private readonly string _apiBaseUrl;
         private readonly IConfiguration _configuration;
         public AuthenticationService(IConfiguration iConfig)
         {
             _configuration = iConfig;
-            _apiBaseUrl = _configuration.GetSection("ApiConfig").GetSection("BaseUrl").Value;
+            _apiBaseUrl = Config.GetAPIBaseUrl(_configuration);
+            SetBaseUrlAndTimeout(_apiBaseUrl);
         }
 
         public async Task<UserReturnObject> AuthenticateUser(string username, string clearTextPassword)
@@ -37,25 +37,7 @@ namespace Vantage.WPF.Services
         private async Task<UserReturnObject> Authenticate(UserAuthentication userAuthentication)
         {
             UserReturnObject userReturnObject = new UserReturnObject();
-            using (var httpClient = new HttpClient())
-            {
-                //httpClient.DefaultRequestHeaders.Add("Key", "Secret@123");
-                StringContent content = new StringContent(JsonConvert.SerializeObject(userAuthentication), Encoding.UTF8, "application/json");
-
-                using (var response = await httpClient.PostAsync($"{_apiBaseUrl}/api/users/authenticate", content))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    try
-                    {
-                        userReturnObject = JsonConvert.DeserializeObject<UserReturnObject>(apiResponse);
-                    }
-                    catch (Exception ex)
-                    {
-                        //ViewBag.Result = apiResponse;
-                        //return View();
-                    }
-                }
-            }
+            userReturnObject = await PostRequest<UserReturnObject>("/api/users/authenticate", userAuthentication);
             return userReturnObject;
         }
 

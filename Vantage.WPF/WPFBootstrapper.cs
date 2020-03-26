@@ -51,6 +51,7 @@ namespace Vantage.WPF
             container.RegisterType<IAuthenticationService, AuthenticationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IAttemptService, AttemptService>(new TransientLifetimeManager());
             container.RegisterType<IDriverService, DriverService>(new TransientLifetimeManager());
+            container.RegisterType<IGroupService, GroupService>(new TransientLifetimeManager());
         }
     }
 }
