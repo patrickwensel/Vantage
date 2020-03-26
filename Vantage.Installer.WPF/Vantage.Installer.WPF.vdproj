@@ -15,13 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_28FF78EE51354B6E90CE11B382478B94"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_EE3DE72E1FA149E1816AAF692381520A"
+        "MsmKey" = "8:_7BC224DC4629412CA0B38AE820518523"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -43,6 +37,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -59,6 +61,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -80,26 +90,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_28FF78EE51354B6E90CE11B382478B94"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\Downloads\\vdm_icon___01_qUw_icon.ico"
-            "TargetName" = "8:vdm_icon___01_qUw_icon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_ED72C13B586D4F01BB52FC28821A3225"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -285,10 +275,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_EE3DE72E1FA149E1816AAF692381520A"
+            "Target" = "8:"
             "Folder" = "8:_11C58DDD7BDF4D2A91DC7DEC558CD326"
             "WorkingFolder" = "8:_11C58DDD7BDF4D2A91DC7DEC558CD326"
-            "Icon" = "8:_28FF78EE51354B6E90CE11B382478B94"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -690,7 +680,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EE3DE72E1FA149E1816AAF692381520A"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7BC224DC4629412CA0B38AE820518523"
             {
             "SourcePath" = "8:..\\Vantage.WPF\\obj\\Debug\\netcoreapp3.0\\Vantage.WPF.dll"
             "TargetName" = "8:"

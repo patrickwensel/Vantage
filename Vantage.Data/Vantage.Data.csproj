@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\SystemSettings.cs" />
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,10 +43,6 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Unity" Version="5.11.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
