@@ -3,9 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:Vantage.WPF.Views"
         xmlns:converters="clr-namespace:Vantage.WPF.Converters"
         mc:Ignorable="d"
+        Background="WhiteSmoke"
         Title="TrainingReport">
     <Page.Resources>
         <converters:ScoreToPassedStatusConverter x:Key="ScoreToPassedStatusConverter" />
@@ -15,58 +17,111 @@
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
                    Text="Training Report" />
-        <DataGrid Grid.Row="1"
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Text="Group" />
+            <ComboBox
+                Grid.Row="0"
+                Grid.Column="1"
+                x:Name="CBGroups"
+                MinWidth="120"
+                Text="Select Group"
+                HorizontalAlignment="Stretch"
+                ItemsSource="{Binding Groups}"
+                SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
+                DisplayMemberPath="Name">
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="SelectionChanged">
+                        <interactivity:InvokeCommandAction Command="{Binding GroupSelectedCommand}" />
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+            </ComboBox>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                TextAlignment="Right"
+                Text="{Binding FetchedDriversCount, StringFormat='Total Drivers : {0:0}'}" />
+        </Grid>
+        <DataGrid Grid.Row="2"
                   Grid.Column="0"
+                  MinWidth="200"
+                  CanUserAddRows="False"
                   HorizontalAlignment="Stretch"
                   RowDetailsVisibilityMode="VisibleWhenSelected"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding Drivers}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Last Name"
+                                    IsReadOnly="True"
                                     Binding="{Binding LastName}" />
                 <DataGridTextColumn Header="First Name"
+                                    IsReadOnly="True"
                                     Binding="{Binding FirstName}" />
                 <DataGridTextColumn Header="Group"
+                                    IsReadOnly="True"
                                     Binding="{Binding Group.Name}" />
                 <DataGridTextColumn Header="Lessons Attempted"
+                                    IsReadOnly="True"
                                     Binding="{Binding Attempts,Converter={StaticResource LessonsAttemptCountConverter}}" />
                 <DataGridTextColumn Header="Lessons Completed"
+                                    IsReadOnly="True"
                                     Binding="{Binding Attempts, Converter={StaticResource CompletedLessonCountConverter}}" />
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <DataGrid Margin="10,0"
                               HorizontalAlignment="Left"
+                              CanUserAddRows="False"
                               RowDetailsVisibilityMode="VisibleWhenSelected"
                               AutoGenerateColumns="False"
                               ItemsSource="{Binding Attempts}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Lesson Name"
+                                                IsReadOnly="True"
                                                 Binding="{Binding Lesson.Name}" />
                             <DataGridTextColumn Header="Score"
+                                                IsReadOnly="True"
                                                 Binding="{Binding Score}" />
                             <DataGridTextColumn Header="Time to Complete"
+                                                IsReadOnly="True"
                                                 Binding="{Binding TimeToComplete}" />
                             <DataGridTextColumn Header="Passed"
+                                                IsReadOnly="True"
                                                 Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}" />
                         </DataGrid.Columns>
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <DataGrid Margin="10,0"
                                           HorizontalAlignment="Left"
+                                          CanUserAddRows="False"
                                           ItemsSource="{Binding Infractions}"
                                           AutoGenerateColumns="False"
                                           RowDetailsVisibilityMode="VisibleWhenSelected">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Infraction"
+                                                            IsReadOnly="True"
                                                             Binding="{Binding Name}" />
                                         <DataGridTextColumn Header="Deduction"
+                                                            IsReadOnly="True"
                                                             Binding="{Binding Deduction}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
