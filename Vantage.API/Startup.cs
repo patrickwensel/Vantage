@@ -37,6 +37,7 @@ namespace Vantage.API
                 conn = conn.Replace("%CONTENTROOTPATH%", _contentRootPath);
             }
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(conn));  //use conn
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
