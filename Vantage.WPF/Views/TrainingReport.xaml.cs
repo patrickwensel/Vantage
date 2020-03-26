@@ -25,7 +25,12 @@ namespace Vantage.WPF.Views
         protected async override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            await (ViewModel as TrainingReportViewModel).FetchDrivers();
+            await (ViewModel as TrainingReportViewModel).OnInitializedAsync();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Console.WriteLine($"Selected Item : {e.Source}");
         }
     }
 }
