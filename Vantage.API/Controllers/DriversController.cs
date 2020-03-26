@@ -26,7 +26,7 @@ namespace Vantage.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
         {
-            return await _context.Drivers.ToListAsync();
+            return await _context.Drivers.Include("Group").Include("Attempts").ToListAsync();
         }
 
         // GET: api/Drivers/5
