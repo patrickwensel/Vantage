@@ -43,35 +43,39 @@
                       Grid.Column="0">
                 <MenuItem Header="E_xit"
                           Tag="exit"
-                          Click="MenuItem_Click" />
+                          Command="{Binding MenuItemClickCommand}"
+                          CommandParameter="exit" />
             </MenuItem>
             <MenuItem Header="Groups"
                       Grid.Column="1"
                       IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}" />
             <MenuItem Header="Drivers"
                       Grid.Column="2"
-                      IsEnabled="{Binding IsAuthenticated}" />
+                      IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}" />
             <MenuItem Header="_Reports"
                       Grid.Column="3"
-                      IsEnabled="{Binding IsAuthenticated}">
+                      IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}">
                 <MenuItem Header="_Training"
-                          Tag="Training"
-                          Click="MenuItem_Click" />
+                          Tag="training"
+                          Command="{Binding MenuItemClickCommand}"
+                          CommandParameter="training" />
             </MenuItem>
             <MenuItem Header="Management"
                       Grid.Column="4"
-                      IsEnabled="{Binding IsAuthenticated}" />
+                      IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}" />
             <MenuItem Header="Admin"
-                      Tag="Admin"
+                      Tag="admin"
                       Grid.Column="5"
-                      IsEnabled="{Binding IsAuthenticated}"
-                      Click="MenuItem_Click"/>
+                      IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}"
+                      Command="{Binding MenuItemClickCommand}"
+                      CommandParameter="admin" />
             <MenuItem Header="Login"
                       Grid.Column="6"
                       Tag="login"
                       HorizontalAlignment="Right"
                       FlowDirection="RightToLeft"
-                      Click="MenuItem_Click">
+                      Command="{Binding MenuItemClickCommand}"
+                      CommandParameter="login">
                 <MenuItem.Style>
                     <Style TargetType="{x:Type MenuItem}">
                         <Setter Property="Visibility"
@@ -88,8 +92,9 @@
             </MenuItem>
             <MenuItem Header="Logout"
                       Grid.Column="6"
-                      Tag="Logout"
-                      Click="MenuItem_Click"
+                      Tag="logout"
+                      Command="{Binding MenuItemClickCommand}"
+                      CommandParameter="logout"
                       HorizontalAlignment="Right"
                       FlowDirection="RightToLeft">
                 <MenuItem.Style>
@@ -112,13 +117,15 @@
 
 
         <!-- Content Area -->
-        <Grid Grid.Row="1"
-              Panel.ZIndex="1"
-              Name="contentArea"
-              Style="{StaticResource contentAreaStyle}" />
+        <Frame Grid.Row="1"
+               Panel.ZIndex="1"
+               NavigationUIVisibility="Hidden"
+               Name="FrmContentArea" />
 
         <!-- Status Message Area -->
         <TextBlock Grid.Row="2"
+                   Background="Green"
+                   Foreground="Wheat"
                    Text="{Binding Status}"
                    Style="{StaticResource statusAreaStyle}" />
     </Grid>

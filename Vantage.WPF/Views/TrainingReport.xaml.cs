@@ -17,7 +17,7 @@ namespace Vantage.WPF.Views
     /// <summary>
     /// Interaction logic for TrainingReport.xaml
     /// </summary>
-    public partial class TrainingReport : Window, IView
+    public partial class TrainingReport : Page, IView
     {
         public IViewModel ViewModel
         {

@@ -1,28 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.ViewModels;
 
 namespace Vantage.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for LoginWindow.xaml
+    /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class LoginWindow : Window, IView
+    public partial class Login : Page, IView
     {
-        public LoginWindow(AuthenticationViewModel viewModel)
+        public Login(AuthenticationViewModel viewModel)
         {
-            viewModel.OnRequestClose += CloseWindow;
             viewModel.OnRequestFocus += RequestFocus;
             ViewModel = viewModel;
             InitializeComponent();
@@ -41,11 +31,6 @@ namespace Vantage.WPF.Views
             set { DataContext = value; }
         }
         #endregion
-
-        private void CloseWindow(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
         private void RequestFocus(object sender, EventArgs e)
         {
