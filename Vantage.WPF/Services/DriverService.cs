@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
+using Vantage.Common.Models;
 using Vantage.Common.Utility;
 using Vantage.WPF.Interfaces;
 
@@ -17,6 +20,15 @@ namespace Vantage.WPF.Services
             _configuration = iConfig;
             _apiBaseUrl = Config.GetAPIBaseUrl(_configuration);
             SetBaseUrlAndTimeout(_apiBaseUrl);
+        }
+
+        public async Task<IList<Driver>> GetAllDrivers()
+        {
+            IList<Driver> drivers = new List<Driver>();
+
+            drivers = await GetRequest<IList<Driver>>("api/Drivers");
+
+            return drivers;
         }
     }
 }
