@@ -107,7 +107,8 @@ namespace Vantage.Common.Utility
             try
             {
                 var apiResponse = await _client.ExecuteAsync(request);
-                return JsonConvert.DeserializeObject<T>(apiResponse.Content);
+                var returnObject = JsonConvert.DeserializeObject<T>(apiResponse.Content);
+                return returnObject;
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
