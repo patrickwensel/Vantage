@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Windows.Controls;
 using Vantage.WPF.Interfaces;
+using Vantage.WPF.Messages;
 
 namespace Vantage.WPF.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
         private readonly INavigationService _navigationService;
+        private readonly IMessagingService _messagingService;
         private readonly DelegateCommand _menuItemClickCommand;
 
         private string _status = string.Empty;
@@ -30,9 +32,10 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _status, value); }
         }
 
-        public MainWindowViewModel(INavigationService navigationService)
+        public MainWindowViewModel(INavigationService navigationService, IMessagingService messagingService)
         {
             _navigationService = navigationService;
+            _messagingService = messagingService;
             _menuItemClickCommand = new DelegateCommand(MenuItemClicked, CanMenuItemClicked);
         }
 
@@ -48,6 +51,7 @@ namespace Vantage.WPF.ViewModels
             switch (commandParameter.ToLower())
             {
                 case "exit":
+                    _messagingService.Send<ExitAppMessage>(new ExitAppMessage());
                     break;
                 case "login":
                     _navigationService.NavigateTo(Enums.PageKey.Login);

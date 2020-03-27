@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System.Configuration;
 using System.IO;
 using Unity;
 using Unity.Lifetime;
@@ -46,6 +45,7 @@ namespace Vantage.WPF
             IConfiguration config = configBuilder.Build();
 
             container.RegisterInstance<IConfiguration>(config);
+            container.RegisterType<IMessagingService, MessagingService>(new HierarchicalLifetimeManager());
             container.RegisterType<INavigationService, NavigationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProductService, ProductService>(new TransientLifetimeManager());
             container.RegisterType<IAuthenticationService, AuthenticationService>(new HierarchicalLifetimeManager());
