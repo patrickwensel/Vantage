@@ -30,14 +30,5 @@ namespace Vantage.WPF.Services
 
             return drivers;
         }
-
-        public async Task<IList<Driver>> GetDriversByGroupID(int Id)
-        {
-            IList<Driver> drivers = new List<Driver>();
-
-            drivers = await GetRequest<IList<Driver>>($"api/Drivers/GetDriversByGroupId/{Id}");
-
-            return drivers;
-        }
     }
 }

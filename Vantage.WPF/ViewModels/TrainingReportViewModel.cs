@@ -74,7 +74,18 @@ namespace Vantage.WPF.ViewModels
 
         private async Task FetchDriversByGroupId(int groupId)
         {
-            Drivers = await _driverService.GetDriversByGroupID(groupId);
+            var group = await _groupService.GetGroup(groupId);
+
+            Drivers = group.Drivers;
+
+            foreach(Driver driver in Drivers)
+            {
+                driver.Group = new Group()
+                {
+                    GroupID = group.GroupID,
+                    Name = group.Name
+                };
+            }
 
             FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
         }

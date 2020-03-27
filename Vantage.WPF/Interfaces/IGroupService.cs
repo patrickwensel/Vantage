@@ -9,5 +9,7 @@ namespace Vantage.WPF.Interfaces
     public interface IGroupService
     {
         Task<IList<Group>> GetGroups();
+
+        Task<Group> GetGroup(int Id);
     }
 }
