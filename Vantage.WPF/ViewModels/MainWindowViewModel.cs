@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Messages;
@@ -51,7 +52,9 @@ namespace Vantage.WPF.ViewModels
             switch (commandParameter.ToLower())
             {
                 case "exit":
-                    _messagingService.Send<ExitAppMessage>(new ExitAppMessage());
+                    var messageResult = MessageBox.Show("Are you sure you want to exit app?", "Exit", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (messageResult == MessageBoxResult.Yes)
+                        _messagingService.Send<ExitAppMessage>(new ExitAppMessage());
                     break;
                 case "login":
                     _navigationService.NavigateTo(Enums.PageKey.Login);
