@@ -64,9 +64,6 @@
         <DataGrid Grid.Row="2"
                   Grid.Column="0"
                   MinWidth="200"
-                  CanUserAddRows="False"
-                  HorizontalAlignment="Stretch"
-                  RowDetailsVisibilityMode="VisibleWhenSelected"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding Drivers}">
             <DataGrid.Columns>
@@ -88,10 +85,7 @@
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <DataGrid Margin="10,0"
-                              HorizontalAlignment="Left"
-                              CanUserAddRows="False"
-                              RowDetailsVisibilityMode="VisibleWhenSelected"
+                    <DataGrid Margin="10,20"
                               AutoGenerateColumns="False"
                               ItemsSource="{Binding Attempts}">
                         <DataGrid.Columns>
@@ -111,11 +105,9 @@
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <DataGrid Margin="10,0"
-                                          HorizontalAlignment="Left"
                                           CanUserAddRows="False"
                                           ItemsSource="{Binding Infractions}"
-                                          AutoGenerateColumns="False"
-                                          RowDetailsVisibilityMode="VisibleWhenSelected">
+                                          AutoGenerateColumns="False">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Infraction"
                                                             IsReadOnly="True"

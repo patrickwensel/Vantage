@@ -5,10 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Vantage.WPF.Converters"
         mc:Ignorable="d"
+        x:Name="MyWindow"
+        MouseDoubleClick="MyWindow_MouseDoubleClick"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow"
-        Height="450"
-        Width="800">
+        MinWidth="800"
+        MinHeight="500"
+        WindowStyle="None"
+        WindowState="Normal"
+        BorderBrush="Black"
+        BorderThickness="5"
+        AllowsTransparency="True">
     <Window.Resources>
         <!--<viewmodel:AuthenticationViewModel x:Key="viewModel" IsLoggedIn="False"></viewmodel:AuthenticationViewModel>-->
         <converters:BoolInverterConverter x:Key="BoolInverterConverter" />
@@ -16,12 +23,34 @@
     <Grid Background="{StaticResource gridBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <!-- TitleBar -->
+        <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center">
+            <Button x:Name="MinimizeButton"
+                    Style="{StaticResource TitleBarButtons}"
+                    Content="&#x1F5D5;"
+                    KeyboardNavigation.IsTabStop="False" 
+                    Click="MinimizeButton_Click"  />
+            <Button x:Name="MaximizeButton"
+                    Style="{StaticResource TitleBarButtons}"
+                    Content="&#x1F5D6;"
+                    Click="MaximizeButton_Click"
+                    KeyboardNavigation.IsTabStop="False">
+            </Button>
+            <Button x:Name="CloseButton"
+                    Style="{StaticResource TitleBarButtons}"
+                    Content="✕"
+                    FontWeight="Bold"
+                    Click="CloseButton_Click"
+                    KeyboardNavigation.IsTabStop="False"/>
+        </StackPanel>
         <!-- Menu Area -->
-        <Menu Grid.Row="0"
+        <Menu Grid.Row="1"
               IsMainMenu="True">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -117,14 +146,13 @@
 
 
         <!-- Content Area -->
-        <Frame Grid.Row="1"
+        <Frame Grid.Row="2"
                Panel.ZIndex="1"
                NavigationUIVisibility="Hidden"
                Name="FrmContentArea" />
 
         <!-- Status Message Area -->
-        <TextBlock Grid.Row="2"
-                   Background="Green"
+        <TextBlock Grid.Row="3"
                    Foreground="Wheat"
                    Text="{Binding Status}"
                    Style="{StaticResource statusAreaStyle}" />

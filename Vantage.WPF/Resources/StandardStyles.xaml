@@ -146,6 +146,47 @@
   <Style TargetType="Image"
          BasedOn="{StaticResource baseFrameworkElement}">
   </Style>
+    
+    <!-- Titlebar Button Styles -->
+    <Style TargetType="Button" x:Key="TitleBarButtons">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="WhiteSmoke" />
+    </Style>
+   <!-- Data Grid Styles -->
+    <Style TargetType="DataGrid">
+        <Setter Property="AlternationCount" Value="2" />
+        <Setter Property="AlternatingRowBackground" Value="Silver" />
+        <Setter Property="RowBackground" Value="White" />
+        <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
+        <Setter Property="VerticalGridLinesBrush" Value="Gray" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
+        <Setter Property="RowHeight" Value="35" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Height" Value="35" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
   <!-- ******************** -->
   <!-- Special Keyed Styles -->
   <!-- ******************** -->

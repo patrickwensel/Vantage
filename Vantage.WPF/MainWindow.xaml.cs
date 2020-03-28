@@ -45,5 +45,31 @@ namespace Vantage.WPF
             Console.WriteLine("ExitAppMessage Received");
             this.Close();
         }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.MainWindow.Close();
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeWindowState();
+        }
+
+        private void MyWindow_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ChangeWindowState();
+        }
+
+        private void ChangeWindowState()
+        {
+            App.Current.MainWindow.WindowState = App.Current.MainWindow.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+            MaximizeButton.Content = App.Current.MainWindow.WindowState == WindowState.Normal ? "\U0001F5D6" : "\U0001F5D7";
+        }
     }
 }
