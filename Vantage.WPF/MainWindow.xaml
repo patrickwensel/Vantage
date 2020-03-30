@@ -11,10 +11,11 @@
         Title="MainWindow"
         MinWidth="800"
         MinHeight="500"
+        ResizeMode="CanResize"
         WindowStyle="None"
         WindowState="Normal"
-        BorderBrush="Black"
-        BorderThickness="5"
+        BorderBrush="Silver"
+        BorderThickness="2"
         AllowsTransparency="True">
     <Window.Resources>
         <!--<viewmodel:AuthenticationViewModel x:Key="viewModel" IsLoggedIn="False"></viewmodel:AuthenticationViewModel>-->
@@ -23,12 +24,22 @@
     <Grid Background="{StaticResource gridBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <!-- Content Area -->
+        <Frame Grid.Row="0"
+               Grid.Column="0"
+               Grid.RowSpan="2"
+               Panel.ZIndex="1"
+               NavigationUIVisibility="Hidden"
+               Name="FrmContentArea" />
+        
         <!-- TitleBar -->
-        <StackPanel Orientation="Horizontal"
+        <StackPanel 
+            Grid.Row="0"
+            Grid.Column="0"
+            Panel.ZIndex="3"
+            Orientation="Horizontal"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center">
             <Button x:Name="MinimizeButton"
@@ -51,11 +62,14 @@
         </StackPanel>
         <!-- Menu Area -->
         <Menu Grid.Row="1"
+              Grid.Column="0"
+              Panel.ZIndex="2"
+              VerticalAlignment="Top"
               IsMainMenu="True">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
                     <!--<DockPanel HorizontalAlignment="Stretch" />-->
-                    <Grid HorizontalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -98,7 +112,7 @@
                       IsEnabled="{Binding IsLoggedIn, Mode=TwoWay}"
                       Command="{Binding MenuItemClickCommand}"
                       CommandParameter="admin" />
-            <MenuItem Header="Login"
+            <!--<MenuItem Header="Login"
                       Grid.Column="6"
                       Tag="login"
                       HorizontalAlignment="Right"
@@ -118,7 +132,7 @@
                         </Style.Triggers>
                     </Style>
                 </MenuItem.Style>
-            </MenuItem>
+            </MenuItem>-->
             <MenuItem Header="Logout"
                       Grid.Column="6"
                       Tag="logout"
@@ -141,20 +155,5 @@
                 </MenuItem.Style>
             </MenuItem>
         </Menu>
-
-        <!-- Informational Message Area -->
-
-
-        <!-- Content Area -->
-        <Frame Grid.Row="2"
-               Panel.ZIndex="1"
-               NavigationUIVisibility="Hidden"
-               Name="FrmContentArea" />
-
-        <!-- Status Message Area -->
-        <TextBlock Grid.Row="3"
-                   Foreground="Wheat"
-                   Text="{Binding Status}"
-                   Style="{StaticResource statusAreaStyle}" />
     </Grid>
 </Window>

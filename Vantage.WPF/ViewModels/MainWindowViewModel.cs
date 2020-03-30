@@ -43,6 +43,7 @@ namespace Vantage.WPF.ViewModels
         public void InitializeNavigationService(Frame frame)
         {
             _navigationService.Initialize(frame);
+            _navigationService.NavigateTo(Enums.PageKey.Login);
         }
 
         private void MenuItemClicked(object parameter)
