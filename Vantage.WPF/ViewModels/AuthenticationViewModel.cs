@@ -10,6 +10,7 @@ namespace Vantage.WPF.ViewModels
 {
     public class AuthenticationViewModel : BaseViewModel
     {
+        private readonly INavigationService _navigationService;
         private readonly IAuthenticationService _authenticationService;
         private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly DelegateCommand _loginCommand;
@@ -60,9 +61,10 @@ namespace Vantage.WPF.ViewModels
         public DelegateCommand LogoutCommand { get { return _logoutCommand; } }
         #endregion
 
-        public AuthenticationViewModel(IAuthenticationService authenticationService, MainWindowViewModel mainWindowViewModel)
+        public AuthenticationViewModel(IAuthenticationService authenticationService, INavigationService navigationService, MainWindowViewModel mainWindowViewModel)
         {
             _authenticationService = authenticationService;
+            _navigationService = navigationService;
             _mainWindowViewModel = mainWindowViewModel;
             _loginCommand = new DelegateCommand(Login, CanLogin);
             _logoutCommand = new DelegateCommand(Logout, CanLogout);
@@ -111,6 +113,7 @@ namespace Vantage.WPF.ViewModels
                 passwordBox.Password = string.Empty; //reset
                 _mainWindowViewModel.Status = string.Empty;
                 App.Current.MainWindow.Cursor = Cursors.Arrow;
+                _navigationService.NavigateTo(Enums.PageKey.Dashboard);
 
                 //  dashboard.Show();
 

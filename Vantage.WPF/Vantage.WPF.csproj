@@ -21,6 +21,44 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\Cover.png" />
+    <None Remove="Images\IcoUser.png" />
+    <None Remove="Images\IcoUserAccess.png" />
+    <None Remove="Images\Manage.png" />
+    <None Remove="Images\Reports.png" />
+    <None Remove="Images\Settings.png" />
+    <None Remove="Images\VantageBlueLogo.png" />
+    <None Remove="Images\VantageWhiteLogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Cover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\IcoUser.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\IcoUserAccess.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Manage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Reports.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Settings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\VantageBlueLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\VantageWhiteLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
