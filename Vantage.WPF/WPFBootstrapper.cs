@@ -25,6 +25,7 @@ namespace Vantage.WPF
             container.RegisterType<AuthenticationViewModel>(new TransientLifetimeManager());
             container.RegisterType<TrainingReportViewModel>(new TransientLifetimeManager());
             container.RegisterType<AdminViewModel>(new TransientLifetimeManager());
+            container.RegisterType<DashboardViewModel>(new TransientLifetimeManager());
         }
 
         private static void RegisterViews(IUnityContainer container)

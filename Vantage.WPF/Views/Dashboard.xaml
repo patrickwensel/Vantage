@@ -4,9 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Vantage.WPF.Views"
+      xmlns:converters="clr-namespace:Vantage.WPF.Converters"
       mc:Ignorable="d"
       Title="Dashboard">
     <Page.Resources>
+        <converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
         <Style TargetType="StackPanel" x:Key="ButtonStackStyle">
             <Setter Property="Orientation" Value="Vertical" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -18,6 +20,12 @@
             <Setter Property="Margin" Value="14" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="ButtonIconTextStyle">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="FontSize" Value="64" />
+            <Setter Property="Foreground" Value="White" />
         </Style>
         <Style TargetType="TextBlock" x:Key="ButtonTextStyle">
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -42,17 +50,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button
-            Grid.Row="0"
-            Grid.Column="0"
-            IsEnabled="False"
-            IsTabStop="False"
-            Style="{StaticResource TitleBarButtons}"
-            HorizontalAlignment="Left" />
         <Image
             Grid.Row="0"
             Grid.Column="0"
@@ -91,16 +92,18 @@
                 Grid.Column="0"
                 VerticalAlignment="Bottom"
                 TextAlignment="Right"
-                Text="UserName"
+                Margin="5,0,5,-2"
+                Text="{Binding Username}"
                 Foreground="White"
                 FontWeight="Bold"
                 FontSize="16" />
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
+                Margin="5,-2,5,0"
                 TextAlignment="Right"
                 VerticalAlignment="Top"
-                Text="Profession"
+                Text="{Binding Roles}"
                 FontSize="13"
                 Foreground="White" />
             <Ellipse
@@ -155,17 +158,32 @@
             <ComboBox Template="{DynamicResource DropdownTemplate}"
                 Grid.Row="1"
                 Grid.Column="1"
+                ItemsSource="{Binding Products}"
+                SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                Foreground="White"
+                FontFamily="Segoe UI"
+                FontWeight="Bold"
+                FontSize="14"
+                DisplayMemberPath="Name"
                 Background="{StaticResource DarkBlue}"
+                BorderBrush="{StaticResource LightBlue}"
+                BorderThickness="1"
                 HorizontalAlignment="Stretch" />
             <Button
+                x:Name="BtnReport"
                 Grid.Row="2"
                 Grid.Column="0"
+                IsEnabled="{Binding SelectedProduct, Converter={StaticResource ObjectToBoolConverter}}"
+                Command="{Binding ReportCommand}"
                 Style="{StaticResource ImageButtonStyle}">
                 <StackPanel
                     Style="{StaticResource ButtonStackStyle}">
-                    <Image                        
+                    <!--<Image                        
                         Style="{StaticResource ButtonImageStyle}"
-                        Source="/Images/Reports.png" />
+                        Source="/Images/Reports.png" />-->
+                    <TextBlock
+                        Style="{StaticResource ButtonIconTextStyle}"
+                        Text="" />
                     <TextBlock
                         Style="{StaticResource ButtonTextStyle}"
                         Text="Reports" />
@@ -174,12 +192,17 @@
             <Button
                 Grid.Row="2"
                 Grid.Column="1"
+                IsEnabled="{Binding SelectedProduct, Converter={StaticResource ObjectToBoolConverter}}"
+                Command="{Binding ManageCommand}"
                 Style="{StaticResource ImageButtonStyle}">
                 <StackPanel
                     Style="{StaticResource ButtonStackStyle}">
-                    <Image
+                    <!--<Image
                         Style="{StaticResource ButtonImageStyle}"
-                        Source="/Images/Manage.png" />
+                        Source="/Images/Manage.png" />-->
+                    <TextBlock
+                        Style="{StaticResource ButtonIconTextStyle}"
+                        Text="" />
                     <TextBlock
                         Style="{StaticResource ButtonTextStyle}"
                         Text="Manage" />
@@ -188,14 +211,19 @@
             <Button
                 Grid.Row="2"
                 Grid.Column="2"
+                IsEnabled="{Binding SelectedProduct, Converter={StaticResource ObjectToBoolConverter}}"
+                Command="{Binding SystemCommand}"
                 Style="{StaticResource ImageButtonStyle}">
                 <StackPanel Style="{StaticResource ButtonStackStyle}">
-                    <Image
+                    <!--<Image
                         Style="{StaticResource ButtonImageStyle}"
-                        Source="/Images/Settings.png" />
+                        Source="/Images/Settings.png" />-->
+                    <TextBlock
+                        Style="{StaticResource ButtonIconTextStyle}"
+                        Text="" />
                     <TextBlock
                         Style="{StaticResource ButtonTextStyle}"
-                        Text="Settings" />
+                        Text="System" />
                 </StackPanel>
             </Button>
         </Grid>

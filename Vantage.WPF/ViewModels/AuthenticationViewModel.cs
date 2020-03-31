@@ -76,7 +76,6 @@ namespace Vantage.WPF.ViewModels
             string clearTextPassword = passwordBox.Password;
             try
             {
-                IView dashboard = new Dashboard();
                 // Allow user to login if username and password both empty
                 if (string.IsNullOrEmpty(Username) && string.IsNullOrEmpty(clearTextPassword))
                 {
@@ -102,6 +101,8 @@ namespace Vantage.WPF.ViewModels
 
                 _mainWindowViewModel.IsLoggedIn = true;
                 LoggedInName = $"{user.FirstName} {user.LastName}";
+                _mainWindowViewModel.Username = LoggedInName;
+                _mainWindowViewModel.Roles = string.Join(", ", user.Roles);
 
                 //Update UI
                 OnPropertyChanged("AuthenticatedUser");

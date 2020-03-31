@@ -16,6 +16,9 @@ namespace Vantage.WPF.ViewModels
         private bool _isLoggedIn = false;
         private bool _isMenuItemClickInProgress;
 
+        private string _userName;
+        private string _roles;
+
         public DelegateCommand MenuItemClickCommand { get { return _menuItemClickCommand; } }
 
         public bool IsLoggedIn
@@ -25,6 +28,18 @@ namespace Vantage.WPF.ViewModels
             {
                 SetProperty(ref _isLoggedIn, value);
             }
+        }
+
+        public string Username 
+        {
+            get { return _userName; }
+            set { SetProperty(ref _userName, value); }
+        }
+
+        public string Roles 
+        {
+            get { return _roles; }
+            set { SetProperty(ref _roles, value); }
         }
 
         public string Status

@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using Vantage.WPF.Interfaces;
+using Vantage.WPF.ViewModels;
 
 namespace Vantage.WPF.Views
 {
@@ -9,9 +11,19 @@ namespace Vantage.WPF.Views
     /// </summary>
     public partial class Dashboard : Page, IView
     {
-        public Dashboard()
+        private readonly DashboardViewModel _dashboardViewModel;
+
+        public Dashboard(DashboardViewModel dashboardViewModel)
         {
+            ViewModel = dashboardViewModel;
+            _dashboardViewModel = dashboardViewModel;
             InitializeComponent();
+        }
+
+        protected override async void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            await _dashboardViewModel.OnInitializedAsync();
         }
 
         #region IView Members
