@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:controls="clr-namespace:Vantage.WPF.Controls"
+        xmlns:controlsModel="clr-namespace:Vantage.WPF.Controls.Models"
         xmlns:local="clr-namespace:Vantage.WPF.Views"
         xmlns:converters="clr-namespace:Vantage.WPF.Converters"
         mc:Ignorable="d"
-        Background="WhiteSmoke"
         Title="TrainingReport">
     <Page.Resources>
         <converters:ScoreToPassedStatusConverter x:Key="ScoreToPassedStatusConverter" />
@@ -20,10 +21,23 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   HorizontalAlignment="Center"
-                   Text="Training Report" />
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.RowSpan="3"
+            Stretch="UniformToFill"
+            Opacity="0.5"
+            Source="/Images/Cover.png">
+            <Image.Effect>
+                <BlurEffect Radius="30" />
+            </Image.Effect>
+        </Image>
+        <controls:TopTabbar
+            x:Name="TBTab"
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch">
+        </controls:TopTabbar>
         <Grid
             Grid.Row="1"
             Grid.Column="0"

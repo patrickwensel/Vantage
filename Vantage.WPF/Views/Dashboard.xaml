@@ -21,17 +21,22 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style TargetType="TextBlock" x:Key="ButtonIconTextStyle">
+        <Style TargetType="TextBlock" x:Key="ButtonBaseTextStyle">
             <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button,AncestorLevel=1}, Path=IsMouseOver}" Value="True" >
+                    <Setter Property="Foreground" Value="{StaticResource DarkBlue}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="ButtonIconTextStyle" BasedOn="{StaticResource ButtonBaseTextStyle}">
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
             <Setter Property="FontSize" Value="64" />
-            <Setter Property="Foreground" Value="White" />
         </Style>
-        <Style TargetType="TextBlock" x:Key="ButtonTextStyle">
-            <Setter Property="HorizontalAlignment" Value="Center" />
+        <Style TargetType="TextBlock" x:Key="ButtonTextStyle" BasedOn="{StaticResource ButtonBaseTextStyle}">
             <Setter Property="FontSize" Value="21" />
             <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Foreground" Value="White" />
         </Style>
         <Style TargetType="Button" x:Key="ImageButtonStyle">
             <Setter Property="Opacity" Value="1" />
@@ -40,6 +45,28 @@
             <Setter Property="Height" Value="197" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource LightBlue}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{StaticResource BluredLightBlue}"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Page.Resources>
     <Grid 
