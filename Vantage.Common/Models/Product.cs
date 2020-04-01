@@ -13,5 +13,6 @@ namespace Vantage.Common.Models
         public string Version { get; set; }
 
         public virtual List<Group> Groups { get; set; }
+        public virtual List<Lesson> Lessons { get; set; }
     }
 }
