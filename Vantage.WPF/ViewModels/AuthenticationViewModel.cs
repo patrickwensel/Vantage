@@ -101,8 +101,11 @@ namespace Vantage.WPF.ViewModels
 
                 _mainWindowViewModel.IsLoggedIn = true;
                 LoggedInName = $"{user.FirstName} {user.LastName}";
-                _mainWindowViewModel.Username = LoggedInName;
-                _mainWindowViewModel.Roles = string.Join(", ", user.Roles);
+                _mainWindowViewModel.LoggedInUserInfo = new Controls.Models.UserInfo()
+                {
+                    Username = LoggedInName,
+                    Roles = string.Join(", ", user.Roles)
+                };
 
                 //Update UI
                 OnPropertyChanged("AuthenticatedUser");

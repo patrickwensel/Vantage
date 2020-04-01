@@ -21,12 +21,6 @@ namespace Vantage.WPF.Views
         {
             ViewModel = trainingReportViewModel;
             InitializeComponent();
-            TBTab.ItemsSource = new List<Controls.Models.TabItem>()
-            {
-                new Controls.Models.TabItem() { Icon = "", Text = "Training Reports", IsSelected = true },
-                new Controls.Models.TabItem() { Icon = "", Text = "Training Reports", IsSelected = false },
-                new Controls.Models.TabItem() { Icon = "", Text = "Training Reports", IsSelected = false },
-            };
         }
 
         protected async override void OnInitialized(EventArgs e)

@@ -52,12 +52,14 @@
         <Style TargetType="TextBlock" x:Key="TabIconStyle" BasedOn="{StaticResource TabBaseTextStyle}">
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
             <Setter Property="FontSize" Value="36" />
+            <Setter Property="Margin" Value="0,0,4,0" />
         </Style>
         <Style TargetType="TextBlock" x:Key="TabTextStyle" BasedOn="{StaticResource TabBaseTextStyle}">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="Margin" Value="4,0,0,0" />
         </Style>
     </UserControl.Resources>
     <ItemsControl x:Name="ICTabbar">
@@ -70,6 +72,8 @@
             <DataTemplate>
                 <Button
                     Style="{StaticResource TabButtonStyle}"
+                    Command="{Binding ClickCommand}"
+                    CommandParameter="{Binding}"
                     IsEnabled="{Binding IsSelected, Converter={StaticResource BoolInverteConverter}}">
                     <StackPanel Orientation="Horizontal" Style="{StaticResource TabContentContainer}" >
                         <TextBlock Style="{StaticResource TabIconStyle}" Text="{Binding Icon}"/>

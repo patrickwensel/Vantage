@@ -334,8 +334,8 @@
     </ControlTemplate>
     <Style TargetType="DataGrid">
         <Setter Property="AlternationCount" Value="2" />
-        <Setter Property="AlternatingRowBackground" Value="Silver" />
-        <Setter Property="RowBackground" Value="White" />
+        <Setter Property="AlternatingRowBackground" Value="White" />
+        <Setter Property="RowBackground" Value="Transparent" />
         <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
         <Setter Property="VerticalGridLinesBrush" Value="Gray" />
         <Setter Property="CanUserAddRows" Value="False" />

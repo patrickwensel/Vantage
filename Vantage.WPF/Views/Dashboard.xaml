@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Vantage.WPF.Views"
+      xmlns:controls="clr-namespace:Vantage.WPF.Controls"
       xmlns:converters="clr-namespace:Vantage.WPF.Converters"
       mc:Ignorable="d"
       Title="Dashboard">
@@ -100,7 +101,14 @@
             MaxHeight="46"
             Margin="19,0"
             Source="/Images/VantageWhiteLogo.png"/>
-        <Grid
+        <controls:LoggedInUserInfo
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Margin="19,0"
+            UserInfo="{Binding LoggedInUserInfo}" />
+        <!--<Grid
             Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Right"
@@ -157,7 +165,8 @@
                     <ImageBrush ImageSource="/Images/IcoUser.png" />
                 </Ellipse.Fill>
             </Ellipse>
-        </Grid>
+        </Grid>-->
+        
         <Grid
             Grid.Row="2"
             Grid.Column="0"

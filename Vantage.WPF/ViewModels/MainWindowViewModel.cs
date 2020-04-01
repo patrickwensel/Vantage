@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Vantage.WPF.Controls.Models;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Messages;
 
@@ -16,8 +17,7 @@ namespace Vantage.WPF.ViewModels
         private bool _isLoggedIn = false;
         private bool _isMenuItemClickInProgress;
 
-        private string _userName;
-        private string _roles;
+        private UserInfo _loggedInUserInfo;
 
         public DelegateCommand MenuItemClickCommand { get { return _menuItemClickCommand; } }
 
@@ -30,17 +30,11 @@ namespace Vantage.WPF.ViewModels
             }
         }
 
-        public string Username 
+        public UserInfo LoggedInUserInfo 
         {
-            get { return _userName; }
-            set { SetProperty(ref _userName, value); }
-        }
-
-        public string Roles 
-        {
-            get { return _roles; }
-            set { SetProperty(ref _roles, value); }
-        }
+            get { return _loggedInUserInfo; }
+            set { SetProperty(ref _loggedInUserInfo, value); }
+        } 
 
         public string Status
         {

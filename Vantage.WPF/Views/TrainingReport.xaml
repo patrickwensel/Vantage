@@ -21,10 +21,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <Image
             Grid.Row="0"
             Grid.Column="0"
             Grid.RowSpan="3"
+            Grid.ColumnSpan="2"
             Stretch="UniformToFill"
             Opacity="0.5"
             Source="/Images/Cover.png">
@@ -36,11 +41,20 @@
             x:Name="TBTab"
             Grid.Row="0"
             Grid.Column="0"
+            ItemsSource="{Binding TabItems}"
             HorizontalAlignment="Stretch">
         </controls:TopTabbar>
+        <controls:LoggedInUserInfo
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"
+            Margin="19,0,19,25"
+            UserInfo="{Binding LoggedInUserInfo}" />
         <Grid
             Grid.Row="1"
             Grid.Column="0"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -77,7 +91,9 @@
         </Grid>
         <DataGrid Grid.Row="2"
                   Grid.Column="0"
+                  Grid.ColumnSpan="2"
                   MinWidth="200"
+                  Background="#F4F4F4"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding Drivers}">
             <DataGrid.Columns>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Vantage.Common.Models;
+using Vantage.WPF.Controls.Models;
 using Vantage.WPF.Interfaces;
 
 namespace Vantage.WPF.ViewModels
@@ -14,8 +14,7 @@ namespace Vantage.WPF.ViewModels
         private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly IProductService _productService;
 
-        private string _username;
-        private string _roles;
+        private UserInfo _loggedInUserInfo;
         private IList<Product> _products;
         private Product _selectedProduct;
 
@@ -23,16 +22,10 @@ namespace Vantage.WPF.ViewModels
         private ICommand _manageCommand;
         private ICommand _systemCommand;
 
-        public string Username 
+        public UserInfo LoggedInUserInfo 
         {
-            get { return _username; }
-            set { SetProperty(ref _username, value); }
-        }
-
-        public string Roles 
-        {
-            get { return _roles; }
-            set { SetProperty(ref _roles, value); }
+            get { return _loggedInUserInfo; }
+            set { SetProperty(ref _loggedInUserInfo, value); }
         }
 
         public IList<Product> Products 
@@ -66,8 +59,7 @@ namespace Vantage.WPF.ViewModels
 
         public async Task OnInitializedAsync()
         {
-            Username = _mainWindowViewModel.Username;
-            Roles = _mainWindowViewModel.Roles;
+            LoggedInUserInfo = _mainWindowViewModel.LoggedInUserInfo;
             Products = await _productService.GetAllProducts();
         }
 
