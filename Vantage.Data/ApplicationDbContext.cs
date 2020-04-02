@@ -101,16 +101,16 @@ namespace Vantage.Data
             modelBuilder.Entity<Group>().HasData(new Group { GroupID = 8, ProductID = 2, Name = "Class 8" });
             modelBuilder.Entity<Group>().HasData(new Group { GroupID = 9, ProductID = 2, Name = "Class 9" });
 
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 1, PackType = "ABC123", PackID = "1", Name = "Lesson 1", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 2, PackType = "ABC123", PackID = "1", Name = "Lesson 2", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 3, PackType = "ABC123", PackID = "1", Name = "Lesson 3", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 4, PackType = "ABC123", PackID = "1", Name = "Lesson 4", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 5, PackType = "ABC123", PackID = "1", Name = "Lesson 5", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 6, PackType = "ABC123", PackID = "1", Name = "Lesson 6", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 7, PackType = "ABC123", PackID = "1", Name = "Lesson 7", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 8, PackType = "ABC123", PackID = "1", Name = "Lesson 8", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 9, PackType = "ABC123", PackID = "1", Name = "Lesson 9", IsActive = true });
-            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 10, PackType = "ABC123", PackID = "1", Name = "Lesson 10", IsActive = true });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 1, PackType = "ABC123", PackID = "1", Name = "Lesson 1", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 2, PackType = "ABC123", PackID = "1", Name = "Lesson 2", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 3, PackType = "ABC123", PackID = "1", Name = "Lesson 3", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 4, PackType = "ABC123", PackID = "1", Name = "Lesson 4", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 5, PackType = "ABC123", PackID = "1", Name = "Lesson 5", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 6, PackType = "ABC123", PackID = "1", Name = "Lesson 6", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 7, PackType = "ABC123", PackID = "1", Name = "Lesson 7", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 8, PackType = "ABC123", PackID = "1", Name = "Lesson 8", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 9, PackType = "ABC123", PackID = "1", Name = "Lesson 9", IsActive = true, ProductID = 2 });
+            modelBuilder.Entity<Lesson>().HasData(new Lesson { LessonID = 10, PackType = "ABC123", PackID = "1", Name = "Lesson 10", IsActive = true, ProductID = 2 });
 
             #endregion
 
