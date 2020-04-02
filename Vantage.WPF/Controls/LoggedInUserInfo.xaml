@@ -1,13 +1,12 @@
 ﻿<UserControl x:Class="Vantage.WPF.Controls.LoggedInUserInfo"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Vantage.WPF.Controls"
              mc:Ignorable="d">
-    <Grid
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center">
+    <Grid HorizontalAlignment="Right"
+          VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -16,47 +15,44 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="42" />
         </Grid.ColumnDefinitions>
-        <TextBlock
-            x:Name="TBUsername"
-                Grid.Row="0"
-                Grid.Column="0"
-                VerticalAlignment="Bottom"
-                TextAlignment="Right"
-                Margin="5,0,5,-2"
-                Foreground="White"
-                FontWeight="Bold"
-                FontSize="16" />
-        <TextBlock
-            x:Name="TBRoles"
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="5,-2,5,0"
-                TextAlignment="Right"
-                VerticalAlignment="Top"
-                FontSize="13"
-                Foreground="White" />
-        <Ellipse
-                Grid.Row="0"
-                Grid.Column="1"
-                Grid.RowSpan="2"
-                Width="42"
-                Height="42"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center">
+        <TextBlock x:Name="TBUsername"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   VerticalAlignment="Bottom"
+                   TextAlignment="Right"
+                   Margin="5,0,5,-2"
+                   Foreground="White"
+                   FontWeight="Bold"
+                   FontSize="16" />
+        <TextBlock x:Name="TBRoles"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Margin="5,-2,5,0"
+                   TextAlignment="Right"
+                   VerticalAlignment="Top"
+                   FontSize="13"
+                   Foreground="White" />
+        <Ellipse Grid.Row="0"
+                 Grid.Column="1"
+                 Grid.RowSpan="2"
+                 Width="42"
+                 Height="42"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center">
             <Ellipse.Fill>
                 <SolidColorBrush Color="White" />
             </Ellipse.Fill>
         </Ellipse>
-        <Ellipse
-                Grid.Row="0"
-                Grid.Column="1"
-                Grid.RowSpan="2"
-                Width="20"
-                Height="21"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+        <Ellipse Grid.Row="0"
+                 Grid.Column="1"
+                 Grid.RowSpan="2"
+                 Width="20"
+                 Height="21"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center">
             <Ellipse.Fill>
-                <ImageBrush x:Name="IBUserImage" ImageSource="/Images/IcoUser.png" />
+                <ImageBrush x:Name="IBUserImage"
+                            ImageSource="/Images/IcoUser.png" />
             </Ellipse.Fill>
         </Ellipse>
     </Grid>
