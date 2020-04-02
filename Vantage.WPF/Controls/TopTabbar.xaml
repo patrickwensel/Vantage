@@ -96,7 +96,7 @@
     <ItemsControl x:Name="ICTabbar">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <StackPanel Orientation="Horizontal" />
+                <StackPanel Orientation="Horizontal" Margin="0" />
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
