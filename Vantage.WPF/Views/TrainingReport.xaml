@@ -147,10 +147,10 @@
                 </DataGrid.Columns>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <ContentControl HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        Background="#EBEBEB"
-                                        Margin="0">
+                        <StackPanel HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="#EBEBEB"
+                                    Margin="0">
                             <DataGrid Margin="20,10,20,53"
                                       AutoGenerateColumns="False"
                                       IsEnabled="True"
@@ -172,7 +172,7 @@
                                 </DataGrid.Columns>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
-                                        <ContentControl HorizontalAlignment="Stretch"
+                                        <StackPanel HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Stretch"
                                                         Background="#EBEBEB"
                                                         Margin="0">
@@ -191,11 +191,11 @@
                                                                         Binding="{Binding Deduction}" />
                                                 </DataGrid.Columns>
                                             </DataGrid>
-                                        </ContentControl>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </DataGrid.RowDetailsTemplate>
                             </DataGrid>
-                        </ContentControl>
+                        </StackPanel>
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
             </DataGrid>
