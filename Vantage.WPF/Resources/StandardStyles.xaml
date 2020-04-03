@@ -264,7 +264,7 @@
                                 Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
                             <Path x:Name="arrow"
                                   Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z"
-                                  Fill="White"
+                                  Fill="{TemplateBinding Foreground}"
                                   HorizontalAlignment="Center"
                                   Margin="0"
                                   VerticalAlignment="Center" />
@@ -553,6 +553,19 @@
                 Value="Transparent" />
         <Setter Property="BorderThickness"
                 Value="0" />
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected"
+                                 Value="True">
+                            <Setter Property="TextBlock.Background"
+                                    Value="Yellow" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="CellStyle">
             <Setter.Value>
                 <Style TargetType="DataGridCell">
@@ -568,9 +581,9 @@
                             Value="Stretch" />
                     <Setter Property="HorizontalContentAlignment"
                             Value="Stretch" />
-                    <Setter Property="FontSize"
+                    <Setter Property="TextBlock.FontSize"
                             Value="14" />
-                    <Setter Property="Foreground"
+                    <Setter Property="TextBlock.Foreground"
                             Value="Black" />
                 </Style>
             </Setter.Value>
@@ -580,13 +593,13 @@
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="Background"
                             Value="White" />
-                    <Setter Property="Foreground">
+                    <Setter Property="TextBlock.Foreground">
                         <Setter.Value>
                             <SolidColorBrush Color="#000000"
                                              Opacity="0.99" />
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="FontSize"
+                    <Setter Property="TextBlock.FontSize"
                             Value="12" />
                     <Setter Property="Height"
                             Value="53" />

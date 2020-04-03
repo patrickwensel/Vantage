@@ -79,13 +79,13 @@
                           Grid.Column="1"
                           Template="{DynamicResource DropdownTemplate}"
                           x:Name="CBGroups"
-                          Foreground="White"
+                          Foreground="Black"
                           FontFamily="Segoe UI"
                           FontWeight="Bold"
                           FontSize="14"
-                          Background="{StaticResource DarkBlue}"
-                          BorderBrush="{StaticResource LightBlue}"
-                          BorderThickness="1"
+                          Background="White"
+                          BorderBrush="#EBEBEB"
+                          BorderThickness="1"                          
                           MinWidth="120"
                           Text="Select Group"
                           HorizontalAlignment="Stretch"
@@ -114,12 +114,15 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Last Name"
                                         IsReadOnly="True"
+                                        MinWidth="222"
                                         Binding="{Binding LastName}" />
                     <DataGridTextColumn Header="First Name"
                                         IsReadOnly="True"
+                                        MinWidth="222"
                                         Binding="{Binding FirstName}" />
                     <DataGridTextColumn Header="Group"
                                         IsReadOnly="True"
+                                        MinWidth="120"
                                         Binding="{Binding Group.Name}" />
                     <DataGridTemplateColumn Header="Lessons Completed">
                         <DataGridTemplateColumn.CellTemplate>
@@ -159,9 +162,11 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Lesson Name"
                                                         IsReadOnly="True"
+                                                        MinWidth="222"
                                                         Binding="{Binding Lesson.Name}" />
                                     <DataGridTextColumn Header="Score"
                                                         IsReadOnly="True"
+                                                        MinWidth="120"
                                                         Binding="{Binding Score}" />
                                     <DataGridTextColumn Header="Time to Complete"
                                                         IsReadOnly="True"
