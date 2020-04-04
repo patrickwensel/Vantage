@@ -557,22 +557,9 @@
                 Value="Transparent" />
         <Setter Property="BorderThickness"
                 Value="0" />
-        <Setter Property="RowStyle">
-            <Setter.Value>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected"
-                                 Value="True">
-                            <Setter Property="TextBlock.Background"
-                                    Value="Yellow" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="CellStyle">
             <Setter.Value>
-                <Style TargetType="DataGridCell">
+                <Style TargetType="DataGridCell" >
                     <Setter Property="Padding"
                             Value="0" />
                     <Setter Property="BorderThickness"
@@ -589,6 +576,15 @@
                             Value="14" />
                     <Setter Property="TextBlock.Foreground"
                             Value="Black" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected"
+                                 Value="True">
+                            <Setter Property="TextBlock.Foreground"
+                                    Value="#5F6164" />
+                            <Setter Property="TextBlock.FontWeight"
+                                    Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
             </Setter.Value>
         </Setter>

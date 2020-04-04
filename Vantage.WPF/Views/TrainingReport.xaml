@@ -183,7 +183,7 @@
                 </DataGrid.Columns>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <StackPanel HorizontalAlignment="Stretch"
+                        <DockPanel HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Background="#EBEBEB"
                                     Margin="0">
@@ -206,11 +206,57 @@
                                                         Binding="{Binding TimeToComplete}" />
                                     <DataGridTextColumn Header="Passed"
                                                         IsReadOnly="True"
-                                                        Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}" />
+                                                        Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}">
+                                        <DataGridTextColumn.CellStyle>
+                                            <Style TargetType="DataGridCell">
+                                                <Setter Property="Padding"
+                                                        Value="0" />
+                                                <Setter Property="BorderThickness"
+                                                        Value="0" />
+                                                <Setter Property="HorizontalAlignment"
+                                                        Value="Stretch" />
+                                                <Setter Property="VerticalAlignment"
+                                                        Value="Center" />
+                                                <Setter Property="VerticalContentAlignment"
+                                                        Value="Stretch" />
+                                                <Setter Property="HorizontalContentAlignment"
+                                                        Value="Stretch" />
+                                                <Setter Property="TextBlock.FontSize"
+                                                        Value="14" />
+                                                <Setter Property="TextBlock.Foreground"
+                                                        Value="Black" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected"
+                                                             Value="True">
+                                                        <Setter Property="TextBlock.FontWeight"
+                                                                Value="Bold" />
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}"
+                                                                 Value="Yes">
+                                                        <Setter Property="TextBlock.Foreground">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="#57B525"
+                                                                                 Opacity="0.99" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}"
+                                                                 Value="No">
+                                                        <Setter Property="TextBlock.Foreground">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="#FA3737"
+                                                                                 Opacity="0.99" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGridTextColumn.CellStyle>
+                                    </DataGridTextColumn>
                                 </DataGrid.Columns>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
-                                        <StackPanel HorizontalAlignment="Stretch"
+                                        <DockPanel HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                     Background="#EBEBEB"
                                                     Margin="0">
@@ -229,11 +275,11 @@
                                                                         Binding="{Binding Deduction}" />
                                                 </DataGrid.Columns>
                                             </DataGrid>
-                                        </StackPanel>
+                                        </DockPanel>
                                     </DataTemplate>
                                 </DataGrid.RowDetailsTemplate>
                             </DataGrid>
-                        </StackPanel>
+                        </DockPanel>
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
             </DataGrid>
