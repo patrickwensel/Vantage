@@ -9,6 +9,7 @@
     </ResourceDictionary.MergedDictionaries>
     <SwitchConverters:CornerRadiusValueConverter x:Key="CornerRadiusValueConverter" />
     <SwitchConverters:ScalarValueConverter x:Key="ScalarConverter" />
+    <SwitchConverters:MarginDecreaserConverter x:Key="MarginDecreaserConverter" />
 
     <LinearGradientBrush x:Key="iPhoneThumbBrush"
                          EndPoint="0.5,1"
@@ -987,8 +988,9 @@
                                             MinWidth="{TemplateBinding ThumbSize}"
                                             MinHeight="{TemplateBinding ThumbSize}">
                                         <Thumb x:Name="SwitchThumb"
-                                               Width="{TemplateBinding ThumbSize}"
-                                               Height="{TemplateBinding ThumbSize}"
+                                               Width="{TemplateBinding ThumbSize, Converter={StaticResource MarginDecreaserConverter}, ConverterParameter=4}"
+                                               Height="{TemplateBinding ThumbSize, Converter={StaticResource MarginDecreaserConverter}, ConverterParameter=4}"
+                                               Margin="2"
                                                Background="{TemplateBinding ThumbBrush}"
                                                Template="{TemplateBinding ThumbTemplate}"
                                                BorderThickness="0" />
