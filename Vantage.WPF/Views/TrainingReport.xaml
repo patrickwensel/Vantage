@@ -65,8 +65,7 @@
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Background="#F4F4F4"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch">
+              Margin="10,20,-10,-20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -122,12 +121,14 @@
                             Grid.Column="3"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal">
-                    <switch:Switch x:Name="SWShowActiveDriver"                                   
+                    <switch:Switch x:Name="SWShowActiveDriver"
                                    Style="{StaticResource iOSSwitchStyle}"
                                    Margin="0, 5"
                                    HorizontalAlignment="Left">
                     </switch:Switch>
-                    <TextBlock Style="{StaticResource FieldHeader}" Margin="5,0" Text="{Binding ElementName=SWShowActiveDriver, Path=IsChecked, Converter={StaticResource BoolToOnOffConverter}}" />
+                    <TextBlock Style="{StaticResource FieldHeader}"
+                               Margin="5,0"
+                               Text="{Binding ElementName=SWShowActiveDriver, Path=IsChecked, Converter={StaticResource BoolToOnOffConverter}}" />
                 </StackPanel>
                 <TextBlock Grid.Row="0"
                            Grid.Column="4"

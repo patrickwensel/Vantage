@@ -866,6 +866,10 @@
                 Value="Auto" />
         <Setter Property="ThumbSize"
                 Value="22" />
+        <Setter Property="ThumbBrush"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="Black" />
         <Setter Property="ContentTemplate"
                 Value="{StaticResource PresenterContentTemplate}" />
         <Setter Property="ThumbTemplate"
@@ -973,13 +977,14 @@
                                                            Element="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                                            Visibility="Collapsed" />
                             <Borders:ClippingBorder BorderThickness="{TemplateBinding BorderThickness}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
                                                     CornerRadius="{Binding ActualHeightValue, ConverterParameter=0.5, Converter={StaticResource CornerRadiusValueConverter}, ElementName=iOSSwitchSizeProxy}"
                                                     Margin="0"
                                                     IsTabStop="False">
-                                <Borders:ClippingBorder.BorderBrush>
-                                    <SolidColorBrush Color="Black"
+                                <!--<Borders:ClippingBorder.BorderBrush>
+                                    <SolidColorBrush Color="{TemplateBinding BorderBrush}"
                                                      Opacity="1" />
-                                </Borders:ClippingBorder.BorderBrush>
+                                </Borders:ClippingBorder.BorderBrush>-->
                                 <Grid x:Name="SwitchRoot"
                                       Cursor="Hand">
                                     <Canvas x:Name="SwitchTrack"
