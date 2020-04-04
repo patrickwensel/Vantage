@@ -5,8 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:controls="clr-namespace:Vantage.WPF.Controls"
-      xmlns:controlsModel="clr-namespace:Vantage.WPF.Controls.Models"
-      xmlns:local="clr-namespace:Vantage.WPF.Views"
+      xmlns:switch="clr-namespace:Vantage.WPF.Controls.Switch"
       xmlns:converters="clr-namespace:Vantage.WPF.Converters"
       mc:Ignorable="d"
       Title="TrainingReport">
@@ -15,6 +14,19 @@
         <converters:LessonsAttemptCountConverter x:Key="LessonsAttemptCountConverter" />
         <converters:CompletedLessonCountConverter x:Key="CompletedLessonCountConverter" />
         <converters:AttemptedCompletedLessonCountConverter x:Key="AttemptedCompletedLessonCountConverter" />
+        <Style TargetType="TextBlock"
+               x:Key="FieldHeader">
+            <Setter Property="Foreground"
+                    Value="#5F6164" />
+            <Setter Property="FontSize"
+                    Value="14" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Margin"
+                    Value="0,0,14,0" />
+        </Style>
     </Page.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -69,11 +81,13 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           HorizontalAlignment="Left"
+                           Style="{StaticResource FieldHeader}"
                            Text="Group" />
                 <ComboBox Grid.Row="0"
                           Grid.Column="1"
@@ -85,10 +99,11 @@
                           FontSize="14"
                           Background="White"
                           BorderBrush="#EBEBEB"
-                          BorderThickness="1"                          
+                          BorderThickness="1"
                           MinWidth="120"
                           Text="Select Group"
                           HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center"
                           ItemsSource="{Binding Groups}"
                           SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
                           DisplayMemberPath="Name">
@@ -100,6 +115,23 @@
                 </ComboBox>
                 <TextBlock Grid.Row="0"
                            Grid.Column="2"
+                           Style="{StaticResource FieldHeader}"
+                           Margin="14,0"
+                           Text="Show Active Drivers" />
+                <StackPanel Grid.Row="0"
+                            Grid.Column="3"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                    <switch:Switch x:Name="SWShowActiveDriver"                                   
+                                   Style="{StaticResource iOSSwitchStyle}"
+                                   Margin="0, 5"
+                                   HorizontalAlignment="Left">
+                    </switch:Switch>
+                    <TextBlock Style="{StaticResource FieldHeader}" Margin="5,0" Text="{Binding ElementName=SWShowActiveDriver, Path=IsChecked, Converter={StaticResource BoolToOnOffConverter}}" />
+                </StackPanel>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="4"
+                           Style="{StaticResource FieldHeader}"
                            HorizontalAlignment="Right"
                            TextAlignment="Right"
                            Text="{Binding FetchedDriversCount, StringFormat='Total Drivers : {0:0}'}" />
@@ -178,9 +210,9 @@
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
                                         <StackPanel HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Stretch"
-                                                        Background="#EBEBEB"
-                                                        Margin="0">
+                                                    VerticalAlignment="Stretch"
+                                                    Background="#EBEBEB"
+                                                    Margin="0">
                                             <DataGrid Margin="20,20,20,36"
                                                       CanUserAddRows="False"
                                                       IsEnabled="True"

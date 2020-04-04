@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Controls\Switch\Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Large.png" />
+    <None Remove="Controls\Switch\Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Small.png" />
+    <None Remove="Controls\Switch\Icons\ToggleSwitch.HorizontalToggleSwitch.VisualStudio.bmp" />
     <None Remove="Images\Cover.png" />
     <None Remove="Images\IcoUser.png" />
     <None Remove="Images\IcoUserAccess.png" />
@@ -56,6 +59,12 @@
     <Content Include="Images\VantageWhiteLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\Switch\Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Large.png" />
+    <EmbeddedResource Include="Controls\Switch\Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Small.png" />
+    <EmbeddedResource Include="Controls\Switch\Icons\ToggleSwitch.HorizontalToggleSwitch.VisualStudio.bmp" />
   </ItemGroup>
 
   <ItemGroup>

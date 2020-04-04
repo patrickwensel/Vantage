@@ -2,11 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Vantage.WPF.Converters"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Controls/Switch/Themes/SwitchStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     <!-- ******************************* -->
     <!-- Boolean to Visibility Converter -->
     <!-- ******************************* -->
     <BooleanToVisibilityConverter x:Key="visibilityConverter" />
     <converters:BoolInverterConverter x:Key="BoolInverteConverter" />
+    <converters:BoolToOnOffConverter x:Key="BoolToOnOffConverter" />
     <!-- *********************************** -->
     <!-- Drop Shadow for Buttons -->
     <!-- *********************************** -->
