@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:controls="clr-namespace:Vantage.WPF.Controls"
       xmlns:switch="clr-namespace:Vantage.WPF.Controls.Switch"
@@ -25,7 +26,38 @@
             <Setter Property="VerticalAlignment"
                     Value="Center" />
             <Setter Property="Margin"
-                    Value="0,0,14,0" />
+                    Value="0,0,7,0" />
+        </Style>
+        <Style TargetType="TextBlock"
+               BasedOn="{StaticResource FieldHeader}"
+               x:Key="LeftPaddedFieldHeader">
+            <Setter Property="Margin"
+                    Value="7,0" />
+        </Style>
+        <Style TargetType="ComboBox" x:Key="LightComboBoxStyle">
+            <Setter Property="Template"
+                    Value="{DynamicResource DropdownTemplate}" />
+            <Setter Property="Foreground"
+                    Value="Black" />
+            <Setter Property="FontFamily"
+                    Value="Segoe UI" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background"
+                    Value="White" />
+            <Setter Property="BorderBrush"
+                    Value="#EBEBEB" />
+            <Setter Property="BorderThickness"
+                    Value="1" />
+            <Setter Property="Margin"
+                    Value="7,0" />
+            <Setter Property="MinWidth"
+                    Value="120" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
         </Style>
     </Page.Resources>
     <Grid HorizontalAlignment="Stretch">
@@ -64,8 +96,7 @@
         <Grid Grid.Row="1"
               Grid.Column="0"
               Grid.ColumnSpan="2"
-              Background="#F4F4F4"
-              Margin="10,20,-10,-20">
+              Background="#F4F4F4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -81,7 +112,6 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
@@ -89,20 +119,10 @@
                            Style="{StaticResource FieldHeader}"
                            Text="Group" />
                 <ComboBox Grid.Row="0"
-                          Grid.Column="1"
-                          Template="{DynamicResource DropdownTemplate}"
+                          Grid.Column="1"                          
+                          Style="{StaticResource LightComboBoxStyle}"
                           x:Name="CBGroups"
-                          Foreground="Black"
-                          FontFamily="Segoe UI"
-                          FontWeight="Bold"
-                          FontSize="14"
-                          Background="White"
-                          BorderBrush="#EBEBEB"
-                          BorderThickness="1"
-                          MinWidth="120"
-                          Text="Select Group"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Center"
+                          Text="Select Group"                         
                           ItemsSource="{Binding Groups}"
                           SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
                           DisplayMemberPath="Name">
@@ -112,30 +132,96 @@
                         </interactivity:EventTrigger>
                     </interactivity:Interaction.Triggers>
                 </ComboBox>
-                <TextBlock Grid.Row="0"
-                           Grid.Column="2"
-                           Style="{StaticResource FieldHeader}"
-                           Margin="14,0"
-                           Text="Show Active Drivers" />
-                <StackPanel Grid.Row="0"
-                            Grid.Column="3"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal">
+                <Border Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="14,0"
+                        Padding="14,2"
+                        BorderThickness="1"
+                        BorderBrush="{StaticResource Gray}">
+                    <Grid Grid.Row="0"
+                          Grid.Column="2"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Style="{StaticResource LeftPaddedFieldHeader}"
+                                   Text="Report" />
+                        <ComboBox Grid.Row="1"
+                                  Grid.Column="0"
+                                  Style="{StaticResource LightComboBoxStyle}"
+                                  MinWidth="180">
+                            <ComboBox.ItemsSource>
+                                <x:Array Type="sys:String">
+                                    <sys:String>Training Report</sys:String>
+                                    <sys:String>Invidual Report</sys:String>
+                                </x:Array>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Style="{StaticResource LeftPaddedFieldHeader}"
+                                   Text="Export" />
+                        <ComboBox Grid.Row="1"
+                                  Grid.Column="1"
+                                  Style="{StaticResource LightComboBoxStyle}"
+                                  MinWidth="100">
+                            <ComboBox.ItemsSource>
+                                <x:Array Type="sys:String">
+                                    <sys:String>PDF</sys:String>
+                                    <sys:String>Excel</sys:String>
+                                </x:Array>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <Button Grid.Row="1"
+                                Grid.Column="2"
+                                Content="Export" />
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="0"
+                      Grid.Column="3"
+                      HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Style="{StaticResource LeftPaddedFieldHeader}"
+                               Text="Show Active Drivers" />
                     <switch:Switch x:Name="SWShowActiveDriver"
+                                   Grid.Row="0"
+                                   Grid.Column="1"
                                    Style="{StaticResource iOSSwitchStyle}"
+                                   VerticalAlignment="Center"
                                    Margin="0, 5"
                                    HorizontalAlignment="Left">
                     </switch:Switch>
-                    <TextBlock Style="{StaticResource FieldHeader}"
-                               Margin="5,0"
+                    <TextBlock Style="{StaticResource LeftPaddedFieldHeader}"
+                               Grid.Row="0"
+                               Grid.Column="2"
                                Text="{Binding ElementName=SWShowActiveDriver, Path=IsChecked, Converter={StaticResource BoolToOnOffConverter}}" />
-                </StackPanel>
-                <TextBlock Grid.Row="0"
-                           Grid.Column="4"
-                           Style="{StaticResource FieldHeader}"
-                           HorizontalAlignment="Right"
-                           TextAlignment="Right"
-                           Text="{Binding FetchedDriversCount, StringFormat='Total Drivers : {0:0}'}" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="3"
+                               Style="{StaticResource FieldHeader}"
+                               HorizontalAlignment="Right"
+                               TextAlignment="Right"
+                               Text="{Binding FetchedDriversCount, StringFormat='Total Drivers : {0:0}'}" />
+                </Grid>
             </Grid>
             <DataGrid Grid.Row="1"
                       Grid.Column="0"
@@ -184,9 +270,9 @@
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Background="#EBEBEB"
-                                    Margin="0">
+                                   VerticalAlignment="Stretch"
+                                   Background="#EBEBEB"
+                                   Margin="0">
                             <DataGrid Margin="20,10,20,53"
                                       AutoGenerateColumns="False"
                                       IsEnabled="True"
@@ -257,9 +343,9 @@
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
                                         <DockPanel HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch"
-                                                    Background="#EBEBEB"
-                                                    Margin="0">
+                                                   VerticalAlignment="Stretch"
+                                                   Background="#EBEBEB"
+                                                   Margin="0">
                                             <DataGrid Margin="20,20,20,36"
                                                       CanUserAddRows="False"
                                                       IsEnabled="True"
