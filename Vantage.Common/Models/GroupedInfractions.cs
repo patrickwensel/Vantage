@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vantage.Common.Models
 {
+    [NotMapped]
     public class GroupedInfractions
     {
         public Infraction Infraction { get; set; }

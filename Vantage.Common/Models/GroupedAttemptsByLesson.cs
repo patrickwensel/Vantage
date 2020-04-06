@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 
 namespace Vantage.Common.Models
 {
+    [NotMapped]
     public class GroupedAttemptsByLesson
     {
         public Lesson Lesson { get; set; }
