@@ -34,7 +34,8 @@
             <Setter Property="Margin"
                     Value="7,0" />
         </Style>
-        <Style TargetType="ComboBox" x:Key="LightComboBoxStyle">
+        <Style TargetType="ComboBox"
+               x:Key="LightComboBoxStyle">
             <Setter Property="Template"
                     Value="{DynamicResource DropdownTemplate}" />
             <Setter Property="Foreground"
@@ -43,7 +44,8 @@
                     Value="Segoe UI" />
             <Setter Property="FontWeight"
                     Value="Bold" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize"
+                    Value="14" />
             <Setter Property="Background"
                     Value="White" />
             <Setter Property="BorderBrush"
@@ -119,10 +121,10 @@
                            Style="{StaticResource FieldHeader}"
                            Text="Group" />
                 <ComboBox Grid.Row="0"
-                          Grid.Column="1"                          
+                          Grid.Column="1"
                           Style="{StaticResource LightComboBoxStyle}"
                           x:Name="CBGroups"
-                          Text="Select Group"                         
+                          Text="Select Group"
                           ItemsSource="{Binding Groups}"
                           SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
                           DisplayMemberPath="Name">
@@ -243,10 +245,12 @@
                                         IsReadOnly="True"
                                         MinWidth="120"
                                         Binding="{Binding Group.Name}" />
-                    <DataGridTemplateColumn Header="Lessons Completed">
+                    <DataGridTemplateColumn Header="Lessons Completed"
+                                            CanUserSort="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid Margin="2">
+                                <Grid Margin="2"
+                                      HorizontalAlignment="Stretch">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
@@ -255,6 +259,7 @@
                                     </Grid.ColumnDefinitions>
                                     <ProgressBar Grid.Row="0"
                                                  Grid.Column="0"
+                                                 Margin="10,3"
                                                  Minimum="0"
                                                  Maximum="{Binding Attempts,Converter={StaticResource LessonsAttemptCountConverter}}"
                                                  Value="{Binding Attempts, Converter={StaticResource CompletedLessonCountConverter}}" />
@@ -277,22 +282,32 @@
                                       AutoGenerateColumns="False"
                                       IsEnabled="True"
                                       IsReadOnly="True"
-                                      ItemsSource="{Binding Attempts}">
+                                      ItemsSource="{Binding GroupedAttemptsByLessons}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Lesson Name"
                                                         IsReadOnly="True"
                                                         MinWidth="222"
                                                         Binding="{Binding Lesson.Name}" />
-                                    <DataGridTextColumn Header="Score"
+                                    <DataGridTextColumn Header="High Score"
                                                         IsReadOnly="True"
                                                         MinWidth="120"
-                                                        Binding="{Binding Score}" />
-                                    <DataGridTextColumn Header="Time to Complete"
+                                                        Binding="{Binding HighScore}" />
+                                    <DataGridTextColumn Header="Date Completed"
                                                         IsReadOnly="True"
-                                                        Binding="{Binding TimeToComplete}" />
+                                                        MinWidth="140"
+                                                        Binding="{Binding DateCompleted, StringFormat='MM/dd/yyyy'}" />
+                                    <DataGridTextColumn Header="Total Attempts"
+                                                        IsReadOnly="True"
+                                                        MinWidth="120"
+                                                        Binding="{Binding TotalAttempts}" />
+                                    <DataGridTextColumn Header="Total Times"
+                                                        MinWidth="120"
+                                                        IsReadOnly="True"
+                                                        Binding="{Binding TotalTimes}" />
                                     <DataGridTextColumn Header="Passed"
+                                                        MinWidth="120"
                                                         IsReadOnly="True"
-                                                        Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}">
+                                                        Binding="{Binding HighScore, Converter={StaticResource ScoreToPassedStatusConverter}}">
                                         <DataGridTextColumn.CellStyle>
                                             <Style TargetType="DataGridCell">
                                                 <Setter Property="Padding"
@@ -317,7 +332,7 @@
                                                         <Setter Property="TextBlock.FontWeight"
                                                                 Value="Bold" />
                                                     </Trigger>
-                                                    <DataTrigger Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}"
+                                                    <DataTrigger Binding="{Binding HighScore, Converter={StaticResource ScoreToPassedStatusConverter}}"
                                                                  Value="Yes">
                                                         <Setter Property="TextBlock.Foreground">
                                                             <Setter.Value>
@@ -326,7 +341,7 @@
                                                             </Setter.Value>
                                                         </Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Score, Converter={StaticResource ScoreToPassedStatusConverter}}"
+                                                    <DataTrigger Binding="{Binding HighScore, Converter={StaticResource ScoreToPassedStatusConverter}}"
                                                                  Value="No">
                                                         <Setter Property="TextBlock.Foreground">
                                                             <Setter.Value>
@@ -342,26 +357,39 @@
                                 </DataGrid.Columns>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
-                                        <DockPanel HorizontalAlignment="Stretch"
-                                                   VerticalAlignment="Stretch"
-                                                   Background="#EBEBEB"
-                                                   Margin="0">
-                                            <DataGrid Margin="20,20,20,36"
-                                                      CanUserAddRows="False"
-                                                      IsEnabled="True"
-                                                      IsReadOnly="True"
-                                                      ItemsSource="{Binding Infractions}"
-                                                      AutoGenerateColumns="False">
-                                                <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="Infraction"
-                                                                        IsReadOnly="True"
-                                                                        Binding="{Binding Name}" />
-                                                    <DataGridTextColumn Header="Deduction"
-                                                                        IsReadOnly="True"
-                                                                        Binding="{Binding Deduction}" />
-                                                </DataGrid.Columns>
-                                            </DataGrid>
-                                        </DockPanel>
+                                        <ScrollViewer HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Top"
+                                                      Background="#EBEBEB"
+                                                      MinHeight="180"
+                                                      MaxHeight="320"
+                                                      Margin="0">
+                                            <ScrollViewer.Content>
+                                                <DataGrid Grid.Row="0"
+                                                          Grid.Column="0"
+                                                          Grid.ColumnSpan="3"
+                                                          CanUserAddRows="False"
+                                                          Margin="20,20,20,0"                                                          
+                                                          IsEnabled="True"
+                                                          IsReadOnly="True"
+                                                          ItemsSource="{Binding GroupedInfractions}"
+                                                          AutoGenerateColumns="False">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Header="Infraction"
+                                                                            IsReadOnly="True"
+                                                                            MinWidth="222"
+                                                                            Binding="{Binding Infraction.Name}" />
+                                                        <DataGridTextColumn Header="Occurances"
+                                                                            IsReadOnly="True"
+                                                                            MinWidth="120"
+                                                                            Binding="{Binding Occurances}" />
+                                                        <DataGridTextColumn Header="Deduction"
+                                                                            IsReadOnly="True"
+                                                                            MinWidth="120"
+                                                                            Binding="{Binding Deduction}" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </ScrollViewer.Content>
+                                        </ScrollViewer>
                                     </DataTemplate>
                                 </DataGrid.RowDetailsTemplate>
                             </DataGrid>

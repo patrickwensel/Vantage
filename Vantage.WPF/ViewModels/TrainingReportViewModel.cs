@@ -88,8 +88,10 @@ namespace Vantage.WPF.ViewModels
             Drivers = await _driverService.GetAllDrivers();
 
             FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
-
-            Console.WriteLine($"Drivers : {Drivers}");
+            foreach(Driver driver in Drivers)
+            {
+                Console.WriteLine($"Drivers : {driver.GroupedAttemptsByLessons}");
+            }
         }
 
         public async Task FetchGroupsAsync()
