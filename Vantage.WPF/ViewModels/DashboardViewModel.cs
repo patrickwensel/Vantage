@@ -12,7 +12,6 @@ namespace Vantage.WPF.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly MainWindowViewModel _mainWindowViewModel;
-        private readonly IProductService _productService;
 
         private UserInfo _loggedInUserInfo;
         private IList<Product> _products;
@@ -43,13 +42,16 @@ namespace Vantage.WPF.ViewModels
         public Product SelectedProduct 
         {
             get { return _selectedProduct; }
-            set { SetProperty(ref _selectedProduct, value); }
+            set 
+            { 
+                SetProperty(ref _selectedProduct, value);
+                _mainWindowViewModel.SelectedProduct = value;
+            }
         }
 
-        public DashboardViewModel(INavigationService navigationService, IProductService productService, MainWindowViewModel mainWindowViewModel)
+        public DashboardViewModel(INavigationService navigationService, MainWindowViewModel mainWindowViewModel)
         {
             _navigationService = navigationService;
-            _productService = productService;
             _mainWindowViewModel = mainWindowViewModel;
 
             _reportCommand = new DelegateCommand(NavigateOnReportScreen);
@@ -60,7 +62,8 @@ namespace Vantage.WPF.ViewModels
         public async Task OnInitializedAsync()
         {
             LoggedInUserInfo = _mainWindowViewModel.LoggedInUserInfo;
-            Products = await _productService.GetAllProducts();
+            await _mainWindowViewModel.GetAllProductsAsync();
+            Products = _mainWindowViewModel.Products;
         }
 
         private void NavigateOnReportScreen(object parameter)

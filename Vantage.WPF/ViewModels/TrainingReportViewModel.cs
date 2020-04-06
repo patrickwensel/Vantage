@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Vantage.Common.Models;
@@ -12,9 +13,11 @@ namespace Vantage.WPF.ViewModels
     {
         private readonly IGroupService _groupService;
         private readonly IDriverService _driverService;
+        private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly ICommand _groupSelectedCommand;
         private readonly ICommand _manageCommand;
         private readonly ICommand _systemCommand;
+        private readonly ICommand _productSelectedCommand;
 
         private int _fetchedDriversCount;
         private Group _selectedGroup;
@@ -22,6 +25,8 @@ namespace Vantage.WPF.ViewModels
         private IList<Group> _groups;
         private IList<Driver> _drivers;
         private IList<TabItem> _tabItems;
+        private IList<Product> _products;
+        private Product _selectedProduct;
 
         public int FetchedDriversCount
         {
@@ -53,6 +58,22 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _drivers, value); }
         }
 
+        public IList<Product> Products 
+        {
+            get { return _products; }
+            set { SetProperty(ref _products, value); }
+        }
+
+        public Product SelectedProduct 
+        {
+            get { return _selectedProduct; }
+            set 
+            { 
+                SetProperty(ref _selectedProduct, value);
+                _mainWindowViewModel.SelectedProduct = value;
+            }
+        }
+
         public IList<TabItem> TabItems 
         {
             get { return _tabItems; }
@@ -61,12 +82,16 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand GroupSelectedCommand { get { return _groupSelectedCommand; } }
 
+        public ICommand ProductSelectedCommand { get { return _productSelectedCommand; } }
+
         public TrainingReportViewModel(IGroupService groupService, IDriverService driverService, MainWindowViewModel mainWindowViewModel)
         {
             _groupService = groupService;
             _driverService = driverService;
+            _mainWindowViewModel = mainWindowViewModel;
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
             _groupSelectedCommand = new DelegateCommand(OnGroupSelected);
+            _productSelectedCommand = new DelegateCommand(OnProductSelected);
             _manageCommand = new DelegateCommand(OnManageClicked);
             _systemCommand = new DelegateCommand(OnSystemClicked);
             TabItems = new List<TabItem>()
@@ -79,25 +104,30 @@ namespace Vantage.WPF.ViewModels
 
         public async Task OnInitializedAsync()
         {
-            await FetchGroupsAsync();
+            Products = _mainWindowViewModel.Products;
+            SelectedProduct = _mainWindowViewModel.SelectedProduct;
+            //await FetchGroupsAsync();
+            SetGroupsAsPerTheSelectedProduct();
             await FetchDriversAsync();
         }
 
-        public async Task FetchDriversAsync()
+        private async Task FetchDriversAsync()
         {
             Drivers = await _driverService.GetAllDrivers();
 
             FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
-            foreach(Driver driver in Drivers)
-            {
-                Console.WriteLine($"Drivers : {driver.GroupedAttemptsByLessons}");
-            }
         }
 
-        public async Task FetchGroupsAsync()
-        {
-            Groups = await _groupService.GetGroups();
+        private async Task FetchGroupsAsync()
+        {            
+            var groups = await _groupService.GetGroups();
+            Groups = groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList();
             Console.WriteLine($"Groups : {Groups}");
+        }
+
+        private void SetGroupsAsPerTheSelectedProduct()
+        {
+            Groups = SelectedProduct.Groups;
         }
 
         private async Task FetchDriversByGroupId(int groupId)
@@ -125,6 +155,15 @@ namespace Vantage.WPF.ViewModels
 
             Console.WriteLine($"Selected Group : {SelectedGroup.GroupID}");
             await FetchDriversByGroupId(SelectedGroup.GroupID);
+        }
+
+        private void OnProductSelected(object parameter)
+        {
+            if (SelectedProduct == null)
+                return;
+
+            SetGroupsAsPerTheSelectedProduct();
+            //await FetchGroupsAsync();
         }
 
         private void OnManageClicked(object parameter)

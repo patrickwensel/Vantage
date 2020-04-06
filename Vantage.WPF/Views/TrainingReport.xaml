@@ -89,12 +89,35 @@
                             ItemsSource="{Binding TabItems}"
                             HorizontalAlignment="Stretch">
         </controls:TopTabbar>
-        <controls:LoggedInUserInfo Grid.Row="0"
-                                   Grid.Column="0"
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Right"
-                                   Margin="19,0,19,25"
-                                   UserInfo="{Binding LoggedInUserInfo}" />
+        <StackPanel Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    Margin="19,32,19,10">
+            <controls:LoggedInUserInfo Grid.Row="0"
+                                       Grid.Column="0"
+                                       VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,5"
+                                       UserInfo="{Binding LoggedInUserInfo}" />
+            <ComboBox Template="{DynamicResource DropdownTemplate}"
+                      ItemsSource="{Binding Products}"
+                      SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                      Foreground="White"
+                      FontFamily="Segoe UI"
+                      FontWeight="Bold"
+                      FontSize="14"
+                      DisplayMemberPath="Name"
+                      Background="{StaticResource DarkBlue}"
+                      BorderBrush="{StaticResource LightBlue}"
+                      BorderThickness="1"
+                      HorizontalAlignment="Right">
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="SelectionChanged">
+                        <interactivity:InvokeCommandAction Command="{Binding ProductSelectedCommand}" />
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+            </ComboBox>
+        </StackPanel>
         <Grid Grid.Row="1"
               Grid.Column="0"
               Grid.ColumnSpan="2"
@@ -230,7 +253,7 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Top"
                       AutoGenerateColumns="False"
-                      Margin="19,0"
+                      Margin="19,0,19,20"
                       ItemsSource="{Binding Drivers}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Last Name"
@@ -357,39 +380,37 @@
                                 </DataGrid.Columns>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
-                                        <ScrollViewer HorizontalAlignment="Stretch"
-                                                      VerticalAlignment="Top"
-                                                      Background="#EBEBEB"
-                                                      MinHeight="180"
-                                                      MaxHeight="320"
-                                                      Margin="0">
-                                            <ScrollViewer.Content>
-                                                <DataGrid Grid.Row="0"
-                                                          Grid.Column="0"
-                                                          Grid.ColumnSpan="3"
-                                                          CanUserAddRows="False"
-                                                          Margin="20,20,20,0"                                                          
-                                                          IsEnabled="True"
-                                                          IsReadOnly="True"
-                                                          ItemsSource="{Binding GroupedInfractions}"
-                                                          AutoGenerateColumns="False">
-                                                    <DataGrid.Columns>
-                                                        <DataGridTextColumn Header="Infraction"
-                                                                            IsReadOnly="True"
-                                                                            MinWidth="222"
-                                                                            Binding="{Binding Infraction.Name}" />
-                                                        <DataGridTextColumn Header="Occurances"
-                                                                            IsReadOnly="True"
-                                                                            MinWidth="120"
-                                                                            Binding="{Binding Occurances}" />
-                                                        <DataGridTextColumn Header="Deduction"
-                                                                            IsReadOnly="True"
-                                                                            MinWidth="120"
-                                                                            Binding="{Binding Deduction}" />
-                                                    </DataGrid.Columns>
-                                                </DataGrid>
-                                            </ScrollViewer.Content>
-                                        </ScrollViewer>
+                                        <DockPanel HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Top"
+                                                   Background="#EBEBEB"
+                                                   MinHeight="180"
+                                                   MaxHeight="320"
+                                                   Margin="0">
+                                            <DataGrid Grid.Row="0"
+                                                      Grid.Column="0"
+                                                      Grid.ColumnSpan="3"
+                                                      CanUserAddRows="False"
+                                                      Margin="20,20,20,0"
+                                                      IsEnabled="True"
+                                                      IsReadOnly="True"
+                                                      ItemsSource="{Binding GroupedInfractions}"
+                                                      AutoGenerateColumns="False">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Infraction"
+                                                                        IsReadOnly="True"
+                                                                        MinWidth="222"
+                                                                        Binding="{Binding Infraction.Name}" />
+                                                    <DataGridTextColumn Header="Occurances"
+                                                                        IsReadOnly="True"
+                                                                        MinWidth="120"
+                                                                        Binding="{Binding Occurances}" />
+                                                    <DataGridTextColumn Header="Deduction"
+                                                                        IsReadOnly="True"
+                                                                        MinWidth="120"
+                                                                        Binding="{Binding Deduction}" />
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </DockPanel>
                                     </DataTemplate>
                                 </DataGrid.RowDetailsTemplate>
                             </DataGrid>

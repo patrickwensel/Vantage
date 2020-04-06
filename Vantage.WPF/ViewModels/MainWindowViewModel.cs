@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Vantage.Common.Models;
 using Vantage.WPF.Controls.Models;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Messages;
@@ -11,6 +14,7 @@ namespace Vantage.WPF.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IMessagingService _messagingService;
+        private readonly IProductService _productService;
         private readonly DelegateCommand _menuItemClickCommand;
 
         private string _status = string.Empty;
@@ -18,6 +22,20 @@ namespace Vantage.WPF.ViewModels
         private bool _isMenuItemClickInProgress;
 
         private UserInfo _loggedInUserInfo;
+        private IList<Product> _products;
+        private Product _selectedProduct;
+
+        public IList<Product> Products 
+        {
+            get { return _products; }
+            set { SetProperty(ref _products, value); }
+        }
+
+        public Product SelectedProduct 
+        {
+            get { return _selectedProduct; }
+            set { SetProperty(ref _selectedProduct, value); }
+        }
 
         public DelegateCommand MenuItemClickCommand { get { return _menuItemClickCommand; } }
 
@@ -42,10 +60,11 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _status, value); }
         }
 
-        public MainWindowViewModel(INavigationService navigationService, IMessagingService messagingService)
+        public MainWindowViewModel(INavigationService navigationService, IMessagingService messagingService, IProductService productService)
         {
             _navigationService = navigationService;
             _messagingService = messagingService;
+            _productService = productService;
             _menuItemClickCommand = new DelegateCommand(MenuItemClicked, CanMenuItemClicked);
         }
 
@@ -53,6 +72,11 @@ namespace Vantage.WPF.ViewModels
         {
             _navigationService.Initialize(frame);
             _navigationService.NavigateTo(Enums.PageKey.Login);
+        }
+
+        public async Task GetAllProductsAsync()
+        {
+            Products = await _productService.GetAllProducts();
         }
 
         private void MenuItemClicked(object parameter)
