@@ -106,8 +106,8 @@ namespace Vantage.WPF.ViewModels
         {
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
-            //await FetchGroupsAsync();
-            SetGroupsAsPerTheSelectedProduct();
+            await FetchGroupsAsync();
+            //SetGroupsAsPerTheSelectedProduct();
             await FetchDriversAsync();
         }
 
@@ -121,6 +121,9 @@ namespace Vantage.WPF.ViewModels
         private async Task FetchGroupsAsync()
         {            
             var groups = await _groupService.GetGroups();
+            if (groups == null)
+                return;
+
             Groups = groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList();
             Console.WriteLine($"Groups : {Groups}");
         }
@@ -133,6 +136,9 @@ namespace Vantage.WPF.ViewModels
         private async Task FetchDriversByGroupId(int groupId)
         {
             var group = await _groupService.GetGroup(groupId);
+
+            if (group == null)
+                return;
 
             Drivers = group.Drivers;
 
@@ -157,13 +163,13 @@ namespace Vantage.WPF.ViewModels
             await FetchDriversByGroupId(SelectedGroup.GroupID);
         }
 
-        private void OnProductSelected(object parameter)
+        private async void OnProductSelected(object parameter)
         {
             if (SelectedProduct == null)
                 return;
 
-            SetGroupsAsPerTheSelectedProduct();
-            //await FetchGroupsAsync();
+            //SetGroupsAsPerTheSelectedProduct();
+            await FetchGroupsAsync();
         }
 
         private void OnManageClicked(object parameter)
