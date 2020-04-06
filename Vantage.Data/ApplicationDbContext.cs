@@ -27,6 +27,10 @@ namespace Vantage.Data
                 .HasMany(c => c.Groups)
                 .WithOne(e => e.Product);
 
+            modelBuilder.Entity<Product>()
+                .HasMany(c => c.Lessons)
+                .WithOne(e => e.Product);
+
             modelBuilder.Entity<Group>()
                 .HasMany(c => c.Drivers)
                 .WithOne(e => e.Group);
