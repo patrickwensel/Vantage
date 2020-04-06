@@ -10,7 +10,7 @@ using Vantage.Data;
 namespace Vantage.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200325083832_Initial")]
+    [Migration("20200406153249_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -211,7 +211,12 @@ namespace Vantage.Data.Migrations
                     b.Property<string>("PackType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
                     b.HasKey("LessonID");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("Lessons");
 
@@ -222,7 +227,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 1",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -230,7 +236,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 2",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -238,7 +245,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 3",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -246,7 +254,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 4",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -254,7 +263,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 5",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -262,7 +272,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 6",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -270,7 +281,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 7",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -278,7 +290,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 8",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -286,7 +299,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 9",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         },
                         new
                         {
@@ -294,7 +308,8 @@ namespace Vantage.Data.Migrations
                             IsActive = true,
                             Name = "Lesson 10",
                             PackID = "1",
-                            PackType = "ABC123"
+                            PackType = "ABC123",
+                            ProductID = 2
                         });
                 });
 
@@ -517,6 +532,15 @@ namespace Vantage.Data.Migrations
                     b.HasOne("Vantage.Common.Models.Attempt", "Attempt")
                         .WithMany("Infractions")
                         .HasForeignKey("AttemptID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Vantage.Common.Models.Lesson", b =>
+                {
+                    b.HasOne("Vantage.Common.Models.Product", "Product")
+                        .WithMany("Lessons")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

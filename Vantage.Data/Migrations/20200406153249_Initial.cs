@@ -8,22 +8,6 @@ namespace Vantage.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Lessons",
-                columns: table => new
-                {
-                    LessonID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PackType = table.Column<string>(nullable: true),
-                    PackID = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Lessons", x => x.LessonID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -80,6 +64,29 @@ namespace Vantage.Data.Migrations
                     table.PrimaryKey("PK_Groups", x => x.GroupID);
                     table.ForeignKey(
                         name: "FK_Groups_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Lessons",
+                columns: table => new
+                {
+                    LessonID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PackType = table.Column<string>(nullable: true),
+                    PackID = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lessons", x => x.LessonID);
+                    table.ForeignKey(
+                        name: "FK_Lessons_Products_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
@@ -190,23 +197,6 @@ namespace Vantage.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Lessons",
-                columns: new[] { "LessonID", "IsActive", "Name", "PackID", "PackType" },
-                values: new object[,]
-                {
-                    { 1, true, "Lesson 1", "1", "ABC123" },
-                    { 9, true, "Lesson 9", "1", "ABC123" },
-                    { 8, true, "Lesson 8", "1", "ABC123" },
-                    { 7, true, "Lesson 7", "1", "ABC123" },
-                    { 6, true, "Lesson 6", "1", "ABC123" },
-                    { 10, true, "Lesson 10", "1", "ABC123" },
-                    { 4, true, "Lesson 4", "1", "ABC123" },
-                    { 3, true, "Lesson 3", "1", "ABC123" },
-                    { 2, true, "Lesson 2", "1", "ABC123" },
-                    { 5, true, "Lesson 5", "1", "ABC123" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "ProductID", "Name", "Version" },
                 values: new object[,]
@@ -232,8 +222,8 @@ namespace Vantage.Data.Migrations
                 columns: new[] { "UserID", "FirstName", "LastName", "Password", "UserName" },
                 values: new object[,]
                 {
-                    { 3, "Admin", "Admin", "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB", "a" },
                     { 1, "Admin", "Admin", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "Admin" },
+                    { 3, "Admin", "Admin", "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB", "a" },
                     { 2, "John", "Smith", "3FBFEB0EE307127BBD4EF7DA33F7B57A9FF3C7357DA182C5BFCCC2A4F599C6F9", "JSmith" }
                 });
 
@@ -254,14 +244,31 @@ namespace Vantage.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Lessons",
+                columns: new[] { "LessonID", "IsActive", "Name", "PackID", "PackType", "ProductID" },
+                values: new object[,]
+                {
+                    { 10, true, "Lesson 10", "1", "ABC123", 2 },
+                    { 9, true, "Lesson 9", "1", "ABC123", 2 },
+                    { 8, true, "Lesson 8", "1", "ABC123", 2 },
+                    { 7, true, "Lesson 7", "1", "ABC123", 2 },
+                    { 6, true, "Lesson 6", "1", "ABC123", 2 },
+                    { 3, true, "Lesson 3", "1", "ABC123", 2 },
+                    { 4, true, "Lesson 4", "1", "ABC123", 2 },
+                    { 2, true, "Lesson 2", "1", "ABC123", 2 },
+                    { 1, true, "Lesson 1", "1", "ABC123", 2 },
+                    { 5, true, "Lesson 5", "1", "ABC123", 2 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "UserRoleID", "RoleID", "UserID" },
                 values: new object[,]
                 {
+                    { 5, 2, 3 },
                     { 1, 1, 1 },
                     { 2, 2, 1 },
                     { 4, 1, 3 },
-                    { 5, 2, 3 },
                     { 3, 2, 2 }
                 });
 
@@ -289,6 +296,11 @@ namespace Vantage.Data.Migrations
                 name: "IX_Infractions_AttemptID",
                 table: "Infractions",
                 column: "AttemptID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Lessons_ProductID",
+                table: "Lessons",
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleID",

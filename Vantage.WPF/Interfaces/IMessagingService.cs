@@ -12,4 +12,5 @@ namespace Vantage.WPF.Interfaces
 
         void Unsubscribe<TMessage>(object subscriber) where TMessage : IMessage;
     }
+
 }
