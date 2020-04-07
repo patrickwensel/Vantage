@@ -150,8 +150,7 @@ namespace Vantage.WPF.ViewModels
             var drivers = await _driverService.GetAllDrivers();
 
             _allDrivers = GetSelectableDrivers(drivers);
-            Drivers = GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
-            FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
+            Drivers = GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);            
         }
 
         private async Task FetchGroupsAsync()
@@ -171,10 +170,9 @@ namespace Vantage.WPF.ViewModels
             if (group == null)
                 return;
 
-            _allDrivers = GetSelectableDrivers(group.Drivers);
-            Drivers = GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
+            _allDrivers = GetSelectableDrivers(group.Drivers);            
 
-            foreach (SelectableDriver driver in Drivers)
+            foreach (SelectableDriver driver in _allDrivers)
             {
                 driver.Group = new Group()
                 {
@@ -183,7 +181,7 @@ namespace Vantage.WPF.ViewModels
                 };
             }
 
-            FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
+            Drivers = GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
         }
 
         private void UpdateGroupList(IList<Group> groups)
@@ -287,7 +285,10 @@ namespace Vantage.WPF.ViewModels
             if (_allDrivers == null)
                 return null;
 
-            return isActive ? _allDrivers.Where(x => x.IsActive).ToList() : _allDrivers;
+            Drivers = isActive ? _allDrivers.Where(x => x.IsActive).ToList() : _allDrivers;
+            FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
+
+            return Drivers;
         }
     }
 }
