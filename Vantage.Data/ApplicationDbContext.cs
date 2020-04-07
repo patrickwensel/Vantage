@@ -25,27 +25,33 @@ namespace Vantage.Data
         {
             modelBuilder.Entity<Product>()
                 .HasMany(c => c.Groups)
-                .WithOne(e => e.Product);
+                .WithOne(e => e.Product)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Product>()
                 .HasMany(c => c.Lessons)
-                .WithOne(e => e.Product);
+                .WithOne(e => e.Product)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Group>()
                 .HasMany(c => c.Drivers)
-                .WithOne(e => e.Group);
+                .WithOne(e => e.Group)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Driver>()
                 .HasMany(c => c.Attempts)
-                .WithOne(e => e.Driver);
+                .WithOne(e => e.Driver)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Attempt>()
                 .HasMany(c => c.Infractions)
-                .WithOne(e => e.Attempt);
+                .WithOne(e => e.Attempt)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Lesson>()
                 .HasMany(c => c.Attempts)
-                .WithOne(e => e.Lesson);
+                .WithOne(e => e.Lesson)
+                .OnDelete(DeleteBehavior.Restrict);
 
             #region Users
 

@@ -67,7 +67,7 @@ namespace Vantage.Data.Migrations
                         column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,7 +90,7 @@ namespace Vantage.Data.Migrations
                         column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,7 +140,7 @@ namespace Vantage.Data.Migrations
                         column: x => x.GroupID,
                         principalTable: "Groups",
                         principalColumn: "GroupID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,13 +165,13 @@ namespace Vantage.Data.Migrations
                         column: x => x.DriverID,
                         principalTable: "Drivers",
                         principalColumn: "DriverID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Attempts_Lessons_LessonID",
                         column: x => x.LessonID,
                         principalTable: "Lessons",
                         principalColumn: "LessonID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,7 +193,7 @@ namespace Vantage.Data.Migrations
                         column: x => x.AttemptID,
                         principalTable: "Attempts",
                         principalColumn: "AttemptID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(

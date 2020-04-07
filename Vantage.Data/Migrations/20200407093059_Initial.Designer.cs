@@ -10,7 +10,7 @@ using Vantage.Data;
 namespace Vantage.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200406153249_Initial")]
+    [Migration("20200407093059_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -499,13 +499,13 @@ namespace Vantage.Data.Migrations
                     b.HasOne("Vantage.Common.Models.Driver", "Driver")
                         .WithMany("Attempts")
                         .HasForeignKey("DriverID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vantage.Common.Models.Lesson", "Lesson")
                         .WithMany("Attempts")
                         .HasForeignKey("LessonID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -514,7 +514,7 @@ namespace Vantage.Data.Migrations
                     b.HasOne("Vantage.Common.Models.Group", "Group")
                         .WithMany("Drivers")
                         .HasForeignKey("GroupID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -523,7 +523,7 @@ namespace Vantage.Data.Migrations
                     b.HasOne("Vantage.Common.Models.Product", "Product")
                         .WithMany("Groups")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -532,7 +532,7 @@ namespace Vantage.Data.Migrations
                     b.HasOne("Vantage.Common.Models.Attempt", "Attempt")
                         .WithMany("Infractions")
                         .HasForeignKey("AttemptID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -541,7 +541,7 @@ namespace Vantage.Data.Migrations
                     b.HasOne("Vantage.Common.Models.Product", "Product")
                         .WithMany("Lessons")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
