@@ -9,6 +9,7 @@
       xmlns:switch="clr-namespace:Vantage.WPF.Controls.Switch"
       xmlns:converters="clr-namespace:Vantage.WPF.Converters"
       mc:Ignorable="d"
+      x:Name="TrainingPage"
       Title="TrainingReport">
     <Page.Resources>
         <converters:ScoreToPassedStatusConverter x:Key="ScoreToPassedStatusConverter" />
@@ -256,6 +257,15 @@
                       Margin="19,0,19,20"
                       ItemsSource="{Binding Drivers}">
                 <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding IsSelected, Mode=TwoWay}">
+                        <DataGridCheckBoxColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="ChkSelectAll"
+                                          Command="{Binding ElementName=TrainingPage, Path=DataContext.SelectAllCheckedChangedCommand}"
+                                          IsChecked="{Binding ElementName=TrainingPage, Path=DataContext.IsAllSelected, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </DataGridCheckBoxColumn.HeaderTemplate>
+                    </DataGridCheckBoxColumn>
                     <DataGridTextColumn Header="Last Name"
                                         IsReadOnly="True"
                                         MinWidth="222"
@@ -328,6 +338,7 @@
                                                         IsReadOnly="True"
                                                         Binding="{Binding TotalTimes}" />
                                     <DataGridTextColumn Header="Passed"
+                                                        CanUserSort="False"
                                                         MinWidth="120"
                                                         IsReadOnly="True"
                                                         Binding="{Binding HighScore, Converter={StaticResource ScoreToPassedStatusConverter}}">
