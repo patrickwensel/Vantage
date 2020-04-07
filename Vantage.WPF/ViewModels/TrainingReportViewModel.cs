@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Vantage.Common.Models;
 using Vantage.WPF.Controls.Models;
 using Vantage.WPF.Interfaces;
+using Vantage.WPF.Models;
 
 namespace Vantage.WPF.ViewModels
 {
@@ -19,13 +20,14 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _manageCommand;
         private readonly ICommand _systemCommand;
         private readonly ICommand _selectAllCheckedChangedCommand;
+        private readonly ICommand _driverSelectCheckedChangedCommand;
         private readonly ICommand _productSelectedCommand;
 
         private int _fetchedDriversCount;
         private Group _selectedGroup;
         private UserInfo _loggedInUserInfo;
         private IList<Group> _groups;
-        private IList<Driver> _drivers;
+        private IList<SelectableDriver> _drivers;
         private IList<TabItem> _tabItems;
         private IList<Product> _products;
         private Product _selectedProduct;
@@ -55,7 +57,7 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _groups, value); }
         }
 
-        public IList<Driver> Drivers
+        public IList<SelectableDriver> Drivers
         {
             get { return _drivers; }
             set { SetProperty(ref _drivers, value); }
@@ -83,7 +85,7 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _tabItems, value); }
         }
 
-        public bool? IsAllSelected 
+        public bool? IsAllSelected
         {
             get { return _isAllSelected; }
             set { SetProperty(ref _isAllSelected, value); }
@@ -95,6 +97,8 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand SelectAllCheckedChangedCommand { get { return _selectAllCheckedChangedCommand; } }
 
+        public ICommand DriverSelectCheckedChangedCommand { get { return _driverSelectCheckedChangedCommand; } }
+
         public TrainingReportViewModel(IGroupService groupService, IDriverService driverService, MainWindowViewModel mainWindowViewModel)
         {
             _groupService = groupService;
@@ -102,6 +106,7 @@ namespace Vantage.WPF.ViewModels
             _mainWindowViewModel = mainWindowViewModel;
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
             _selectAllCheckedChangedCommand = new DelegateCommand(OnSelectAllCheckedChanged);
+            _driverSelectCheckedChangedCommand = new DelegateCommand(OnDriverSelectCheckedChanged);
             _groupSelectedCommand = new DelegateCommand(OnGroupSelected);
             _productSelectedCommand = new DelegateCommand(OnProductSelected);
             _manageCommand = new DelegateCommand(OnManageClicked);
@@ -129,8 +134,9 @@ namespace Vantage.WPF.ViewModels
 
         private async Task FetchDriversAsync()
         {
-            Drivers = await _driverService.GetAllDrivers();
+            var drivers = await _driverService.GetAllDrivers();
 
+            Drivers = GetSelectableDrivers(drivers);
             FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
         }
 
@@ -158,9 +164,9 @@ namespace Vantage.WPF.ViewModels
             if (group == null)
                 return;
 
-            Drivers = group.Drivers;
+            Drivers = GetSelectableDrivers(group.Drivers);
 
-            foreach (Driver driver in Drivers)
+            foreach (SelectableDriver driver in Drivers)
             {
                 driver.Group = new Group()
                 {
@@ -174,7 +180,24 @@ namespace Vantage.WPF.ViewModels
 
         private void OnSelectAllCheckedChanged(object parameter)
         {
+            if (IsAllSelected == null)
+                return;
+
             Console.WriteLine($"SelectAll Checked : {IsAllSelected.GetValueOrDefault(false)}");
+            Drivers = Drivers.Select(x => { x.IsSelected = IsAllSelected.GetValueOrDefault(false); return x; }).ToList();
+        }
+
+        private void OnDriverSelectCheckedChanged(object parameter)
+        {
+            SelectableDriver selectableDriver = parameter as SelectableDriver;
+            selectableDriver.IsSelected = !selectableDriver.IsSelected;
+
+            if (Drivers.All(x => x.IsSelected))
+                IsAllSelected = true;
+            else if (Drivers.Count(x => x.IsSelected) > 0)
+                IsAllSelected = null;
+            else
+                IsAllSelected = false;
         }
 
         private async void OnGroupSelected(object parameter)
@@ -206,6 +229,28 @@ namespace Vantage.WPF.ViewModels
         private void OnSystemClicked(object parameter)
         {
             Console.WriteLine($"System Clicked : {parameter}");
+        }
+
+        private IList<SelectableDriver> GetSelectableDrivers(IList<Driver> drivers)
+        {
+            IList<SelectableDriver> selectableDrivers = new List<SelectableDriver>();
+            foreach (Driver driver in drivers)
+            {
+                selectableDrivers.Add(new SelectableDriver()
+                {
+                    DriverID = driver.DriverID,
+                    FirstName = driver.FirstName,
+                    LastName = driver.LastName,
+                    UserName = driver.UserName,
+                    Pin = driver.Pin,
+                    IsActive = driver.IsActive,
+                    GroupID = driver.GroupID,
+                    Group = driver.Group,
+                    Attempts = driver.Attempts
+                });
+            }
+
+            return selectableDrivers;
         }
     }
 }

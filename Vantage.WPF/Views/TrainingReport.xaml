@@ -257,15 +257,22 @@
                       Margin="19,0,19,20"
                       ItemsSource="{Binding Drivers}">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Binding="{Binding IsSelected, Mode=TwoWay}">
-                        <DataGridCheckBoxColumn.HeaderTemplate>
+                    <DataGridTemplateColumn CanUserReorder="False" CanUserSort="False">
+                        <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="ChkSelectAll"
                                           Command="{Binding ElementName=TrainingPage, Path=DataContext.SelectAllCheckedChangedCommand}"
                                           IsChecked="{Binding ElementName=TrainingPage, Path=DataContext.IsAllSelected, Mode=TwoWay}" />
                             </DataTemplate>
-                        </DataGridCheckBoxColumn.HeaderTemplate>
-                    </DataGridCheckBoxColumn>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="6,0" IsChecked="{Binding IsSelected}"
+                                          Command="{Binding ElementName=TrainingPage, Path=DataContext.DriverSelectCheckedChangedCommand}"
+                                          CommandParameter="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Last Name"
                                         IsReadOnly="True"
                                         MinWidth="222"
