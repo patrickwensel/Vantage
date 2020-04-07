@@ -403,6 +403,44 @@ namespace Vantage.WPF.Controls.Switch
 
 		#endregion
 
+		#region Command
+		///<summary>
+		/// DependencyProperty for the <see cref="Command">Command</see> property.
+		///</summary>
+		public static readonly DependencyProperty CommandProperty =
+			DependencyProperty.Register("Command", typeof(ICommand), typeof(SwitchBase));
+
+		///<summary>
+		/// Gets or sets whether the control is in the checked state.
+		///</summary>
+		[Category(CommonPropertiesCategory)]
+		[Description("Command that is executed when checked state changed")]
+		public ICommand Command
+		{
+			get { return (ICommand)GetValue(CommandProperty); }
+			set { SetValue(CommandProperty, value); }
+		}
+		#endregion
+
+		#region CommandParameter
+		///<summary>
+		/// DependencyProperty for the <see cref="CommandParameter">Command</see> property.
+		///</summary>
+		public static readonly DependencyProperty CommandParameterProperty =
+			DependencyProperty.Register("CommandParameter", typeof(object), typeof(SwitchBase));
+
+		///<summary>
+		/// Gets or sets whether the control is in the checked state.
+		///</summary>
+		[Category(CommonPropertiesCategory)]
+		[Description("Parameter that is passed to command when checked state changed")]
+		public object CommandParameter
+		{
+			get { return (object)GetValue(CommandParameterProperty); }
+			set { SetValue(CommandParameterProperty, value); }
+		}
+		#endregion
+
 		#endregion
 
 		#region Events
@@ -415,6 +453,9 @@ namespace Vantage.WPF.Controls.Switch
 		protected void InvokeUnchecked(RoutedEventArgs e)
 		{
 			RoutedEventHandler handler = Unchecked;
+			if (Command != null && Command.CanExecute(CommandParameter))
+				Command.Execute(CommandParameter);
+
 			if (handler != null)
 			{
 				handler(this, e);
@@ -429,6 +470,9 @@ namespace Vantage.WPF.Controls.Switch
 		protected void InvokeChecked(RoutedEventArgs e)
 		{
 			RoutedEventHandler handler = Checked;
+			if (Command != null && Command.CanExecute(CommandParameter))
+				Command.Execute(CommandParameter);
+
 			if (handler != null)
 			{
 				handler(this, e);

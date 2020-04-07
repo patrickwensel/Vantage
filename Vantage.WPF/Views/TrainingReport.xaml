@@ -227,11 +227,13 @@
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Style="{StaticResource LeftPaddedFieldHeader}"
-                               Text="Show Active Drivers" />
+                               Text="Show Only Active Drivers" />
                     <switch:Switch x:Name="SWShowActiveDriver"
                                    Grid.Row="0"
                                    Grid.Column="1"
                                    Style="{StaticResource iOSSwitchStyle}"
+                                   IsChecked="{Binding ShowOnlyActiveDrivers}"
+                                   Command="{Binding ShowActiveDriverStateChangedCommand}"
                                    VerticalAlignment="Center"
                                    Margin="0, 5"
                                    HorizontalAlignment="Left">
