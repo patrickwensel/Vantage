@@ -14,6 +14,7 @@ namespace Vantage.WPF.ViewModels
         private readonly IGroupService _groupService;
         private readonly IDriverService _driverService;
         private readonly MainWindowViewModel _mainWindowViewModel;
+        private readonly Group AllGroupForComboBox = new Group() { GroupID = -1, Name = "All" };
         private readonly ICommand _groupSelectedCommand;
         private readonly ICommand _manageCommand;
         private readonly ICommand _systemCommand;
@@ -58,23 +59,23 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _drivers, value); }
         }
 
-        public IList<Product> Products 
+        public IList<Product> Products
         {
             get { return _products; }
             set { SetProperty(ref _products, value); }
         }
 
-        public Product SelectedProduct 
+        public Product SelectedProduct
         {
             get { return _selectedProduct; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _selectedProduct, value);
                 _mainWindowViewModel.SelectedProduct = value;
             }
         }
 
-        public IList<TabItem> TabItems 
+        public IList<TabItem> TabItems
         {
             get { return _tabItems; }
             set { SetProperty(ref _tabItems, value); }
@@ -100,15 +101,19 @@ namespace Vantage.WPF.ViewModels
                 new TabItem() { Icon = "", Text = "Manage", IsSelected = false, ClickCommand = _manageCommand },
                 new TabItem() { Icon = "", Text = "System", IsSelected = false, ClickCommand = _systemCommand },
             };
+
+            Groups = new List<Group>() { AllGroupForComboBox };
         }
 
         public async Task OnInitializedAsync()
         {
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
+
             await FetchGroupsAsync();
-            //SetGroupsAsPerTheSelectedProduct();
-            await FetchDriversAsync();
+            SelectedGroup = Groups[0];
+
+            //SetGroupsAsPerTheSelectedProduct();            
         }
 
         private async Task FetchDriversAsync()
@@ -119,18 +124,20 @@ namespace Vantage.WPF.ViewModels
         }
 
         private async Task FetchGroupsAsync()
-        {            
+        {
             var groups = await _groupService.GetGroups();
             if (groups == null)
                 return;
 
             Groups = groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList();
+            Groups.Insert(0, AllGroupForComboBox);
             Console.WriteLine($"Groups : {Groups}");
         }
 
         private void SetGroupsAsPerTheSelectedProduct()
         {
             Groups = SelectedProduct.Groups;
+            Groups.Insert(0, AllGroupForComboBox);
         }
 
         private async Task FetchDriversByGroupId(int groupId)
@@ -142,7 +149,7 @@ namespace Vantage.WPF.ViewModels
 
             Drivers = group.Drivers;
 
-            foreach(Driver driver in Drivers)
+            foreach (Driver driver in Drivers)
             {
                 driver.Group = new Group()
                 {
@@ -160,7 +167,10 @@ namespace Vantage.WPF.ViewModels
                 return;
 
             Console.WriteLine($"Selected Group : {SelectedGroup.GroupID}");
-            await FetchDriversByGroupId(SelectedGroup.GroupID);
+            if (SelectedGroup.GroupID == -1)
+                await FetchDriversAsync();
+            else
+                await FetchDriversByGroupId(SelectedGroup.GroupID);
         }
 
         private async void OnProductSelected(object parameter)

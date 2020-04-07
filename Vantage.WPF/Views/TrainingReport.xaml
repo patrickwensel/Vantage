@@ -328,6 +328,7 @@
                                                         IsReadOnly="True"
                                                         Binding="{Binding TotalTimes}" />
                                     <DataGridTextColumn Header="Passed"
+                                                        CanUserSort="False"
                                                         MinWidth="120"
                                                         IsReadOnly="True"
                                                         Binding="{Binding HighScore, Converter={StaticResource ScoreToPassedStatusConverter}}">
