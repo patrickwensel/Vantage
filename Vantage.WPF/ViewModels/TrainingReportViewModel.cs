@@ -114,7 +114,7 @@ namespace Vantage.WPF.ViewModels
             TabItems = new List<TabItem>()
             {
                 new TabItem() { Icon = "", Text = "Training Reports", IsSelected = true, ClickCommand = null },
-                new TabItem() { Icon = "", Text = "Manage", IsSelected = false, ClickCommand = _manageCommand },
+                new TabItem() { Icon = "", Text = "Manage Drivers", IsSelected = false, ClickCommand = _manageCommand },
                 new TabItem() { Icon = "", Text = "System", IsSelected = false, ClickCommand = _systemCommand },
             };
 
@@ -155,6 +155,7 @@ namespace Vantage.WPF.ViewModels
         {
             Groups = SelectedProduct.Groups;
             Groups.Insert(0, AllGroupForComboBox);
+            OnPropertyChanged(nameof(Groups));
         }
 
         private async Task FetchDriversByGroupId(int groupId)
@@ -180,7 +181,7 @@ namespace Vantage.WPF.ViewModels
 
         private void OnSelectAllCheckedChanged(object parameter)
         {
-            if (IsAllSelected == null)
+            if (IsAllSelected == null || Drivers == null)
                 return;
 
             Console.WriteLine($"SelectAll Checked : {IsAllSelected.GetValueOrDefault(false)}");

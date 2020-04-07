@@ -572,6 +572,80 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+    <Style TargetType="DataGridCell" x:Key="DataGridCellStyle">
+        <Setter Property="Padding"
+                Value="10,0" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Stretch" />
+        <Setter Property="TextBlock.FontSize"
+                Value="14" />
+        <Setter Property="TextBlock.Foreground"
+                Value="Black" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected"
+                     Value="True">
+                <Setter Property="TextBlock.Foreground"
+                        Value="#5F6164" />
+                <Setter Property="TextBlock.FontWeight"
+                        Value="Bold" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="DataGridColumnHeader" x:Key="DataGridHeaderStyle">
+        <Style.Triggers>
+            <Trigger Property="CanUserSort"
+                     Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,8,0"
+                                           RenderTransformOrigin="0.5, 0.4"
+                                           Foreground="#006896"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="12"
+                                           Text="">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="90" />
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Padding"
+                Value="10,0" />
+        <Setter Property="Background"
+                Value="White" />
+        <Setter Property="TextBlock.Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="#000000"
+                                 Opacity="0.99" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="TextBlock.FontSize"
+                Value="12" />
+        <Setter Property="Height"
+                Value="53" />
+    </Style>
     <Style TargetType="DataGrid">
         <Style.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
@@ -603,9 +677,9 @@
                 Value="Transparent" />
         <Setter Property="BorderThickness"
                 Value="0" />
-        <Setter Property="CellStyle">
-            <Setter.Value>
-                <Style TargetType="DataGridCell">
+        <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}">
+            <!--<Setter.Value>
+                <Style TargetType="DataGridCell" >
                     <Setter Property="Padding"
                             Value="10,0" />
                     <Setter Property="BorderThickness"
@@ -632,10 +706,10 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </Setter.Value>
+            </Setter.Value>-->
         </Setter>
-        <Setter Property="ColumnHeaderStyle">
-            <Setter.Value>
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridHeaderStyle}">
+            <!--<Setter.Value>
                 <Style TargetType="DataGridColumnHeader">
                     <Style.Triggers>
                         <Trigger Property="CanUserSort"
@@ -683,7 +757,7 @@
                     <Setter Property="Height"
                             Value="53" />
                 </Style>
-            </Setter.Value>
+            </Setter.Value>-->
         </Setter>
     </Style>
     <!-- ******************** -->

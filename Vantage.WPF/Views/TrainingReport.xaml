@@ -255,7 +255,15 @@
                       VerticalAlignment="Top"
                       AutoGenerateColumns="False"
                       Margin="19,0,19,20"
+                      SelectionUnit="FullRow"
                       ItemsSource="{Binding Drivers}">
+                <!--<DataGrid.Resources>
+                    <Style TargetType="DataGridCell"
+                           BasedOn="{StaticResource DataGridCellStyle}">
+                        <EventSetter Event="PreviewMouseLeftButtonDown"
+                                     Handler="DataGridCell_PreviewMouseLeftButtonDown" />
+                    </Style>
+                </DataGrid.Resources>-->
                 <DataGrid.Columns>
                     <DataGridTemplateColumn CanUserReorder="False" CanUserSort="False">
                         <DataGridTemplateColumn.HeaderTemplate>
