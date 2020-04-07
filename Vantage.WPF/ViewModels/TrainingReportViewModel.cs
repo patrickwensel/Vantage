@@ -18,6 +18,7 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _groupSelectedCommand;
         private readonly ICommand _manageCommand;
         private readonly ICommand _systemCommand;
+        private readonly ICommand _selectAllCheckedChangedCommand;
         private readonly ICommand _productSelectedCommand;
 
         private int _fetchedDriversCount;
@@ -28,6 +29,7 @@ namespace Vantage.WPF.ViewModels
         private IList<TabItem> _tabItems;
         private IList<Product> _products;
         private Product _selectedProduct;
+        private bool? _isAllSelected = false;
 
         public int FetchedDriversCount
         {
@@ -81,9 +83,17 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _tabItems, value); }
         }
 
+        public bool? IsAllSelected 
+        {
+            get { return _isAllSelected; }
+            set { SetProperty(ref _isAllSelected, value); }
+        }
+
         public ICommand GroupSelectedCommand { get { return _groupSelectedCommand; } }
 
         public ICommand ProductSelectedCommand { get { return _productSelectedCommand; } }
+
+        public ICommand SelectAllCheckedChangedCommand { get { return _selectAllCheckedChangedCommand; } }
 
         public TrainingReportViewModel(IGroupService groupService, IDriverService driverService, MainWindowViewModel mainWindowViewModel)
         {
@@ -91,6 +101,7 @@ namespace Vantage.WPF.ViewModels
             _driverService = driverService;
             _mainWindowViewModel = mainWindowViewModel;
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
+            _selectAllCheckedChangedCommand = new DelegateCommand(OnSelectAllCheckedChanged);
             _groupSelectedCommand = new DelegateCommand(OnGroupSelected);
             _productSelectedCommand = new DelegateCommand(OnProductSelected);
             _manageCommand = new DelegateCommand(OnManageClicked);
@@ -159,6 +170,11 @@ namespace Vantage.WPF.ViewModels
             }
 
             FetchedDriversCount = Drivers != null ? Drivers.Count : 0;
+        }
+
+        private void OnSelectAllCheckedChanged(object parameter)
+        {
+            Console.WriteLine($"SelectAll Checked : {IsAllSelected.GetValueOrDefault(false)}");
         }
 
         private async void OnGroupSelected(object parameter)
