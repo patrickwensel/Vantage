@@ -13,6 +13,7 @@ namespace Vantage.Common.Models
         public string PackID { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
+        public int LessonOrder { get; set; }
 
         public virtual List<Attempt> Attempts { get; set; }
 
