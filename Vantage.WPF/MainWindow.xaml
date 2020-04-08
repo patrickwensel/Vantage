@@ -23,14 +23,23 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <!-- Content Area -->
         <Frame Grid.Row="0"
                Grid.Column="0"
-               Grid.RowSpan="2"
+               Grid.RowSpan="3"
                Panel.ZIndex="1"
                NavigationUIVisibility="Hidden"
                Name="FrmContentArea" />
+        
+        <!-- StatusBar -->
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Foreground="Red"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Text="{Binding Status}" />
 
         <!-- TitleBar -->
         <StackPanel Grid.Row="0"

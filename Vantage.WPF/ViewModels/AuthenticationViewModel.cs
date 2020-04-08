@@ -29,7 +29,7 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _username, value); }
         }
 
-        public string LoggedInName 
+        public string LoggedInName
         {
             get { return _loggedInName; }
             set { SetProperty(ref _loggedInName, value); }
@@ -135,7 +135,12 @@ namespace Vantage.WPF.ViewModels
             catch (Exception ex)
             {
                 App.Current.MainWindow.Cursor = Cursors.Arrow;
+#if DEBUG
                 _mainWindowViewModel.Status = string.Format("ERROR: {0}", ex.Message);
+#else
+                _mainWindowViewModel.Status = string.Format("ERROR: Some error occurred please try again.");
+#endif
+
             }
         }
 
