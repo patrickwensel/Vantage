@@ -15,9 +15,9 @@ namespace Vantage.WPF.Converters
             if (value == null)
                 return "0/0";
 
-            if (value is List<Attempt>)
+            if (value is List<GroupedAttemptsByLesson>)
             {
-                List<Attempt> attempts = value as List<Attempt>;
+                List<GroupedAttemptsByLesson> attempts = value as List<GroupedAttemptsByLesson>;
                 return $"{attempts.Count(x => x.IsComplete)}/{attempts.Count}";
             }
 

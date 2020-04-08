@@ -14,7 +14,7 @@ namespace Vantage.Common.Models
         public int Score { get; set; }
         public int TimeToComplete { get; set; }
         public int CumulativeLessonTime { get; set; }
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
         public bool IsComplete { get; set; }
 
         [ForeignKey("Driver")]

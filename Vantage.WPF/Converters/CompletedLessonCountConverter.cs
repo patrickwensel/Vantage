@@ -15,8 +15,8 @@ namespace Vantage.WPF.Converters
             if (value == null)
                 return 0;
 
-            if (value is List<Attempt>)
-                return (value as List<Attempt>).Count(x => x.IsComplete);
+            if (value is List<GroupedAttemptsByLesson>)
+                return (value as List<GroupedAttemptsByLesson>).Count(x => x.IsComplete);
 
             return 0;
         }

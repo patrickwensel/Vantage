@@ -32,18 +32,19 @@ namespace Vantage.Common.Models
             if (Attempts == null)
                 return groupedAttempts;
 
-            foreach (var groupedItems in Attempts.GroupBy(x => x.LessonID))
+            foreach (var groupedItems in Attempts.OrderBy(x => x.Lesson.LessonOrder).GroupBy(x => x.LessonID))
             {
                 int highScore = groupedItems.Max(x => x.Score);
                 Attempt highScoreAttempt = groupedItems.OrderByDescending(x => x.DateCompleted).First(x => x.Score == highScore);
                 groupedAttempts.Add(new GroupedAttemptsByLesson()
                 {
                     Lesson = groupedItems.First().Lesson,
-                    TotalAttempts = groupedItems.Count(),
+                    TotalAttempts = groupedItems.First().AttemptID == -1 && groupedItems.Count() == 1 ? 0 :  groupedItems.Count(),
                     TotalTimes = groupedItems.Sum(x => x.TimeToComplete),
                     HighScore = highScore,
                     DateCompleted = highScoreAttempt.DateCompleted,
-                    Infractions = highScoreAttempt.Infractions
+                    Infractions = highScoreAttempt.Infractions,
+                    IsComplete = highScoreAttempt.IsComplete
                 });
             }
 

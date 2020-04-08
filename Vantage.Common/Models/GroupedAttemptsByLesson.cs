@@ -12,11 +12,13 @@ namespace Vantage.Common.Models
 
         public int HighScore { get; set; }
 
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
 
         public int TotalAttempts { get; set; }
 
         public int TotalTimes { get; set; }
+
+        public bool IsComplete { get; set; }
 
         public List<Infraction> Infractions { get; set; }
 

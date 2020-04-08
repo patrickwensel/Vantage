@@ -267,7 +267,8 @@
                     </Style>
                 </DataGrid.Resources>-->
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn CanUserReorder="False" CanUserSort="False">
+                    <DataGridTemplateColumn CanUserReorder="False"
+                                            CanUserSort="False">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="ChkSelectAll"
@@ -277,7 +278,8 @@
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Margin="6,0" IsChecked="{Binding IsSelected}"
+                                <CheckBox Margin="6,0"
+                                          IsChecked="{Binding IsSelected}"
                                           Command="{Binding ElementName=TrainingPage, Path=DataContext.DriverSelectCheckedChangedCommand}"
                                           CommandParameter="{Binding}" />
                             </DataTemplate>
@@ -311,12 +313,12 @@
                                                  Grid.Column="0"
                                                  Margin="10,3"
                                                  Minimum="0"
-                                                 Maximum="{Binding Attempts,Converter={StaticResource LessonsAttemptCountConverter}}"
-                                                 Value="{Binding Attempts, Converter={StaticResource CompletedLessonCountConverter}}" />
+                                                 Maximum="{Binding GroupedAttemptsByLessons, Mode=OneWay,Converter={StaticResource LessonsAttemptCountConverter}}"
+                                                 Value="{Binding GroupedAttemptsByLessons, Mode=OneWay, Converter={StaticResource CompletedLessonCountConverter}}" />
                                     <TextBlock Grid.Row="0"
                                                Grid.Column="0"
                                                HorizontalAlignment="Center"
-                                               Text="{Binding Attempts, Converter={StaticResource AttemptedCompletedLessonCountConverter}}" />
+                                               Text="{Binding GroupedAttemptsByLessons, Mode=OneWay, Converter={StaticResource AttemptedCompletedLessonCountConverter}}" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

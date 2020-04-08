@@ -151,10 +151,7 @@ namespace Vantage.WPF.ViewModels
             Groups.Clear();
             var groups = await _groupService.GetGroups();
 
-            if (groups == null)
-                return;
-
-            UpdateGroupList(groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList());
+            UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
             Console.WriteLine($"Groups : {Groups}");
         }
 
@@ -181,17 +178,23 @@ namespace Vantage.WPF.ViewModels
         {
             ClearDriverList();
             if (Groups == null)
-                return;
-
-            var listOfDrivers = Groups.Select(x => x.Drivers).ToList();
+                return;            
 
             List<Driver> driversList = new List<Driver>();
-            foreach (IList<Driver> drivers in listOfDrivers)
+
+            foreach (Group group in Groups)
             {
-                if (drivers == null)
+                if (group == null || group.Drivers == null)
                     continue;
 
-                driversList.AddRange(drivers);
+                foreach(Driver driver in group.Drivers)
+                {
+                    if (driver == null)
+                        continue;
+
+                    driver.Group = new Group() { GroupID = group.GroupID, Name = group.Name };
+                    driversList.Add(driver);
+                }
             }
 
             _allDrivers = GetSelectableDrivers(driversList);
@@ -218,7 +221,7 @@ namespace Vantage.WPF.ViewModels
             }
 
             GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
-        }        
+        }
 
         private void SetGroupsAsPerTheSelectedProduct()
         {
@@ -289,6 +292,28 @@ namespace Vantage.WPF.ViewModels
             IList<SelectableDriver> selectableDrivers = new List<SelectableDriver>();
             foreach (Driver driver in drivers)
             {
+                IList<Lesson> excludedLessons = new List<Lesson>();
+                foreach (Lesson lesson in SelectedProduct.Lessons)
+                {
+                    Console.WriteLine($"Attempts with Lesson : {lesson.LessonID} is Included {driver.Attempts.Any(x => x.LessonID == lesson.LessonID)}");
+                    if (!driver.Attempts.Any(x => x.LessonID == lesson.LessonID))
+                    {
+                        excludedLessons.Add(lesson);
+                        driver.Attempts.Add(new Attempt()
+                        {
+                            AttemptID = -1,
+                            Lesson = lesson,
+                            LessonID = lesson.LessonID,
+                            DateCompleted = null,
+                            IsComplete = false,
+                            Infractions = null,
+                            Score = 0,
+                            TimeToComplete = 0,
+                        });
+                    }
+                }
+
+                Console.WriteLine($"Excluded Lessons : {excludedLessons}");
                 selectableDrivers.Add(new SelectableDriver()
                 {
                     DriverID = driver.DriverID,
@@ -307,7 +332,7 @@ namespace Vantage.WPF.ViewModels
         }
 
         private IList<SelectableDriver> GetDriversBasedOnActiveStatus(bool isActive = true)
-        {            
+        {
             if (_allDrivers == null)
                 return null;
 

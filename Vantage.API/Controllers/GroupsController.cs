@@ -25,7 +25,9 @@ namespace Vantage.API.Controllers
         {
             return await _context.Groups
                 .Include(x => x.Drivers).ThenInclude(x => x.Attempts).ThenInclude(x => x.Infractions)
-                .Include(x => x.Drivers).ThenInclude(x => x.Attempts).ThenInclude(x => x.Lesson).AsNoTracking().ToListAsync();
+                .Include(x => x.Drivers).ThenInclude(x => x.Attempts).ThenInclude(x => x.Lesson)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         // GET: api/Groups/5
