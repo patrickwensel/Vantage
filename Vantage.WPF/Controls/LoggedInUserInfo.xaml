@@ -5,6 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Vantage.WPF.Controls"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment"
+                    Value="Right" />
+            <Setter Property="Margin"
+                    Value="5,0,5,-2" />
+            <Setter Property="TextAlignment"
+                    Value="Right" />
+            <Setter Property="Foreground"
+                    Value="White" />
+        </Style>
+    </UserControl.Resources>
     <Grid HorizontalAlignment="Right"
           VerticalAlignment="Center">
         <Grid.RowDefinitions>
@@ -19,19 +31,13 @@
                    Grid.Row="0"
                    Grid.Column="0"
                    VerticalAlignment="Bottom"
-                   TextAlignment="Right"
-                   Margin="5,0,5,-2"
-                   Foreground="White"
                    FontWeight="Bold"
                    FontSize="16" />
         <TextBlock x:Name="TBRoles"
                    Grid.Row="1"
                    Grid.Column="0"
-                   Margin="5,-2,5,0"
-                   TextAlignment="Right"
                    VerticalAlignment="Top"
-                   FontSize="13"
-                   Foreground="White" />
+                   FontSize="13" />
         <Ellipse Grid.Row="0"
                  Grid.Column="1"
                  Grid.RowSpan="2"
@@ -43,17 +49,15 @@
                 <SolidColorBrush Color="White" />
             </Ellipse.Fill>
         </Ellipse>
-        <Ellipse Grid.Row="0"
-                 Grid.Column="1"
-                 Grid.RowSpan="2"
-                 Width="20"
-                 Height="21"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center">
-            <Ellipse.Fill>
-                <ImageBrush x:Name="IBUserImage"
-                            ImageSource="/Images/IcoUser.png" />
-            </Ellipse.Fill>
-        </Ellipse>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Grid.RowSpan="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Height="24"
+                   FontSize="20"
+                   Text=""
+                   FontFamily="Segoe MDL2 Assets"
+                   Foreground="{StaticResource DarkBlue}" />
     </Grid>
 </UserControl>
