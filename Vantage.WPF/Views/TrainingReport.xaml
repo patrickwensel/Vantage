@@ -12,10 +12,6 @@
       x:Name="TrainingPage"
       Title="TrainingReport">
     <Page.Resources>
-        <converters:ScoreToPassedStatusConverter x:Key="ScoreToPassedStatusConverter" />
-        <converters:LessonsAttemptCountConverter x:Key="LessonsAttemptCountConverter" />
-        <converters:CompletedLessonCountConverter x:Key="CompletedLessonCountConverter" />
-        <converters:AttemptedCompletedLessonCountConverter x:Key="AttemptedCompletedLessonCountConverter" />
         <Style TargetType="TextBlock"
                x:Key="FieldHeader">
             <Setter Property="Foreground"
@@ -166,6 +162,7 @@
                         BorderBrush="{StaticResource Gray}">
                     <Grid Grid.Row="0"
                           Grid.Column="2"
+                          Margin="5"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
@@ -181,7 +178,8 @@
                                    Grid.Column="0"
                                    Style="{StaticResource LeftPaddedFieldHeader}"
                                    Text="Report" />
-                        <ComboBox Grid.Row="1"
+                        <ComboBox x:Name="CBReportType"
+                                  Grid.Row="1"
                                   Grid.Column="0"
                                   Style="{StaticResource LightComboBoxStyle}"
                                   MinWidth="180">
@@ -196,8 +194,10 @@
                                    Grid.Column="1"
                                    Style="{StaticResource LeftPaddedFieldHeader}"
                                    Text="Export" />
-                        <ComboBox Grid.Row="1"
+                        <ComboBox x:Name="CBExportType"
+                                  Grid.Row="1"
                                   Grid.Column="1"
+                                  IsEnabled="{Binding ElementName=CBReportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
                                   Style="{StaticResource LightComboBoxStyle}"
                                   MinWidth="100">
                             <ComboBox.ItemsSource>
@@ -209,6 +209,8 @@
                         </ComboBox>
                         <Button Grid.Row="1"
                                 Grid.Column="2"
+                                IsEnabled="{Binding ElementName=CBExportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
+                                Style="{StaticResource BlueButton}"
                                 Content="Export" />
                     </Grid>
                 </Border>
@@ -456,17 +458,17 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock />
                                                 <TextBlock Grid.Column="1"
-                                                           Text="Total" 
+                                                           Text="Total"
                                                            VerticalAlignment="Center"
                                                            FontSize="14"
                                                            FontWeight="Bold"
-                                                           Foreground="White"/>
+                                                           Foreground="White" />
                                                 <TextBlock Grid.Column="2"
                                                            Text="{Binding TotalDeduction}"
                                                            VerticalAlignment="Center"
                                                            FontSize="14"
                                                            FontWeight="Bold"
-                                                           Foreground="White"/>
+                                                           Foreground="White" />
                                             </Grid>
                                         </StackPanel>
                                     </DataTemplate>

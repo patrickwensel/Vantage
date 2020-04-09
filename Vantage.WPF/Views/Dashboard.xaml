@@ -9,7 +9,6 @@
       mc:Ignorable="d"
       Title="Dashboard">
     <Page.Resources>
-        <converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
         <Style TargetType="StackPanel"
                x:Key="ButtonStackStyle">
             <Setter Property="Orientation"

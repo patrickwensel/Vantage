@@ -108,7 +108,7 @@
             <PasswordBox x:Name="TxtPassword"
                          MaxLength="8"
                          Grid.Row="4"
-                         Grid.Column="0"
+                         Grid.Column="0"                         
                          Margin="24,0,24,10"
                          TabIndex="1"
                          VerticalAlignment="Top" />
@@ -121,16 +121,11 @@
                        Foreground="Red" />
             <Button Grid.Row="6"
                     Grid.Column="0"
-                    IsDefault="True"
-                    Foreground="White"
+                    Style="{StaticResource BlueButton}"
+                    IsDefault="True"                    
                     Content="Log in"
                     Command="{Binding LoginCommand, Mode=OneTime}"
-                    CommandParameter="{Binding ElementName=TxtPassword}"
-                    BorderBrush="Transparent"
-                    BorderThickness="0"
-                    HorizontalAlignment="Stretch"
-                    FontSize="16"
-                    Background="{StaticResource DarkBlue}"
+                    CommandParameter="{Binding ElementName=TxtPassword}"                    
                     Margin="24,0,24,42"
                     TabIndex="2" />
         </Grid>
