@@ -653,6 +653,10 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                              Color="Transparent" />
         </Style.Resources>
+        <Setter Property="SelectionMode"
+                Value="Extended" />
+        <Setter Property="SelectionUnit"
+                Value="FullRow" />
         <Setter Property="HeadersVisibility"
                 Value="Column" />
         <Setter Property="AlternationCount"
