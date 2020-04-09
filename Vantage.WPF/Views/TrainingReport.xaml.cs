@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using Vantage.WPF.Helpers;
+using System.Windows.Input;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.ViewModels;
 
@@ -28,11 +28,17 @@ namespace Vantage.WPF.Views
         {
             base.OnInitialized(e);
             await (ViewModel as TrainingReportViewModel).OnInitializedAsync();
-        }
+        }        
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DataGrid_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
-            Console.WriteLine($"Selected Item : {e.Source}");
+            e.Handled = true;
+            var parent = ((Control)sender).Parent as UIElement;
+            parent?.RaiseEvent(new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = MouseWheelEvent,
+                Source = sender
+            });
         }
 
         //private void DataGridCell_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

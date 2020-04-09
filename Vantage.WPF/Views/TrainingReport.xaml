@@ -258,6 +258,7 @@
                       AutoGenerateColumns="False"
                       Margin="19,0,19,20"
                       SelectionUnit="FullRow"
+                      VirtualizingPanel.ScrollUnit="Pixel"
                       ItemsSource="{Binding Drivers}">
                 <!--<DataGrid.Resources>
                     <Style TargetType="DataGridCell"
@@ -331,9 +332,10 @@
                                    Background="#EBEBEB"
                                    Margin="0">
                             <DataGrid Margin="20,10,20,53"
+                                      PreviewMouseWheel="DataGrid_PreviewMouseWheel"
                                       AutoGenerateColumns="False"
-                                      IsEnabled="True"
                                       IsReadOnly="True"
+                                      VirtualizingPanel.ScrollUnit="Pixel"
                                       ItemsSource="{Binding GroupedAttemptsByLessons}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Lesson Name"
@@ -413,16 +415,13 @@
                                         <DockPanel HorizontalAlignment="Stretch"
                                                    VerticalAlignment="Top"
                                                    Background="#EBEBEB"
-                                                   MinHeight="180"
-                                                   MaxHeight="320"
                                                    Margin="0">
                                             <DataGrid Grid.Row="0"
                                                       Grid.Column="0"
                                                       Grid.ColumnSpan="3"
                                                       CanUserAddRows="False"
-                                                      Margin="20,20,20,0"
-                                                      IsEnabled="True"
-                                                      IsReadOnly="True"
+                                                      Margin="20"
+                                                      IsReadOnly="True"                                                      
                                                       ItemsSource="{Binding GroupedInfractions}"
                                                       AutoGenerateColumns="False">
                                                 <DataGrid.Columns>
