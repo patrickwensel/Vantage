@@ -22,6 +22,8 @@ namespace Vantage.Common.Models
 
         public List<Infraction> Infractions { get; set; }
 
+        public int TotalDeduction { get; private set; }
+
         public List<GroupedInfractions> GroupedInfractions => GetGroupedInfractions();
 
         private List<GroupedInfractions> GetGroupedInfractions()
@@ -39,6 +41,8 @@ namespace Vantage.Common.Models
                     Deduction = groupedItem.Sum(x => x.Deduction)
                 });
             }
+
+            TotalDeduction = groupedInfractions.Sum(x => x.Deduction);
 
             return groupedInfractions;
         }

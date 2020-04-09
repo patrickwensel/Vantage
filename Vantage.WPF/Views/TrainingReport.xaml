@@ -279,7 +279,7 @@
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Margin="6,0"
+                                <CheckBox Margin="14,0"
                                           IsChecked="{Binding IsSelected}"
                                           Command="{Binding ElementName=TrainingPage, Path=DataContext.DriverSelectCheckedChangedCommand}"
                                           CommandParameter="{Binding}" />
@@ -412,16 +412,18 @@
                                 </DataGrid.Columns>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
-                                        <DockPanel HorizontalAlignment="Stretch"
-                                                   VerticalAlignment="Top"
-                                                   Background="#EBEBEB"
-                                                   Margin="0">
-                                            <DataGrid Grid.Row="0"
+                                        <StackPanel HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Top"
+                                                    Background="#EBEBEB"
+                                                    Margin="0">
+                                            <DataGrid x:Name="InfractionsGrid"
+                                                      Grid.Row="0"
                                                       Grid.Column="0"
                                                       Grid.ColumnSpan="3"
                                                       CanUserAddRows="False"
-                                                      Margin="20"
-                                                      IsReadOnly="True"                                                      
+                                                      CanUserReorderColumns="False"
+                                                      Margin="20,20,20,0"
+                                                      IsReadOnly="True"
                                                       ItemsSource="{Binding GroupedInfractions}"
                                                       AutoGenerateColumns="False">
                                                 <DataGrid.Columns>
@@ -439,7 +441,34 @@
                                                                         Binding="{Binding Deduction}" />
                                                 </DataGrid.Columns>
                                             </DataGrid>
-                                        </DockPanel>
+                                            <Grid Margin="20,0,20,20">
+                                                <Grid.Background>
+                                                    <SolidColorBrush Color="#006896"
+                                                                     Opacity="0.65" />
+                                                </Grid.Background>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="{Binding ElementName=InfractionsGrid, Path=RowHeight}" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding ElementName=InfractionsGrid, Path=Columns[0].ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=InfractionsGrid, Path=Columns[1].ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=InfractionsGrid, Path=Columns[2].ActualWidth}" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock />
+                                                <TextBlock Grid.Column="1"
+                                                           Text="Total" 
+                                                           VerticalAlignment="Center"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"
+                                                           Foreground="White"/>
+                                                <TextBlock Grid.Column="2"
+                                                           Text="{Binding TotalDeduction}"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"
+                                                           Foreground="White"/>
+                                            </Grid>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </DataGrid.RowDetailsTemplate>
                             </DataGrid>

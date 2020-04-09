@@ -653,6 +653,8 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                              Color="Transparent" />
         </Style.Resources>
+        <Setter Property="HeadersVisibility"
+                Value="Column" />
         <Setter Property="AlternationCount"
                 Value="2" />
         <Setter Property="AlternatingRowBackground"
