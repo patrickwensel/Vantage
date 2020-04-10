@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _driverSelectCheckedChangedCommand;
         private readonly ICommand _productSelectedCommand;
         private readonly ICommand _showActiveDriverStateChangedCommand;
+        private readonly ICommand _exportReportCommand;
 
         private int _fetchedDriversCount;
         private Group _selectedGroup;
@@ -36,6 +38,8 @@ namespace Vantage.WPF.ViewModels
         private Product _selectedProduct;
         private bool? _isAllSelected = false;
         private bool _showOnlyActiveDrivers = true;
+        private string _selectedReportType;
+        private string _selectedExportType;
 
         public int FetchedDriversCount
         {
@@ -101,6 +105,18 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _showOnlyActiveDrivers, value); }
         }
 
+        public string SelectedReportType 
+        {
+            get { return _selectedReportType; }
+            set { SetProperty(ref _selectedReportType, value); }
+        }
+
+        public string SelectedExportType 
+        {
+            get { return _selectedExportType; }
+            set { SetProperty(ref _selectedExportType, value); }
+        }
+
         public ICommand GroupSelectedCommand { get { return _groupSelectedCommand; } }
 
         public ICommand ProductSelectedCommand { get { return _productSelectedCommand; } }
@@ -110,6 +126,8 @@ namespace Vantage.WPF.ViewModels
         public ICommand DriverSelectCheckedChangedCommand { get { return _driverSelectCheckedChangedCommand; } }
 
         public ICommand ShowActiveDriverStateChangedCommand { get { return _showActiveDriverStateChangedCommand; } }
+
+        public ICommand ExportReportCommand { get { return _exportReportCommand; } }
 
         public TrainingReportViewModel(IGroupService groupService, IDriverService driverService, MainWindowViewModel mainWindowViewModel)
         {
@@ -124,6 +142,7 @@ namespace Vantage.WPF.ViewModels
             _showActiveDriverStateChangedCommand = new DelegateCommand(OnShowActiveDriverStateChanged);
             _manageCommand = new DelegateCommand(OnManageClicked);
             _systemCommand = new DelegateCommand(OnSystemClicked);
+            _exportReportCommand = new DelegateCommand(ExportReports);
             TabItems = new List<TabItem>()
             {
                 new TabItem() { Icon = "", Text = "Training Reports", IsSelected = true, ClickCommand = null },
@@ -285,6 +304,20 @@ namespace Vantage.WPF.ViewModels
         private void OnSystemClicked(object parameter)
         {
             Console.WriteLine($"System Clicked : {parameter}");
+        }
+
+        private void ExportReports(object parameter)
+        {
+            Console.WriteLine($"Selected Report Type : {SelectedReportType}, Export : {SelectedExportType}");
+            string fileformats = SelectedExportType.ToLower() == "pdf" ? "PDF (*.pdf) | *.pdf" : "Excel (*.xlsx) | *.xlsx; *.xls";
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = fileformats;
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.Title = $"Export as {SelectedExportType}";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                Console.WriteLine($"Filename : {saveFileDialog.FileName}");
+            }
         }
 
         private IList<SelectableDriver> GetSelectableDrivers(IList<Driver> drivers)

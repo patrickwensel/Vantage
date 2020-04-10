@@ -134,6 +134,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
@@ -157,65 +158,70 @@
                 <Border Grid.Row="0"
                         Grid.Column="2"
                         Margin="14,0"
-                        Padding="14,2"
                         BorderThickness="1"
-                        BorderBrush="{StaticResource Gray}">
-                    <Grid Grid.Row="0"
-                          Grid.Column="2"
-                          Margin="5"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0"
-                                   Grid.Column="0"
-                                   Style="{StaticResource LeftPaddedFieldHeader}"
-                                   Text="Report" />
-                        <ComboBox x:Name="CBReportType"
-                                  Grid.Row="1"
-                                  Grid.Column="0"
-                                  Style="{StaticResource LightComboBoxStyle}"
-                                  MinWidth="180">
-                            <ComboBox.ItemsSource>
-                                <x:Array Type="sys:String">
-                                    <sys:String>Training Report</sys:String>
-                                    <sys:String>Invidual Report</sys:String>
-                                </x:Array>
-                            </ComboBox.ItemsSource>
-                        </ComboBox>
-                        <TextBlock Grid.Row="0"
-                                   Grid.Column="1"
-                                   Style="{StaticResource LeftPaddedFieldHeader}"
-                                   Text="Export" />
-                        <ComboBox x:Name="CBExportType"
-                                  Grid.Row="1"
-                                  Grid.Column="1"
-                                  IsEnabled="{Binding ElementName=CBReportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
-                                  Style="{StaticResource LightComboBoxStyle}"
-                                  MinWidth="100">
-                            <ComboBox.ItemsSource>
-                                <x:Array Type="sys:String">
-                                    <sys:String>PDF</sys:String>
-                                    <sys:String>Excel</sys:String>
-                                </x:Array>
-                            </ComboBox.ItemsSource>
-                        </ComboBox>
-                        <Button Grid.Row="1"
-                                Grid.Column="2"
-                                IsEnabled="{Binding ElementName=CBExportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
-                                Style="{StaticResource BlueButton}"
-                                Content="Export" />
-                    </Grid>
-                </Border>
+                        Width="1"
+                        BorderBrush="{StaticResource Divider}" />
+                <StackPanel Grid.Row="0"
+                            Grid.Column="3"
+                            Margin="5"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource LeftPaddedFieldHeader}"
+                               Text="Report" />
+                    <ComboBox x:Name="CBReportType"
+                              SelectedItem="{Binding SelectedReportType}"                             
+                              MinWidth="180">
+                        <ComboBox.ItemsSource>
+                            <x:Array Type="sys:String">
+                                <sys:String>Training Report</sys:String>
+                                <sys:String>Invidual Report</sys:String>
+                            </x:Array>
+                        </ComboBox.ItemsSource>
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox" BasedOn="{StaticResource LightComboBoxStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAllSelected}"
+                                                 Value="False">
+                                        <Setter Property="IsEnabled"
+                                                Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+                    <TextBlock Style="{StaticResource LeftPaddedFieldHeader}"
+                               Text="Export as" />
+                    <ComboBox x:Name="CBExportType"
+                              SelectedItem="{Binding SelectedExportType}"
+                              IsEnabled="{Binding ElementName=CBReportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
+                              Style="{StaticResource LightComboBoxStyle}"
+                              MinWidth="100">
+                        <ComboBox.ItemsSource>
+                            <x:Array Type="sys:String">
+                                <sys:String>PDF</sys:String>
+                                <sys:String>Excel</sys:String>
+                            </x:Array>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <Button Command="{Binding ExportReportCommand}"
+                            IsEnabled="{Binding ElementName=CBExportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
+                            Margin="14,0"
+                            Style="{StaticResource BlueButton}">
+                        <Button.Content>
+                            <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource ButtonTextBlockBaseStyle}"
+                                           Text="Export" />
+                                <TextBlock Style="{StaticResource ButtonIconTextBlockBaseStyle}"
+                                           Text=" " />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
                 <Grid Grid.Row="0"
-                      Grid.Column="3"
+                      Grid.Column="4"
                       HorizontalAlignment="Right">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -275,6 +281,7 @@
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="ChkSelectAll"
+                                          Style="{StaticResource BlueCheckBox}"
                                           Command="{Binding ElementName=TrainingPage, Path=DataContext.SelectAllCheckedChangedCommand}"
                                           IsChecked="{Binding ElementName=TrainingPage, Path=DataContext.IsAllSelected, Mode=TwoWay}" />
                             </DataTemplate>
@@ -282,6 +289,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox Margin="14,0"
+                                          Style="{StaticResource BlueCheckBox}"
                                           IsChecked="{Binding IsSelected}"
                                           Command="{Binding ElementName=TrainingPage, Path=DataContext.DriverSelectCheckedChangedCommand}"
                                           CommandParameter="{Binding}" />
