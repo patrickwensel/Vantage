@@ -170,15 +170,18 @@
                     <TextBlock Style="{StaticResource LeftPaddedFieldHeader}"
                                Text="Report" />
                     <ComboBox x:Name="CBReportType"
-                              SelectedItem="{Binding SelectedReportType}"                             
+                              IsEnabled="{Binding IsReportTypeDropdownEnabled}"
+                              SelectedItem="{Binding SelectedReportType}"
+                              Style="{StaticResource LightComboBoxStyle}"
                               MinWidth="180">
                         <ComboBox.ItemsSource>
                             <x:Array Type="sys:String">
                                 <sys:String>Training Report</sys:String>
-                                <sys:String>Invidual Report</sys:String>
+                                <sys:String>Individual Report</sys:String>
+                                <sys:String>Detailed Lesson Report</sys:String>
                             </x:Array>
                         </ComboBox.ItemsSource>
-                        <ComboBox.Style>
+                        <!--<ComboBox.Style>
                             <Style TargetType="ComboBox" BasedOn="{StaticResource LightComboBoxStyle}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsAllSelected}"
@@ -188,7 +191,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </ComboBox.Style>
+                        </ComboBox.Style>-->
                     </ComboBox>
                     <TextBlock Style="{StaticResource LeftPaddedFieldHeader}"
                                Text="Export as" />
@@ -197,6 +200,25 @@
                               IsEnabled="{Binding ElementName=CBReportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
                               Style="{StaticResource LightComboBoxStyle}"
                               MinWidth="100">
+                        <!--<ComboBox.Style>
+                            <Style TargetType="ComboBox"
+                                   BasedOn="{StaticResource LightComboBoxStyle}">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=CBReportType, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
+                                                       Value="True" />
+                                            <Condition Binding="{Binding ElementName=CBReportType, Path=IsEnabled}"
+                                                       Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="IsEnabled"
+                                                    Value="True" />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>-->
                         <ComboBox.ItemsSource>
                             <x:Array Type="sys:String">
                                 <sys:String>PDF</sys:String>
@@ -324,6 +346,9 @@
                                                  Grid.Column="0"
                                                  Margin="10,3"
                                                  Minimum="0"
+                                                 Background="White"
+                                                 Foreground="{StaticResource DarkBlue}"
+                                                 BorderBrush="{StaticResource ProgressBorder}"
                                                  Maximum="{Binding GroupedAttemptsByLessons, Mode=OneWay,Converter={StaticResource LessonsAttemptCountConverter}}"
                                                  Value="{Binding GroupedAttemptsByLessons, Mode=OneWay, Converter={StaticResource CompletedLessonCountConverter}}" />
                                     <TextBlock Grid.Row="0"

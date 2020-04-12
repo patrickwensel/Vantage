@@ -51,6 +51,7 @@
     <SolidColorBrush x:Key="Gray">#5F6164</SolidColorBrush>
     <SolidColorBrush x:Key="LightGray">#00000066</SolidColorBrush>
     <SolidColorBrush x:Key="Divider">#CECECE</SolidColorBrush>
+    <SolidColorBrush x:Key="ProgressBorder">#D8D8D8</SolidColorBrush>
     <!-- Main Grid Style -->
     <!-- *************** -->
     <Style TargetType="Grid"
@@ -788,8 +789,8 @@
         <Style.Triggers>
             <Trigger Property="IsSelected"
                      Value="True">
-                <Setter Property="TextBlock.Foreground"
-                        Value="#5F6164" />
+                <!--<Setter Property="TextBlock.Foreground"
+                        Value="#5F6164" />-->
                 <Setter Property="TextBlock.FontWeight"
                         Value="Bold" />
             </Trigger>
