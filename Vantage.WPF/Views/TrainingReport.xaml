@@ -88,17 +88,13 @@
         </controls:TopTabbar>
         <StackPanel Grid.Row="0"
                     Grid.Column="1"
+                    Orientation="Horizontal"
                     HorizontalAlignment="Stretch"
                     Margin="19,32,19,10">
-            <controls:LoggedInUserInfo Grid.Row="0"
-                                       Grid.Column="0"
-                                       VerticalAlignment="Bottom"
-                                       HorizontalAlignment="Right"
-                                       Margin="0,5"
-                                       UserInfo="{Binding LoggedInUserInfo}" />
             <ComboBox Template="{DynamicResource DropdownTemplate}"
                       ItemsSource="{Binding Products}"
                       SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                      Margin="5"
                       Foreground="White"
                       FontFamily="Segoe UI"
                       FontWeight="Bold"
@@ -107,13 +103,18 @@
                       Background="{StaticResource DarkBlue}"
                       BorderBrush="{StaticResource LightBlue}"
                       BorderThickness="1"
-                      HorizontalAlignment="Right">
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom">
                 <interactivity:Interaction.Triggers>
                     <interactivity:EventTrigger EventName="SelectionChanged">
                         <interactivity:InvokeCommandAction Command="{Binding ProductSelectedCommand}" />
                     </interactivity:EventTrigger>
                 </interactivity:Interaction.Triggers>
             </ComboBox>
+            <controls:LoggedInUserInfo VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,5"
+                                       UserInfo="{Binding LoggedInUserInfo}" />
         </StackPanel>
         <Grid Grid.Row="1"
               Grid.Column="0"
