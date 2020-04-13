@@ -1,0 +1,84 @@
+﻿<Page x:Class="Vantage.WPF.Views.SystemView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:controls="clr-namespace:Vantage.WPF.Controls"
+      xmlns:local="clr-namespace:Vantage.WPF.Views"
+      mc:Ignorable="d"
+      Title="SystemView">
+    <Page.Resources>
+        <Style TargetType="TextBlock"
+               x:Key="FieldHeader">
+            <Setter Property="Foreground"
+                    Value="#5F6164" />
+            <Setter Property="FontSize"
+                    Value="14" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Margin"
+                    Value="0,0,7,0" />
+        </Style>
+        <Style TargetType="TextBlock"
+               BasedOn="{StaticResource FieldHeader}"
+               x:Key="LeftPaddedFieldHeader">
+            <Setter Property="Margin"
+                    Value="7,0" />
+        </Style>
+    </Page.Resources>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Row="0"
+               Grid.Column="0"
+               Grid.RowSpan="3"
+               Grid.ColumnSpan="2"
+               Stretch="UniformToFill"
+               Opacity="0.5"
+               Source="/Images/Cover.png">
+            <Image.Effect>
+                <BlurEffect Radius="30" />
+            </Image.Effect>
+        </Image>
+        <controls:TopTabbar x:Name="TBTab"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0"
+                            ItemsSource="{Binding TabItems}"
+                            HorizontalAlignment="Stretch">
+        </controls:TopTabbar>
+        <StackPanel Grid.Row="0"
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Stretch"
+                    Margin="19,32,19,10">
+            <controls:LoggedInUserInfo VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,5"
+                                       UserInfo="{Binding LoggedInUserInfo}" />
+        </StackPanel>
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
+            <Grid.Background>
+                <SolidColorBrush Color="#000000"
+                                 Opacity="0.1" />
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </Grid>
+</Page>

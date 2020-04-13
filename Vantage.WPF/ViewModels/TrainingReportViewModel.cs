@@ -17,6 +17,7 @@ namespace Vantage.WPF.ViewModels
     {
         private readonly IGroupService _groupService;
         private readonly IDriverService _driverService;
+        private readonly INavigationService _navigationService;
         private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly Group AllGroupForComboBox = new Group() { GroupID = -1, Name = "All" };
         private readonly ICommand _groupSelectedCommand;
@@ -139,10 +140,11 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand ExportReportCommand { get { return _exportReportCommand; } }
 
-        public TrainingReportViewModel(IGroupService groupService, IDriverService driverService, MainWindowViewModel mainWindowViewModel)
+        public TrainingReportViewModel(IGroupService groupService, IDriverService driverService, INavigationService navigationService, MainWindowViewModel mainWindowViewModel)
         {
             _groupService = groupService;
             _driverService = driverService;
+            _navigationService = navigationService;
             _mainWindowViewModel = mainWindowViewModel;
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
             _selectAllCheckedChangedCommand = new DelegateCommand(OnSelectAllCheckedChanged);
@@ -329,11 +331,13 @@ namespace Vantage.WPF.ViewModels
         private void OnManageClicked(object parameter)
         {
             Console.WriteLine($"Manage Clicked : {parameter}");
+            _navigationService.NavigateTo(Enums.PageKey.ManageDriver);
         }
 
         private void OnSystemClicked(object parameter)
         {
             Console.WriteLine($"System Clicked : {parameter}");
+            _navigationService.NavigateTo(Enums.PageKey.System);
         }
 
         private void ExportReports(object parameter)

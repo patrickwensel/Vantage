@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using Unity.Resolution;
 using Vantage.Common;
@@ -95,6 +94,12 @@ namespace Vantage.WPF.Services
                     break;
                 case PageKey.Admin:
                     page = (Page)ContainerManager.Container.Resolve(typeof(Admin), typeof(Admin).ToString());
+                    break;
+                case PageKey.ManageDriver:
+                    page = (Page)ContainerManager.Container.Resolve(typeof(ManageDriver), typeof(ManageDriver).ToString());
+                    break;
+                case PageKey.System:
+                    page = (Page)ContainerManager.Container.Resolve(typeof(SystemView), typeof(SystemView).ToString());
                     break;
                 default:
                     throw new ArgumentException(

@@ -26,6 +26,8 @@ namespace Vantage.WPF
             container.RegisterType<TrainingReportViewModel>(new TransientLifetimeManager());
             container.RegisterType<AdminViewModel>(new TransientLifetimeManager());
             container.RegisterType<DashboardViewModel>(new TransientLifetimeManager());
+            container.RegisterType<ManageDriverViewModel>(new TransientLifetimeManager());
+            container.RegisterType<SystemViewModel>(new TransientLifetimeManager());
         }
 
         private static void RegisterViews(IUnityContainer container)
@@ -35,6 +37,8 @@ namespace Vantage.WPF
             container.RegisterType<TrainingReport>(new TransientLifetimeManager());
             container.RegisterType<Dashboard>(new TransientLifetimeManager());
             container.RegisterType<Admin>(new TransientLifetimeManager());
+            container.RegisterType<ManageDriver>(new TransientLifetimeManager());
+            container.RegisterType<SystemView>(new TransientLifetimeManager());
         }
 
         private static void RegisterServices(IUnityContainer container)
