@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Vantage.Common.Models;
+using Vantage.WPF.Interfaces;
 using Vantage.WPF.Models;
 
 namespace Vantage.WPF.Utility
 {
-    public static class ExportReports
+    public static class ExportPDFReports
     {
         private static iTextSharp.text.Font titleFont = FontFactory.GetFont("Segoe UI", 18, new iTextSharp.text.BaseColor(System.Drawing.Color.Black));
         private static iTextSharp.text.Font tableHeaderFont = FontFactory.GetFont("Segoe UI", 12, Font.BOLD, new iTextSharp.text.BaseColor(System.Drawing.Color.Black));

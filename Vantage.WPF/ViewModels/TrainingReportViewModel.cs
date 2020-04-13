@@ -109,19 +109,19 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _showOnlyActiveDrivers, value); }
         }
 
-        public bool IsReportTypeDropdownEnabled 
+        public bool IsReportTypeDropdownEnabled
         {
             get { return _isReportTypeDropdownEnabled; }
             set { SetProperty(ref _isReportTypeDropdownEnabled, value); }
         }
 
-        public string SelectedReportType 
+        public string SelectedReportType
         {
             get { return _selectedReportType; }
             set { SetProperty(ref _selectedReportType, value); }
         }
 
-        public string SelectedExportType 
+        public string SelectedExportType
         {
             get { return _selectedExportType; }
             set { SetProperty(ref _selectedExportType, value); }
@@ -207,7 +207,7 @@ namespace Vantage.WPF.ViewModels
         {
             ClearDriverList();
             if (Groups == null)
-                return;            
+                return;
 
             List<Driver> driversList = new List<Driver>();
 
@@ -216,7 +216,7 @@ namespace Vantage.WPF.ViewModels
                 if (group == null || group.Drivers == null)
                     continue;
 
-                foreach(Driver driver in group.Drivers)
+                foreach (Driver driver in group.Drivers)
                 {
                     if (driver == null)
                         continue;
@@ -258,7 +258,7 @@ namespace Vantage.WPF.ViewModels
         }
 
         private void OnSelectAllCheckedChanged(object parameter)
-        {            
+        {
             if (IsAllSelected == null || Drivers == null)
                 return;
 
@@ -348,18 +348,27 @@ namespace Vantage.WPF.ViewModels
             {
                 var fileInfo = new FileInfo(saveFileDialog.FileName);
                 Console.WriteLine($"Filename : {saveFileDialog.FileName}, {fileInfo.Name}, {fileInfo.Directory.FullName}");
-                switch(SelectedReportType.ToLower())
+                switch (SelectedReportType.ToLower())
                 {
                     case "training report":
-                        ExportTrainingReport(Drivers.Where(x => x.IsSelected).ToList(), saveFileDialog.FileName);
+                        if (SelectedExportType.ToLower() == "excel")
+                            Utility.ExportExcelReports.TrainingReport(Drivers.Where(x => x.IsSelected).ToList(), saveFileDialog.FileName);
+                        else
+                            ExportTrainingReportAsPDF(Drivers.Where(x => x.IsSelected).ToList(), saveFileDialog.FileName);
                         break;
                     case "individual report":
-                        ExportIndividualReports(Drivers.Where(x => x.IsSelected).ToList(), fileInfo.Name, fileInfo.Directory.FullName);
+                        if (SelectedExportType.ToLower() == "excel")
+                            Utility.ExportExcelReports.IndividualDriversReport(Drivers.Where(x => x.IsSelected).ToList(), saveFileDialog.FileName);
+                        else
+                            ExportIndividualReportsAsPDF(Drivers.Where(x => x.IsSelected).ToList(), fileInfo.Name, fileInfo.Directory.FullName);
                         break;
                     case "detailed lesson report":
-                        ExportDetailedLessonReports(Drivers.Where(x => x.IsSelected).ToList(), fileInfo.Name, fileInfo.Directory.FullName);
+                        if (SelectedExportType.ToLower() == "excel")
+                            Utility.ExportExcelReports.DetailedLessonReport(Drivers.Where(x => x.IsSelected).ToList(), saveFileDialog.FileName);
+                        else
+                            ExportDetailedLessonReportsAsPDF(Drivers.Where(x => x.IsSelected).ToList(), fileInfo.Name, fileInfo.Directory.FullName);
                         break;
-                }                
+                }
             }
         }
 
@@ -427,28 +436,28 @@ namespace Vantage.WPF.ViewModels
             FetchedDriversCount = 0;
         }
 
-        private void ExportTrainingReport(IList<SelectableDriver> drivers, string absoluteFileName)
+        private void ExportTrainingReportAsPDF(IList<SelectableDriver> drivers, string absoluteFileName)
         {
-            Utility.ExportReports.TrainingReport(drivers, absoluteFileName);
+            Utility.ExportPDFReports.TrainingReport(drivers, absoluteFileName);
         }
 
-        private void ExportIndividualReports(IList<SelectableDriver> drivers, string filePrefix, string directory)
-        {
-            filePrefix = filePrefix.Replace(".pdf", string.Empty);
-            foreach(SelectableDriver driver in drivers)
-            {
-                string fileName = $"{filePrefix}_{driver.DriverID}.pdf";
-                Utility.ExportReports.IndividualDriversReport(driver, $"{directory}/{fileName}");
-            }
-        }
-
-        private void ExportDetailedLessonReports(IList<SelectableDriver> drivers, string filePrefix, string directory)
+        private void ExportIndividualReportsAsPDF(IList<SelectableDriver> drivers, string filePrefix, string directory)
         {
             filePrefix = filePrefix.Replace(".pdf", string.Empty);
             foreach (SelectableDriver driver in drivers)
             {
                 string fileName = $"{filePrefix}_{driver.DriverID}.pdf";
-                Utility.ExportReports.DetailedLessonReport(driver, $"{directory}/{fileName}");
+                Utility.ExportPDFReports.IndividualDriversReport(driver, $"{directory}/{fileName}");
+            }
+        }
+
+        private void ExportDetailedLessonReportsAsPDF(IList<SelectableDriver> drivers, string filePrefix, string directory)
+        {
+            filePrefix = filePrefix.Replace(".pdf", string.Empty);
+            foreach (SelectableDriver driver in drivers)
+            {
+                string fileName = $"{filePrefix}_{driver.DriverID}.pdf";
+                Utility.ExportPDFReports.DetailedLessonReport(driver, $"{directory}/{fileName}");
             }
         }
     }
