@@ -149,6 +149,52 @@
         <Setter Property="VerticalAlignment"
                 Value="Center" />
     </Style>
+    <Style TargetType="TextBlock"
+           x:Key="FieldHeader">
+        <Setter Property="Foreground"
+                Value="#5F6164" />
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="Margin"
+                Value="0,0,7,0" />
+    </Style>
+    <Style TargetType="TextBlock"
+           BasedOn="{StaticResource FieldHeader}"
+           x:Key="LeftPaddedFieldHeader">
+        <Setter Property="Margin"
+                Value="7,0" />
+    </Style>
+    <Style TargetType="ComboBox"
+           x:Key="LightComboBoxStyle">
+        <Setter Property="Template"
+                Value="{DynamicResource DropdownTemplate}" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="FontFamily"
+                Value="Segoe UI" />
+        <Setter Property="FontWeight"
+                Value="Bold" />
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="Background"
+                Value="White" />
+        <Setter Property="BorderBrush"
+                Value="#EBEBEB" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="Margin"
+                Value="7,0" />
+        <Setter Property="MinWidth"
+                Value="120" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+    </Style>
     <Style x:Key="OptionMarkFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>

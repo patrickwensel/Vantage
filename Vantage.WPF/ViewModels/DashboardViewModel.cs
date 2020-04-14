@@ -67,19 +67,18 @@ namespace Vantage.WPF.ViewModels
         }
 
         private void NavigateOnReportScreen(object parameter)
-        {
-            Console.WriteLine($"Selected Product Is : {SelectedProduct}");
+        {           
             _navigationService.NavigateTo(Enums.PageKey.TrainingReport);
         }
 
         private void NavigateOnManageScreen(object parameter)
-        {
-            Console.WriteLine($"Selected Product Is : {SelectedProduct}");
+        {            
+            _navigationService.NavigateTo(Enums.PageKey.ManageDriver);
         }
 
         private void NavigateOnSystemScreen(object parameter)
         {
-            Console.WriteLine($"Selected Product Is : {SelectedProduct}");
+            _navigationService.NavigateTo(Enums.PageKey.System);
         }
     }
 }

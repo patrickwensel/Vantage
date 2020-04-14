@@ -104,7 +104,8 @@ namespace Vantage.WPF.ViewModels
                 _mainWindowViewModel.LoggedInUserInfo = new Controls.Models.UserInfo()
                 {
                     Username = LoggedInName,
-                    Roles = string.Join(", ", user.Roles)
+                    Roles = string.Join(", ", user.Roles),
+                    FullUserInfo = user
                 };
 
                 //Update UI

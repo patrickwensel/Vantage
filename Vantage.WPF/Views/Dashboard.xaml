@@ -205,8 +205,7 @@
                 </StackPanel>
             </Button>
             <Button Grid.Row="2"
-                    Grid.Column="2"
-                    IsEnabled="{Binding SelectedProduct, Converter={StaticResource ObjectToBoolConverter}}"
+                    Grid.Column="2"                    
                     Command="{Binding SystemCommand}"
                     Style="{StaticResource ImageButtonStyle}">
                 <StackPanel Style="{StaticResource ButtonStackStyle}">
