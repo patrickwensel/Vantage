@@ -122,9 +122,11 @@ namespace Vantage.WPF.ViewModels
             FetchDriversFromAllTheGroups();
         }
 
-        private async Task FetchGroupsAsync()
+        private async Task FetchGroupsAsync(bool shouldClearDriverList = true)
         {
-            ClearDriverList();
+            if (shouldClearDriverList)
+                ClearDriverList();
+
             Groups.Clear();
             var groups = await _groupService.GetGroups();
 
@@ -203,6 +205,9 @@ namespace Vantage.WPF.ViewModels
         {
             Console.WriteLine($"Group updated for Driver : {parameter}");
             UpdateDriversGroup updateDriverGroup = parameter as UpdateDriversGroup;
+            if (updateDriverGroup.Group == null || updateDriverGroup.Driver.GroupID == updateDriverGroup.Group.GroupID)
+                return;
+
             updateDriverGroup.Driver.GroupID = updateDriverGroup.Group.GroupID;
             updateDriverGroup.Driver.Group = updateDriverGroup.Group;
 
@@ -217,7 +222,9 @@ namespace Vantage.WPF.ViewModels
                 GroupID = updateDriverGroup.Group.GroupID
             };
 
+            App.SetCursorToWait();
             await _driverService.UpdateDriver(driver);
+            App.SetCursorToArrow();
         }
 
         private void AddDriver(object parameter)
@@ -237,8 +244,12 @@ namespace Vantage.WPF.ViewModels
             if (shouldDelete != System.Windows.MessageBoxResult.Yes)
                 return;
 
+            App.SetCursorToWait();
             var deletedDriver = await _driverService.DeleteDriver(driver.DriverID);
             Console.WriteLine($"Deleted driver : {deletedDriver}");
+            await FetchGroupsAsync(false);
+            FetchDriversFromAllTheGroups();
+            App.SetCursorToArrow();
         }
     }
 }

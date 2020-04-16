@@ -3,6 +3,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Vantage.Common;
 
 namespace Vantage.WPF
@@ -13,6 +14,17 @@ namespace Vantage.WPF
     public partial class App : Application
     {
         public static IPrincipal CurrentPrincipal;
+
+
+        public static void SetCursorToWait()
+        {
+            App.Current.MainWindow.Cursor = Cursors.Wait;
+        }
+
+        public static void SetCursorToArrow()
+        {
+            App.Current.MainWindow.Cursor = Cursors.Arrow;
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {

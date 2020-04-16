@@ -85,7 +85,7 @@ namespace Vantage.WPF.ViewModels
                     return;
                 }
 
-                App.Current.MainWindow.Cursor = Cursors.Wait;
+                App.SetCursorToWait();
                 //Validate credentials through the authentication service
                 UserReturnObject user = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
@@ -117,7 +117,7 @@ namespace Vantage.WPF.ViewModels
                 Username = string.Empty; //reset
                 passwordBox.Password = string.Empty; //reset
                 _mainWindowViewModel.Status = string.Empty;
-                App.Current.MainWindow.Cursor = Cursors.Arrow;
+                App.SetCursorToArrow();
                 _navigationService.NavigateTo(Enums.PageKey.Dashboard);
 
                 //  dashboard.Show();
@@ -126,7 +126,7 @@ namespace Vantage.WPF.ViewModels
             }
             catch (UnauthorizedAccessException)
             {
-                App.Current.MainWindow.Cursor = Cursors.Arrow;
+                App.SetCursorToArrow();
 
                 _mainWindowViewModel.Status = "Please enter valid admin name and password.";
                 passwordBox.Password = string.Empty;
@@ -135,7 +135,7 @@ namespace Vantage.WPF.ViewModels
             }
             catch (Exception ex)
             {
-                App.Current.MainWindow.Cursor = Cursors.Arrow;
+                App.SetCursorToArrow();
 #if DEBUG
                 _mainWindowViewModel.Status = string.Format("ERROR: {0}", ex.Message);
 #else

@@ -41,12 +41,12 @@ namespace Vantage.Data
             modelBuilder.Entity<Driver>()
                 .HasMany(c => c.Attempts)
                 .WithOne(e => e.Driver)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Attempt>()
                 .HasMany(c => c.Infractions)
                 .WithOne(e => e.Attempt)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Lesson>()
                 .HasMany(c => c.Attempts)
