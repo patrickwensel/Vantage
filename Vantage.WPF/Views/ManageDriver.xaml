@@ -47,7 +47,8 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Stretch"
                     Margin="19,32,19,10">
-            <ComboBox Template="{DynamicResource DropdownTemplate}"
+            <ComboBox x:Name="CBProducts"
+                      Template="{DynamicResource DropdownTemplate}"
                       ItemsSource="{Binding Products}"
                       SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
                       Margin="5"
@@ -75,6 +76,7 @@
         <Grid Grid.Row="1"
               Grid.Column="0"
               Grid.ColumnSpan="2"
+              IsEnabled="{Binding ElementName=CBProducts, Path=SelectedItem, Converter={StaticResource ObjectToBoolConverter}}"
               Background="#F4F4F4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -85,7 +87,7 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Row="0"
                     Grid.Column="0"
-                    Command="{Binding AddNewDriverCommand}"                    
+                    Command="{Binding AddNewDriverCommand}"
                     Margin="19,21"
                     Style="{StaticResource WhiteButton}"
                     HorizontalAlignment="Left">
@@ -110,13 +112,6 @@
                       SelectionUnit="FullRow"
                       VirtualizingPanel.ScrollUnit="Pixel"
                       ItemsSource="{Binding Drivers}">
-                <!--<DataGrid.Resources>
-                    <Style TargetType="DataGridCell"
-                           BasedOn="{StaticResource DataGridCellStyle}">
-                        <EventSetter Event="PreviewMouseLeftButtonDown"
-                                     Handler="DataGridCell_PreviewMouseLeftButtonDown" />
-                    </Style>
-                </DataGrid.Resources>-->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Last Name"
                                         IsReadOnly="True"
@@ -126,31 +121,15 @@
                                         IsReadOnly="True"
                                         MinWidth="222"
                                         Binding="{Binding FirstName}" />
-                    <!--<DataGridTextColumn Header="Group"
-                                        IsReadOnly="True"
-                                        MinWidth="120"
-                                        Binding="{Binding Group.Name}" />-->
-                    <!--<DataGridComboBoxColumn Header="Group"
-                                            MinWidth="120"
-                                            SelectedItemBinding="{Binding Group, Mode=TwoWay}"
-                                            DisplayMemberPath="Name">
-                        <DataGridComboBoxColumn.ElementStyle>
-                            <Style TargetType="ComboBox"
-                                   BasedOn="{StaticResource LightComboBoxStyle}">
-                                <Setter Property="ItemsSource"
-                                        Value="{Binding ElementName=ManageDrivers, Path=DataContext.Groups}" />
-                            </Style>
-                        </DataGridComboBoxColumn.ElementStyle>
-                    </DataGridComboBoxColumn>-->
                     <DataGridTemplateColumn Header="Group"
                                             MinWidth="120"
                                             CanUserSort="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox x:Name="CBGroup"
-                                    Style="{StaticResource LightComboBoxStyle}" 
+                                          Style="{StaticResource LightComboBoxStyle}"
                                           ItemsSource="{Binding ElementName=ManageDrivers, Path=DataContext.Groups}"
-                                          SelectedItem="{Binding Group, Mode=TwoWay}"                                         
+                                          SelectedItem="{Binding Group, Mode=TwoWay}"
                                           DisplayMemberPath="Name">
                                     <interactivity:Interaction.Triggers>
                                         <interactivity:EventTrigger EventName="SelectionChanged">
@@ -206,6 +185,221 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
+        </Grid>
+        <!-- Add Edit Popup -->
+        <Grid Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Grid.RowSpan="2"
+              Background="{StaticResource BluredBlueBackground}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility"
+                            Value="Hidden" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEditingDriver}"
+                                     Value="True">
+                            <Setter Property="Visibility"
+                                    Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsAddingDriver}"
+                                     Value="True">
+                            <Setter Property="Visibility"
+                                    Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Background="#F0F0F0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid HorizontalAlignment="Stretch"
+                      VerticalAlignment="Top"
+                      Grid.Column="0"
+                      Grid.Row="0"
+                      Grid.ColumnSpan="2">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0"
+                                             EndPoint="1,1">
+                            <GradientStop Color="#006896"
+                                          Offset="0.0" />
+                            <GradientStop Color="#00344B"
+                                          Offset="0.60" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               Margin="21,21,15,16"
+                               FontSize="23"
+                               Foreground="White">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditingDriver}"
+                                                 Value="True">
+                                        <Setter Property="Text"
+                                                Value="" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsAddingDriver}"
+                                                 Value="True">
+                                        <Setter Property="Text"
+                                                Value="" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="22"
+                               Foreground="White">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditingDriver}"
+                                                 Value="True">
+                                        <Setter Property="Text"
+                                                Value="Edit Driver" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsAddingDriver}"
+                                                 Value="True">
+                                        <Setter Property="Text"
+                                                Value="Add Driver" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            Style="{StaticResource IconButton}"
+                            Command="{Binding ClosePopupCommand}"
+                            Foreground="White"
+                            FontSize="23"
+                            Margin="16,0"
+                            Content=""
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center" />
+                </Grid>
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Style="{StaticResource FieldHeader}"
+                           Margin="16,16,16,3"
+                           Text="First Name" />
+                <TextBox x:Name="TxtFirstName"
+                         Grid.Row="2"
+                         Grid.Column="0"
+                         Margin="16,0,8,0"
+                         MinWidth="296" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Style="{StaticResource FieldHeader}"
+                           Margin="16,16,16,3"
+                           Text="Last Name" />
+                <TextBox x:Name="TxtLastName"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         Margin="8,0,16,0"
+                         MinWidth="296" />
+                <TextBlock Grid.Row="3"
+                           Grid.Column="0"
+                           Style="{StaticResource FieldHeader}"
+                           Margin="16,16,16,3"
+                           Text="Group" />
+                <ComboBox x:Name="CBGroup"
+                          Grid.Row="4"
+                          Grid.Column="0"
+                          Style="{StaticResource LightComboBoxStyle}"
+                          Margin="16,0,8,0"
+                          MinWidth="296" />
+                <TextBlock Grid.Row="3"
+                           Grid.Column="1"
+                           Style="{StaticResource FieldHeader}"
+                           Margin="16,16,16,3"
+                           Text="Pin" />
+                <TextBox x:Name="TxtPin"
+                         Grid.Row="4"
+                         Grid.Column="1"
+                         Margin="8,0,16,0"
+                         MinWidth="296" />
+                <CheckBox x:Name="CKIsActive"
+                          Grid.Row="5"
+                          Grid.Column="0"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Left"
+                          Style="{StaticResource BlueCheckBox}"
+                          Margin="16">
+                    <TextBlock Style="{StaticResource FieldHeader}"
+                               Text="Active" />
+                </CheckBox>
+                <Button x:Name="BtnUpdate"
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Content="Update"
+                        Command="{Binding EditCommand}"
+                        Margin="16,16,16,29">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                            <Setter Property="Visibility"
+                                    Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEditingDriver}"
+                                             Value="True">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="BtnAdd"
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Content="Add New Driver"
+                        Command="{Binding AddCommand}"
+                        Margin="16,16,16,29">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource BlueButton}">
+                            <Setter Property="Visibility"
+                                    Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAddingDriver}"
+                                             Value="True">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

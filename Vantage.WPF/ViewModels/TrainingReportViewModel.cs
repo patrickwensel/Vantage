@@ -169,6 +169,8 @@ namespace Vantage.WPF.ViewModels
         {
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
+            if (SelectedProduct == null)
+                return;
 
             await FetchGroupsAsync();
             SelectedGroup = Groups[0];

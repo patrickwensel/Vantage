@@ -48,10 +48,14 @@
                      Color="#F8F8F8"
                      Opacity="0.13" />
     <SolidColorBrush x:Key="DarkBlue">#006896</SolidColorBrush>
+    <SolidColorBrush x:Key="VeryDarkBlue">#00344B</SolidColorBrush>
     <SolidColorBrush x:Key="Gray">#5F6164</SolidColorBrush>
     <SolidColorBrush x:Key="LightGray">#00000066</SolidColorBrush>
     <SolidColorBrush x:Key="Divider">#CECECE</SolidColorBrush>
     <SolidColorBrush x:Key="ProgressBorder">#D8D8D8</SolidColorBrush>
+    <SolidColorBrush x:Key="BluredBlueBackground"
+                     Color="#47839D"
+                     Opacity="0.63" />
     <!-- Main Grid Style -->
     <!-- *************** -->
     <Style TargetType="Grid"
@@ -1253,7 +1257,8 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver"
                                  Value="True">
-                            <Setter Property="Background" Value="{StaticResource DarkBlue}" />
+                            <Setter Property="Background"
+                                    Value="{StaticResource DarkBlue}" />
                             <Setter Property="Foreground"
                                     Value="White" />
                         </Trigger>

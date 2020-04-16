@@ -24,6 +24,9 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _editDriverCommand;
         private readonly ICommand _deleteDriverCommand;
         private readonly ICommand _driversGroupUpdatedCommand;
+        private readonly ICommand _editCommand;
+        private readonly ICommand _addCommand;
+        private readonly ICommand _closePopupCommand;
 
         private UserInfo _loggedInUserInfo;
         private IList<TabItem> _tabItems;
@@ -31,7 +34,11 @@ namespace Vantage.WPF.ViewModels
         private Product _selectedProduct;
         private ObservableCollection<Group> _groups;
         private IList<Driver> _drivers;
+        private Driver _editingDriver;
         private int _fetchedDriversCount;
+
+        private bool _isEditingDriver = false;
+        private bool _isAddingDriver = false;
 
         public UserInfo LoggedInUserInfo
         {
@@ -67,10 +74,28 @@ namespace Vantage.WPF.ViewModels
             }
         }
 
+        public Driver EditingDriver
+        {
+            get { return _editingDriver; }
+            set { SetProperty(ref _editingDriver, value); }
+        }
+
         public int FetchedDriversCount
         {
             get { return _fetchedDriversCount; }
             private set { SetProperty(ref _fetchedDriversCount, value); }
+        }
+
+        public bool IsEditingDriver 
+        {
+            get { return _isEditingDriver; }
+            set { SetProperty(ref _isEditingDriver, value); }
+        }
+
+        public bool IsAddingDriver
+        {
+            get { return _isAddingDriver; }
+            set { SetProperty(ref _isAddingDriver, value); }
         }
 
         public ICommand ProductSelectedCommand { get { return _productSelectedCommand; } }
@@ -82,6 +107,12 @@ namespace Vantage.WPF.ViewModels
         public ICommand DeleteDriverCommand { get { return _deleteDriverCommand; } }
 
         public ICommand DriversGroupUpdatedCommand { get { return _driversGroupUpdatedCommand; } }
+
+        public ICommand EditCommand { get { return _editCommand; } }
+
+        public ICommand AddCommand { get { return _addCommand; } }
+
+        public ICommand ClosePopupCommand { get { return _closePopupCommand; } }
 
         public IList<TabItem> TabItems
         {
@@ -100,9 +131,12 @@ namespace Vantage.WPF.ViewModels
             _trainingCommand = new DelegateCommand(OnTrainingClicked);
             _systemCommand = new DelegateCommand(OnSystemClicked);
             _driversGroupUpdatedCommand = new DelegateCommand(OnDriversGroupUpdated);
-            _addNewDriverCommand = new DelegateCommand(AddDriver);
-            _editDriverCommand = new DelegateCommand(OnEditDriver);
+            _addNewDriverCommand = new DelegateCommand(OpenAddDriverPopup);
+            _editDriverCommand = new DelegateCommand(OpenEditDriverPopup);
             _deleteDriverCommand = new DelegateCommand(OnDeleteDriver);
+            _editCommand = new DelegateCommand(EditDriver);
+            _addCommand = new DelegateCommand(AddDriver);
+            _closePopupCommand = new DelegateCommand(ClosePopup);
 
             TabItems = new List<TabItem>()
             {
@@ -118,6 +152,9 @@ namespace Vantage.WPF.ViewModels
         {
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
+            if (SelectedProduct == null)
+                return;
+
             await FetchGroupsAsync();
             FetchDriversFromAllTheGroups();
         }
@@ -206,10 +243,7 @@ namespace Vantage.WPF.ViewModels
             Console.WriteLine($"Group updated for Driver : {parameter}");
             UpdateDriversGroup updateDriverGroup = parameter as UpdateDriversGroup;
             if (updateDriverGroup.Group == null || updateDriverGroup.Driver.GroupID == updateDriverGroup.Group.GroupID)
-                return;
-
-            updateDriverGroup.Driver.GroupID = updateDriverGroup.Group.GroupID;
-            updateDriverGroup.Driver.Group = updateDriverGroup.Group;
+                return;            
 
             Driver driver = new Driver()
             {
@@ -227,14 +261,37 @@ namespace Vantage.WPF.ViewModels
             App.SetCursorToArrow();
         }
 
-        private void AddDriver(object parameter)
+        private void OpenAddDriverPopup(object parameter)
         {
             Console.WriteLine("New Driver added...");
+            IsEditingDriver = false;
+            IsAddingDriver = true;
         }
 
-        private void OnEditDriver(object parameter)
+        private void OpenEditDriverPopup(object parameter)
         {
-            Console.WriteLine($"Edit Driver : {parameter}");
+            Console.WriteLine($"Edit Driver : {parameter}");            
+            IsAddingDriver = false;
+            IsEditingDriver = true;
+            EditingDriver = parameter as Driver;
+        }
+
+        private void EditDriver(object parameter)
+        {
+            Console.WriteLine("Editing driver");
+            IsEditingDriver = false;
+        }
+
+        private void AddDriver(object parameter)
+        {
+            Console.WriteLine("Adding driver");
+            IsAddingDriver = false;
+        }
+
+        private void ClosePopup(object parameter)
+        {
+            IsEditingDriver = false;
+            IsAddingDriver = false;
         }
 
         private async void OnDeleteDriver(object parameter)
