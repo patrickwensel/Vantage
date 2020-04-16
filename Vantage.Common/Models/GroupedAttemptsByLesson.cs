@@ -29,7 +29,7 @@ namespace Vantage.Common.Models
         private List<GroupedInfractions> GetGroupedInfractions()
         {
             List<GroupedInfractions> groupedInfractions = new List<GroupedInfractions>();
-            if (Infractions == null)
+            if (Infractions == null || Infractions.Count == 0)
                 return groupedInfractions;
 
             foreach(var groupedItem in Infractions.GroupBy(x => x.InfractionID))

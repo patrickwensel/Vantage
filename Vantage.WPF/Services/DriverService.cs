@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using Vantage.Common.Models;
 using Vantage.Common.Utility;
@@ -29,6 +26,27 @@ namespace Vantage.WPF.Services
             drivers = await GetRequest<IList<Driver>>("api/Drivers");
 
             return drivers;
+        }
+
+        public async Task UpdateDriver(Driver driver)
+        {
+            var response = await PutRequest($"api/Drivers/{driver.DriverID}", driver);
+            if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
+                throw new System.Exception("Some error in updating driver");
+
+            System.Console.WriteLine($"Driver update response : {response}");
+        }
+
+        public async Task<Driver> AddNewDriver(Driver driver)
+        {
+            var addedDriver = await PostRequest<Driver>("api/Drivers", driver);
+            return addedDriver;
+        }
+
+        public async Task<Driver> DeleteDriver(int driverId)
+        {
+            var deletedDriver = await DeleteRequest<Driver>($"api/Drivers/{driverId}");
+            return deletedDriver;
         }
     }
 }

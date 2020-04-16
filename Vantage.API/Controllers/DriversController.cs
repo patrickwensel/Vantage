@@ -37,7 +37,11 @@ namespace Vantage.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Driver>> GetDriver(int id)
         {
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context.Drivers
+                .Include(x => x.Group)
+                .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
+                .Include(x => x.Attempts).ThenInclude(x => x.Lesson)
+                .AsNoTracking().FirstOrDefaultAsync(x => x.DriverID == id);
 
             if (driver == null)
             {

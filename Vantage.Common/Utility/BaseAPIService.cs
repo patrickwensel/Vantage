@@ -74,7 +74,7 @@ namespace Vantage.Common.Utility
             }
         }
 
-        protected async Task<T> DeleteRequest<T>(string urlSegment, object requestBody)
+        protected async Task<T> DeleteRequest<T>(string urlSegment, object requestBody = null)
         {
             RestRequest request = new RestRequest(urlSegment);
             request.Method = Method.DELETE;
@@ -165,6 +165,31 @@ namespace Vantage.Common.Utility
             try
             {
                 return await _client.ExecuteAsync(request);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        protected async Task<IRestResponse> PutRequest(string urlSegment, object requestBody)
+        {
+            RestRequest request = new RestRequest(urlSegment);
+            request.Method = Method.PUT;
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Accept", "application/json");
+
+            if (requestBody != null)
+                request.AddJsonBody(requestBody);
+
+            try
+            {
+                var apiResponse = await _client.ExecuteAsync(request);
+                return apiResponse;
             }
             catch (TaskCanceledException ex)
             {

@@ -29,7 +29,7 @@ namespace Vantage.Common.Models
         private List<GroupedAttemptsByLesson> GetGroupedAttempts()
         {
             var groupedAttempts = new List<GroupedAttemptsByLesson>();
-            if (Attempts == null)
+            if (Attempts == null || Attempts.Count == 0)
                 return groupedAttempts;
 
             foreach (var groupedItems in Attempts.OrderBy(x => x.Lesson.LessonOrder).GroupBy(x => x.LessonID))

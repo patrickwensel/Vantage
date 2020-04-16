@@ -5,9 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:controls="clr-namespace:Vantage.WPF.Controls"
+      xmlns:converters="clr-namespace:Vantage.WPF.Converters"
       xmlns:local="clr-namespace:Vantage.WPF.Views"
       mc:Ignorable="d"
+      x:Name="ManageDrivers"
       Title="ManageDriver">
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:DriversGroupUpdatedConverter x:Key="DriversGroupUpdatedConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -76,6 +83,24 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <Button Grid.Row="0"
+                    Grid.Column="0"
+                    Command="{Binding AddNewDriverCommand}"                    
+                    Margin="19,21"
+                    Style="{StaticResource WhiteButton}"
+                    HorizontalAlignment="Left">
+                <Button.Content>
+                    <StackPanel HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Margin="14,5"
+                                VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource WhiteButtonIconTextBlockBaseStyle}"
+                                   Text="" />
+                        <TextBlock Style="{StaticResource WhiteButtonTextBlockBaseStyle}"
+                                   Text=" Add A New Driver" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
             <DataGrid Grid.Row="1"
                       Grid.Column="0"
                       HorizontalAlignment="Stretch"
@@ -101,36 +126,81 @@
                                         IsReadOnly="True"
                                         MinWidth="222"
                                         Binding="{Binding FirstName}" />
-                    <DataGridTextColumn Header="Group"
+                    <!--<DataGridTextColumn Header="Group"
                                         IsReadOnly="True"
                                         MinWidth="120"
-                                        Binding="{Binding Group.Name}" />
-                    <DataGridTemplateColumn Header="Lessons Completed"
+                                        Binding="{Binding Group.Name}" />-->
+                    <!--<DataGridComboBoxColumn Header="Group"
+                                            MinWidth="120"
+                                            SelectedItemBinding="{Binding Group, Mode=TwoWay}"
+                                            DisplayMemberPath="Name">
+                        <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="ComboBox"
+                                   BasedOn="{StaticResource LightComboBoxStyle}">
+                                <Setter Property="ItemsSource"
+                                        Value="{Binding ElementName=ManageDrivers, Path=DataContext.Groups}" />
+                            </Style>
+                        </DataGridComboBoxColumn.ElementStyle>
+                    </DataGridComboBoxColumn>-->
+                    <DataGridTemplateColumn Header="Group"
+                                            MinWidth="120"
                                             CanUserSort="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid Margin="2"
-                                      HorizontalAlignment="Stretch">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <ProgressBar Grid.Row="0"
-                                                 Grid.Column="0"
-                                                 Margin="10,3"
-                                                 Minimum="0"
-                                                 Background="White"
-                                                 Foreground="{StaticResource DarkBlue}"
-                                                 BorderBrush="{StaticResource ProgressBorder}"
-                                                 Maximum="{Binding GroupedAttemptsByLessons, Mode=OneWay,Converter={StaticResource LessonsAttemptCountConverter}}"
-                                                 Value="{Binding GroupedAttemptsByLessons, Mode=OneWay, Converter={StaticResource CompletedLessonCountConverter}}" />
-                                    <TextBlock Grid.Row="0"
-                                               Grid.Column="0"
-                                               HorizontalAlignment="Center"
-                                               Text="{Binding GroupedAttemptsByLessons, Mode=OneWay, Converter={StaticResource AttemptedCompletedLessonCountConverter}}" />
-                                </Grid>
+                                <ComboBox x:Name="CBGroup"
+                                    Style="{StaticResource LightComboBoxStyle}" 
+                                          ItemsSource="{Binding ElementName=ManageDrivers, Path=DataContext.Groups}"
+                                          SelectedItem="{Binding Group, Mode=TwoWay}"                                         
+                                          DisplayMemberPath="Name">
+                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:EventTrigger EventName="SelectionChanged">
+                                            <interactivity:InvokeCommandAction Command="{Binding ElementName=ManageDrivers, Path=DataContext.DriversGroupUpdatedCommand}">
+                                                <interactivity:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource DriversGroupUpdatedConverter}">
+                                                        <Binding ElementName="CBGroup"
+                                                                 Path="DataContext" />
+                                                        <Binding ElementName="CBGroup"
+                                                                 Path="SelectedItem" />
+                                                    </MultiBinding>
+                                                </interactivity:InvokeCommandAction.CommandParameter>
+                                            </interactivity:InvokeCommandAction>
+                                        </interactivity:EventTrigger>
+                                    </interactivity:Interaction.Triggers>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Username"
+                                        IsReadOnly="True"
+                                        MinWidth="120"
+                                        Binding="{Binding Username}" />
+                    <DataGridTextColumn Header="Pin"
+                                        IsReadOnly="True"
+                                        MinWidth="120"
+                                        Binding="{Binding Pin}" />
+                    <DataGridCheckBoxColumn Header="IsActive"
+                                            IsReadOnly="True"
+                                            MinWidth="120"
+                                            Binding="{Binding IsActive}" />
+                    <DataGridTemplateColumn Header="Actions"
+                                            CanUserSort="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="2"
+                                            Orientation="Horizontal">
+                                    <Button x:Name="BtnEdit"
+                                            Style="{StaticResource IconButton}"
+                                            Command="{Binding ElementName=ManageDrivers, Path=DataContext.EditDriverCommand}"
+                                            CommandParameter="{Binding}"
+                                            Foreground="{StaticResource DarkBlue}"
+                                            Content="" />
+                                    <Button x:Name="BtnDelete"
+                                            Style="{StaticResource IconButton}"
+                                            Command="{Binding ElementName=ManageDrivers, Path=DataContext.DeleteDriverCommand}"
+                                            CommandParameter="{Binding}"
+                                            Foreground="#FF7272"
+                                            Content="" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
