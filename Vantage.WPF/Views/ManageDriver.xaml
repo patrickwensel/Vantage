@@ -216,7 +216,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="{Binding ElementName=CBGroup, Path=ActualHeight}" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -357,7 +357,7 @@
                                Text="Active" />
                 </CheckBox>
                 <Button x:Name="BtnUpdate"
-                        Grid.Row="6"
+                        Grid.Row="5"
                         Grid.Column="1"
                         HorizontalAlignment="Right"
                         Content="Update"
