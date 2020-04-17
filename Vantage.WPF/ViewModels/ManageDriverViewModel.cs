@@ -255,6 +255,8 @@ namespace Vantage.WPF.ViewModels
         private void UpdateGroupList(IList<Group> groups)
         {
             Groups.Clear();
+            if (groups == null)
+                return;
 
             foreach (Group group in groups)
             {
