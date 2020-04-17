@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Vantage.Common.Models;
 using Vantage.WPF.Controls.Models;
+using Vantage.WPF.Helpers;
 using Vantage.WPF.Interfaces;
 using Vantage.WPF.Models;
 
@@ -39,6 +40,18 @@ namespace Vantage.WPF.ViewModels
 
         private bool _isEditingDriver = false;
         private bool _isAddingDriver = false;
+
+        private string _firstName;
+        private string _lastName;
+        private string _username;
+        private string _pin;
+        private Group _addEditSelectedGroup;
+        private bool _isActive = true;
+        private bool _isErrorInFirstName;
+        private bool _isErrorInLastName;
+        private bool _isErrorInUsername;
+        private bool _isErrorInPin;
+        private bool _isErrorInGroup;
 
         public UserInfo LoggedInUserInfo
         {
@@ -86,7 +99,7 @@ namespace Vantage.WPF.ViewModels
             private set { SetProperty(ref _fetchedDriversCount, value); }
         }
 
-        public bool IsEditingDriver 
+        public bool IsEditingDriver
         {
             get { return _isEditingDriver; }
             set { SetProperty(ref _isEditingDriver, value); }
@@ -96,6 +109,72 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _isAddingDriver; }
             set { SetProperty(ref _isAddingDriver, value); }
+        }
+
+        public string FirstName
+        {
+            get { return _firstName; }
+            set { SetProperty(ref _firstName, value); }
+        }
+
+        public string LastName
+        {
+            get { return _lastName; }
+            set { SetProperty(ref _lastName, value); }
+        }
+
+        public string Username
+        {
+            get { return _username; }
+            set { SetProperty(ref _username, value); }
+        }
+
+        public string Pin
+        {
+            get { return _pin; }
+            set { SetProperty(ref _pin, value); }
+        }
+
+        public Group AddEditSelectedGroup
+        {
+            get { return _addEditSelectedGroup; }
+            set { SetProperty(ref _addEditSelectedGroup, value); }
+        }
+
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { SetProperty(ref _isActive, value); }
+        }
+
+        public bool IsErrorInFirstName
+        {
+            get { return _isErrorInFirstName; }
+            set { SetProperty(ref _isErrorInFirstName, value); }
+        }
+
+        public bool IsErrorInLastName
+        {
+            get { return _isErrorInLastName; }
+            set { SetProperty(ref _isErrorInLastName, value); }
+        }
+
+        public bool IsErrorInUsername
+        {
+            get { return _isErrorInUsername; }
+            set { SetProperty(ref _isErrorInUsername, value); }
+        }
+
+        public bool IsErrorInPin
+        {
+            get { return _isErrorInPin; }
+            set { SetProperty(ref _isErrorInPin, value); }
+        }
+
+        public bool IsErrorInGroup
+        {
+            get { return _isErrorInGroup; }
+            set { SetProperty(ref _isErrorInGroup, value); }
         }
 
         public ICommand ProductSelectedCommand { get { return _productSelectedCommand; } }
@@ -161,6 +240,7 @@ namespace Vantage.WPF.ViewModels
 
         private async Task FetchGroupsAsync(bool shouldClearDriverList = true)
         {
+            App.SetCursorToWait();
             if (shouldClearDriverList)
                 ClearDriverList();
 
@@ -168,6 +248,7 @@ namespace Vantage.WPF.ViewModels
             var groups = await _groupService.GetGroups();
 
             UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
+            App.SetCursorToArrow();
             Console.WriteLine($"Groups : {Groups}");
         }
 
@@ -243,7 +324,7 @@ namespace Vantage.WPF.ViewModels
             Console.WriteLine($"Group updated for Driver : {parameter}");
             UpdateDriversGroup updateDriverGroup = parameter as UpdateDriversGroup;
             if (updateDriverGroup.Group == null || updateDriverGroup.Driver.GroupID == updateDriverGroup.Group.GroupID)
-                return;            
+                return;
 
             Driver driver = new Driver()
             {
@@ -256,6 +337,11 @@ namespace Vantage.WPF.ViewModels
                 GroupID = updateDriverGroup.Group.GroupID
             };
 
+            await UpdateDriverAsync(driver);
+        }
+
+        private async Task UpdateDriverAsync(Driver driver)
+        {
             App.SetCursorToWait();
             await _driverService.UpdateDriver(driver);
             App.SetCursorToArrow();
@@ -270,28 +356,74 @@ namespace Vantage.WPF.ViewModels
 
         private void OpenEditDriverPopup(object parameter)
         {
-            Console.WriteLine($"Edit Driver : {parameter}");            
+            Console.WriteLine($"Edit Driver : {parameter}");
             IsAddingDriver = false;
             IsEditingDriver = true;
             EditingDriver = parameter as Driver;
+
+            FirstName = EditingDriver.FirstName;
+            LastName = EditingDriver.LastName;
+            Username = EditingDriver.UserName;
+            Pin = EditingDriver.Pin;
+            AddEditSelectedGroup = Groups.First(x => x.GroupID == EditingDriver.GroupID);
+            IsActive = EditingDriver.IsActive;
         }
 
-        private void EditDriver(object parameter)
+        private async void EditDriver(object parameter)
         {
             Console.WriteLine("Editing driver");
+            if (!ValidateDriverInfo())
+                return;
+
+            Driver driver = new Driver()
+            {
+                DriverID = this.EditingDriver.DriverID,
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                UserName = this.Username,
+                Pin = this.Pin,
+                IsActive = this.IsActive,
+                GroupID = this.AddEditSelectedGroup.GroupID
+            };
+
+            await UpdateDriverAsync(driver);
+            await FetchGroupsAsync(false);
+            FetchDriversFromAllTheGroups();
             IsEditingDriver = false;
+            Console.WriteLine($"FirstName : {FirstName}, LastName : {LastName}, Pin : {Pin}, Group : {AddEditSelectedGroup?.Name}, IsActive : {IsActive}");
+            ClearAddEditDriverProperties();
         }
 
-        private void AddDriver(object parameter)
+        private async void AddDriver(object parameter)
         {
             Console.WriteLine("Adding driver");
+            if (!ValidateDriverInfo())
+                return;
+
+            Driver driver = new Driver()
+            {
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                UserName = this.Username,
+                Pin = this.Pin,
+                IsActive = this.IsActive,
+                GroupID = this.AddEditSelectedGroup.GroupID
+            };
+
+            await _driverService.AddNewDriver(driver);
+            await FetchGroupsAsync(false);
+            FetchDriversFromAllTheGroups();
+
+            Console.WriteLine($"FirstName : {FirstName}, LastName : {LastName}, Pin : {Pin}, Group : {AddEditSelectedGroup?.Name}, IsActive : {IsActive}");
             IsAddingDriver = false;
+            ClearAddEditDriverProperties();
         }
 
         private void ClosePopup(object parameter)
         {
             IsEditingDriver = false;
             IsAddingDriver = false;
+            ClearAddEditDriverProperties();
         }
 
         private async void OnDeleteDriver(object parameter)
@@ -307,6 +439,34 @@ namespace Vantage.WPF.ViewModels
             await FetchGroupsAsync(false);
             FetchDriversFromAllTheGroups();
             App.SetCursorToArrow();
+        }
+
+        private bool ValidateDriverInfo()
+        {
+            var isError = ValidationHelper.IsValidAlphaString(FirstName);
+            IsErrorInFirstName = !isError;
+            IsErrorInLastName = !ValidationHelper.IsValidAlphaString(LastName);
+            IsErrorInUsername = !ValidationHelper.IsValidAlphanumericString(Username);
+            IsErrorInPin = !ValidationHelper.IsValidDigit(Pin);
+            IsErrorInGroup = AddEditSelectedGroup == null;
+
+            return !(IsErrorInFirstName || IsErrorInLastName || IsErrorInUsername || IsErrorInPin || IsErrorInGroup);
+        }
+
+        private void ClearAddEditDriverProperties()
+        {
+            FirstName = null;
+            LastName = null;
+            Username = null;
+            Pin = null;
+            IsActive = true;
+            AddEditSelectedGroup = null;
+
+            IsErrorInFirstName = false;
+            IsErrorInLastName = false;
+            IsErrorInUsername = false;
+            IsErrorInPin = false;
+            IsErrorInGroup = false;
         }
     }
 }

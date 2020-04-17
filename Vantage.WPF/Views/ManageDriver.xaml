@@ -211,12 +211,14 @@
                 </Style>
             </Grid.Style>
             <Grid HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
+                  VerticalAlignment="Center"                  
                   Background="#F0F0F0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="{Binding ElementName=CBGroup, Path=ActualHeight}" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -304,60 +306,214 @@
                             VerticalAlignment="Center" />
                 </Grid>
                 <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Style="{StaticResource FieldHeader}"
+                           Grid.Column="0"                           
                            Margin="16,16,16,3"
-                           Text="First Name" />
+                           Text="First Name">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock"
+                               BasedOn="{StaticResource FieldHeader}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInFirstName}"
+                                             Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
                 <TextBox x:Name="TxtFirstName"
                          Grid.Row="2"
                          Grid.Column="0"
+                         VerticalContentAlignment="Center"
                          Margin="16,0,8,0"
-                         MinWidth="296" />
+                         MinWidth="296"
+                         Text="{Binding FirstName}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource baseControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInFirstName}"
+                                             Value="True">
+                                    <Setter Property="BorderBrush"
+                                            Value="Red" />
+                                    <Setter Property="BorderThickness"
+                                            Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
-                           Style="{StaticResource FieldHeader}"
                            Margin="16,16,16,3"
-                           Text="Last Name" />
+                           Text="Last Name">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock"
+                               BasedOn="{StaticResource FieldHeader}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInLastName}"
+                                             Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
                 <TextBox x:Name="TxtLastName"
                          Grid.Row="2"
                          Grid.Column="1"
                          Margin="8,0,16,0"
-                         MinWidth="296" />
+                         MinWidth="296"
+                         Text="{Binding LastName}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox"
+                               BasedOn="{StaticResource baseControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInLastName}"
+                                             Value="True">
+                                    <Setter Property="BorderBrush"
+                                            Value="Red" />
+                                    <Setter Property="BorderThickness"
+                                            Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
-                           Style="{StaticResource FieldHeader}"
                            Margin="16,16,16,3"
-                           Text="Group" />
-                <ComboBox x:Name="CBGroup"
-                          Grid.Row="4"
-                          Grid.Column="0"
-                          Style="{StaticResource LightComboBoxStyle}"
-                          Margin="16,0,8,0"
-                          MinWidth="296" />
+                           Text="Username">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock"
+                               BasedOn="{StaticResource FieldHeader}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInUsername}"
+                                             Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox x:Name="TxtUsername"
+                         Grid.Row="4"
+                         Grid.Column="0"
+                         Margin="16,0,8,0"
+                         MinWidth="296"
+                         IsEnabled="{Binding IsEditingDriver, Converter={StaticResource BoolInverteConverter}}"
+                         Text="{Binding Username}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox"
+                               BasedOn="{StaticResource baseControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInUsername}"
+                                             Value="True">
+                                    <Setter Property="BorderBrush"
+                                            Value="Red" />
+                                    <Setter Property="BorderThickness"
+                                            Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <TextBlock Grid.Row="3"
                            Grid.Column="1"
-                           Style="{StaticResource FieldHeader}"
                            Margin="16,16,16,3"
-                           Text="Pin" />
+                           Text="Pin">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock"
+                               BasedOn="{StaticResource FieldHeader}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInPin}"
+                                             Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
                 <TextBox x:Name="TxtPin"
                          Grid.Row="4"
                          Grid.Column="1"
+                         MaxLength="4"
                          Margin="8,0,16,0"
-                         MinWidth="296" />
-                <CheckBox x:Name="CKIsActive"
-                          Grid.Row="5"
+                         MinWidth="296"
+                         Text="{Binding Pin}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox"
+                               BasedOn="{StaticResource baseControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInPin}"
+                                             Value="True">
+                                    <Setter Property="BorderBrush"
+                                            Value="Red" />
+                                    <Setter Property="BorderThickness"
+                                            Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBlock Grid.Row="5"
+                           Grid.Column="0"
+                           Margin="16,16,16,3"
+                           Text="Group">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock"
+                               BasedOn="{StaticResource FieldHeader}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInGroup}"
+                                             Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <ComboBox x:Name="CBGroup"
+                          Grid.Row="6"
                           Grid.Column="0"
+                          ItemsSource="{Binding Groups}"
+                          SelectedItem="{Binding AddEditSelectedGroup}"
+                          DisplayMemberPath="Name"
+                          Margin="16,0,8,0"
+                          MinWidth="296">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox"
+                               BasedOn="{StaticResource LightComboBoxStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInGroup}"
+                                             Value="True">
+                                    <Setter Property="BorderBrush"
+                                            Value="Red" />
+                                    <Setter Property="BorderThickness"
+                                            Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                </ComboBox>
+                <CheckBox x:Name="CKIsActive"
+                          Grid.Row="6"
+                          Grid.Column="1"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center"
                           VerticalContentAlignment="Center"
                           HorizontalContentAlignment="Left"
                           Style="{StaticResource BlueCheckBox}"
+                          IsChecked="{Binding IsActive}"
                           Margin="16">
                     <TextBlock Style="{StaticResource FieldHeader}"
                                Text="Active" />
                 </CheckBox>
                 <Button x:Name="BtnUpdate"
-                        Grid.Row="5"
+                        Grid.Row="7"
                         Grid.Column="1"
                         HorizontalAlignment="Right"
                         Content="Update"
@@ -378,7 +534,7 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="BtnAdd"
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Grid.Column="1"
                         HorizontalAlignment="Right"
                         Content="Add New Driver"
