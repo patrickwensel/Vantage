@@ -51,6 +51,24 @@ namespace Vantage.API.Controllers
             return driver;
         }
 
+        // GET: api/Drivers/testuser
+        [HttpGet("GetDriverByUsername/{username}")]
+        public async Task<ActionResult<Driver>> GetDriverByUsername(string username)
+        {
+            var driver = await _context.Drivers
+                .Include(x => x.Group)
+                .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
+                .Include(x => x.Attempts).ThenInclude(x => x.Lesson)
+                .AsNoTracking().OrderBy(x => x.DriverID).FirstOrDefaultAsync(x => x.UserName == username);
+
+            if (driver == null)
+            {
+                return NotFound();
+            }
+
+            return driver;
+        }
+
         [HttpPost("authenticate")]
         [SwaggerOperation("AuthenticateDriver")]
         public ActionResult Authenticate([FromBody] Driver loginParam)

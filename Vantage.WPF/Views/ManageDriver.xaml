@@ -90,7 +90,7 @@
                     Command="{Binding AddNewDriverCommand}"
                     Margin="19,21"
                     Style="{StaticResource WhiteButton}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Right">
                 <Button.Content>
                     <StackPanel HorizontalAlignment="Center"
                                 Orientation="Horizontal"

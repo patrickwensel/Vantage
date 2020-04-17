@@ -106,6 +106,7 @@ namespace Vantage.API.Controllers
 
                     UserReturnObject userReturnObject = new UserReturnObject
                     {
+                        UserId = user.UserID,
                         UserName = user.UserName,
                         FirstName = user.FirstName,
                         LastName = user.LastName,
@@ -146,6 +147,8 @@ namespace Vantage.API.Controllers
 
     public class UserReturnObject
     {
+        public int UserId { get; set; }
+
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
