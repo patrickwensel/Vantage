@@ -36,6 +36,15 @@ namespace Vantage.WPF.Helpers
             return Regex.IsMatch(text, textRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
         }
 
+        public static bool IsValidDigit(string text, int maxDigit)
+        {
+            if (string.IsNullOrEmpty(text))
+                return false;
+
+            string textRegex = @"^\d{" + maxDigit + @"}$";
+            return Regex.IsMatch(text, textRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+        }
+
         public static bool IsValidAlphaString(string text)
         {
             if (string.IsNullOrEmpty(text))

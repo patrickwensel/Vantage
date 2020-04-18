@@ -28,6 +28,20 @@ namespace Vantage.WPF.Services
             return drivers;
         }
 
+        public async Task<Driver> GetDriver(int Id)
+        {
+            Driver driver = await GetRequest<Driver>($"api/Drivers/{Id}");
+
+            return driver;
+        }
+
+        public async Task<Driver> GetDriverByUsername(string username)
+        {
+            Driver driver = await GetRequest<Driver>($"api/Drivers/GetDriverByUsername/{username}");
+
+            return driver;
+        }
+
         public async Task UpdateDriver(Driver driver)
         {
             var response = await PutRequest($"api/Drivers/{driver.DriverID}", driver);

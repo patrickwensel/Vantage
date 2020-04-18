@@ -211,9 +211,10 @@
                 </Style>
             </Grid.Style>
             <Grid HorizontalAlignment="Center"
-                  VerticalAlignment="Center"                  
+                  VerticalAlignment="Center"
                   Background="#F0F0F0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -306,7 +307,7 @@
                             VerticalAlignment="Center" />
                 </Grid>
                 <TextBlock Grid.Row="1"
-                           Grid.Column="0"                           
+                           Grid.Column="0"
                            Margin="16,16,16,3"
                            Text="First Name">
                     <TextBlock.Style>
@@ -330,7 +331,8 @@
                          MinWidth="296"
                          Text="{Binding FirstName}">
                     <TextBox.Style>
-                        <Style TargetType="TextBox" BasedOn="{StaticResource baseControl}">
+                        <Style TargetType="TextBox"
+                               BasedOn="{StaticResource baseControl}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsErrorInFirstName}"
                                              Value="True">
@@ -516,11 +518,13 @@
                         Grid.Row="7"
                         Grid.Column="1"
                         HorizontalAlignment="Right"
+                        IsDefault="True"
                         Content="Update"
                         Command="{Binding EditCommand}"
                         Margin="16,16,16,29">
                     <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource BlueButton}">
                             <Setter Property="Visibility"
                                     Value="Hidden" />
                             <Style.Triggers>
@@ -536,6 +540,7 @@
                 <Button x:Name="BtnAdd"
                         Grid.Row="7"
                         Grid.Column="1"
+                        IsDefault="True"
                         HorizontalAlignment="Right"
                         Content="Add New Driver"
                         Command="{Binding AddCommand}"
@@ -555,6 +560,14 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <TextBlock x:Name="LblErrorMsg"
+                           Grid.Row="8"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource ErrorLabel}"
+                           Text="{Binding ErrorMessage, Mode=TwoWay}"/>
+
             </Grid>
         </Grid>
     </Grid>

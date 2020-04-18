@@ -41,6 +41,7 @@ namespace Vantage.WPF.ViewModels
         private bool _isEditingDriver = false;
         private bool _isAddingDriver = false;
 
+        private string _errorMessage;
         private string _firstName;
         private string _lastName;
         private string _username;
@@ -52,6 +53,8 @@ namespace Vantage.WPF.ViewModels
         private bool _isErrorInUsername;
         private bool _isErrorInPin;
         private bool _isErrorInGroup;
+
+        public EventHandler OnErrorOccurred;
 
         public UserInfo LoggedInUserInfo
         {
@@ -109,6 +112,12 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _isAddingDriver; }
             set { SetProperty(ref _isAddingDriver, value); }
+        }
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set { SetProperty(ref _errorMessage, value); }
         }
 
         public string FirstName
@@ -391,16 +400,24 @@ namespace Vantage.WPF.ViewModels
             await UpdateDriverAsync(driver);
             await FetchGroupsAsync(false);
             FetchDriversFromAllTheGroups();
-            IsEditingDriver = false;
-            Console.WriteLine($"FirstName : {FirstName}, LastName : {LastName}, Pin : {Pin}, Group : {AddEditSelectedGroup?.Name}, IsActive : {IsActive}");
-            ClearAddEditDriverProperties();
+            ClosePopup(parameter);
         }
 
         private async void AddDriver(object parameter)
         {
-            Console.WriteLine("Adding driver");
+            Console.WriteLine("Adding driver");           
             if (!ValidateDriverInfo())
                 return;
+
+            Driver existingDriver = await _driverService.GetDriverByUsername(this.Username);
+
+            if (existingDriver != null)
+            {
+                IsErrorInUsername = true;
+                ErrorMessage = "Username already exists, Please try another.";
+                OnErrorOccurred?.Invoke(this, new EventArgs());
+                return;
+            }
 
             Driver driver = new Driver()
             {
@@ -417,8 +434,7 @@ namespace Vantage.WPF.ViewModels
             FetchDriversFromAllTheGroups();
 
             Console.WriteLine($"FirstName : {FirstName}, LastName : {LastName}, Pin : {Pin}, Group : {AddEditSelectedGroup?.Name}, IsActive : {IsActive}");
-            IsAddingDriver = false;
-            ClearAddEditDriverProperties();
+            ClosePopup(parameter);
         }
 
         private void ClosePopup(object parameter)
@@ -445,18 +461,24 @@ namespace Vantage.WPF.ViewModels
 
         private bool ValidateDriverInfo()
         {
-            var isError = ValidationHelper.IsValidAlphaString(FirstName);
-            IsErrorInFirstName = !isError;
-            IsErrorInLastName = !ValidationHelper.IsValidAlphaString(LastName);
-            IsErrorInUsername = !ValidationHelper.IsValidAlphanumericString(Username);
-            IsErrorInPin = !ValidationHelper.IsValidDigit(Pin);
-            IsErrorInGroup = AddEditSelectedGroup == null;
+            ErrorMessage = null;
+            IsErrorInFirstName = !ValidationHelper.IsValidAlphaString(FirstName);            
+            IsErrorInLastName = !ValidationHelper.IsValidAlphaString(LastName);            
+            IsErrorInUsername = !ValidationHelper.IsValidAlphanumericString(Username);            
+            IsErrorInPin = !ValidationHelper.IsValidDigit(Pin, 4);           
+            IsErrorInGroup = AddEditSelectedGroup == null;            
+
+            if(IsErrorInFirstName || IsErrorInLastName || IsErrorInUsername || IsErrorInPin || IsErrorInGroup)
+            {
+                OnErrorOccurred?.Invoke(this, new EventArgs());
+            }
 
             return !(IsErrorInFirstName || IsErrorInLastName || IsErrorInUsername || IsErrorInPin || IsErrorInGroup);
         }
 
         private void ClearAddEditDriverProperties()
         {
+            ErrorMessage = null;
             FirstName = null;
             LastName = null;
             Username = null;

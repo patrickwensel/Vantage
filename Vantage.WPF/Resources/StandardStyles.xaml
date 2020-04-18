@@ -172,6 +172,12 @@
         <Setter Property="Margin"
                 Value="7,0" />
     </Style>
+    <Style TargetType="TextBlock"
+           BasedOn="{StaticResource LeftPaddedFieldHeader}"
+           x:Key="ErrorLabel">
+        <Setter Property="Foreground"
+                Value="Red" />
+    </Style>
     <Style TargetType="ComboBox"
            x:Key="LightComboBoxStyle">
         <Setter Property="Template"

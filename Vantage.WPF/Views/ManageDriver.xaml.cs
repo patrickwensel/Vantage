@@ -21,6 +21,7 @@ namespace Vantage.WPF.Views
         public ManageDriver(ManageDriverViewModel manageDriverViewModel)
         {
             _manageDriverViewModel = manageDriverViewModel;
+            _manageDriverViewModel.OnErrorOccurred += OnErrorOccurred;
             ViewModel = _manageDriverViewModel;
             InitializeComponent();                       
         }
@@ -29,6 +30,44 @@ namespace Vantage.WPF.Views
         {
             base.OnInitialized(e);
             await _manageDriverViewModel.OnInitializedAsync();
+        }
+
+        private void OnErrorOccurred(object sender, EventArgs e)
+        {
+            if (_manageDriverViewModel.IsErrorInFirstName)
+            {
+                LblErrorMsg.Text = "First Name must be not null and contains alphabet only.";
+                TxtFirstName.Focus();
+                return;
+            }
+
+            if(_manageDriverViewModel.IsErrorInLastName)
+            {
+                LblErrorMsg.Text = "Last Name must be not null and contains alphabet only.";
+                TxtLastName.Focus();
+                return;
+            }
+
+            if(_manageDriverViewModel.IsErrorInUsername && _manageDriverViewModel.IsAddingDriver)
+            {
+                LblErrorMsg.Text = string.IsNullOrEmpty(_manageDriverViewModel.ErrorMessage) ? "Username must be not null and contains alphanumberic only." : _manageDriverViewModel.ErrorMessage; ;
+                TxtUsername.Focus();
+                return;
+            }
+
+            if(_manageDriverViewModel.IsErrorInPin)
+            {
+                LblErrorMsg.Text = "Pin number must be four digit only, no any aphabet allowed.";
+                TxtPin.Focus();
+                return;
+            }
+
+            if(_manageDriverViewModel.IsErrorInGroup)
+            {
+                LblErrorMsg.Text = "Please select any Group.";
+                CBGroup.Focus();
+                return;
+            }
         }
     }
 }

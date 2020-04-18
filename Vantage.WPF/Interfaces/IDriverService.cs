@@ -8,6 +8,10 @@ namespace Vantage.WPF.Interfaces
     {
         Task<IList<Driver>> GetAllDrivers();
 
+        Task<Driver> GetDriver(int Id);
+
+        Task<Driver> GetDriverByUsername(string username);
+
         Task UpdateDriver(Driver driver);
 
         Task<Driver> AddNewDriver(Driver driver);
