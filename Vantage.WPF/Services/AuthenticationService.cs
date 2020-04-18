@@ -34,6 +34,22 @@ namespace Vantage.WPF.Services
             return userReturnObject;
         }
 
+        public async Task UpdateCredential(User user)
+        {
+            var response = await PutRequest($"api/Users/{user.UserID}", user);
+            if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
+                throw new System.Exception("Some error in updating driver");
+
+            System.Console.WriteLine($"Driver update response : {response}");
+        }
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            User user = await GetRequest<User>($"api/Users/GetUserByUsername/{username}");
+
+            return user;
+        }
+
         private async Task<UserReturnObject> Authenticate(UserAuthentication userAuthentication)
         {
             UserReturnObject userReturnObject = new UserReturnObject();
