@@ -66,8 +66,8 @@
                     Value="1" />
             <Setter Property="Background"
                     Value="{StaticResource DarkBlue}" />
-            <Setter Property="Height"
-                    Value="221" />
+            <!--<Setter Property="Height"
+                    Value="221" />-->
             <Setter Property="BorderBrush"
                     Value="Transparent" />
             <Setter Property="BorderThickness"
@@ -248,8 +248,18 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               Margin="20,2"
+                               HorizontalAlignment="Stretch"
+                               TextWrapping="Wrap"
+                               Style="{StaticResource ErrorLabel}"
+                               Text="{Binding ErrorMessage, Mode=TwoWay}" />
                     <TextBlock Text="Username"
                                Grid.Row="1"
                                Grid.Column="0"
@@ -271,27 +281,43 @@
                                Margin="20,2"
                                HorizontalAlignment="Left" />
                     <PasswordBox x:Name="TxtPassword"
-                                 MaxLength="8"
                                  Grid.Row="4"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2"
                                  Margin="20,0,20,10"
                                  TabIndex="1"
+                                 PasswordChanged="Password_PasswordChanged"
                                  VerticalAlignment="Top" />
-                    <Button Grid.Row="5"
+                    <TextBlock Text="Confirm Password"
+                               Grid.Row="5"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               Margin="20,2"
+                               HorizontalAlignment="Left" />
+                    <PasswordBox x:Name="TxtConfirmPassword"
+                                 Grid.Row="6"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2"
+                                 Margin="20,0,20,10"
+                                 TabIndex="1"
+                                 PasswordChanged="Password_PasswordChanged"
+                                 VerticalAlignment="Top" />
+                    <Button x:Name="BtnReset" 
+                            Grid.Row="7"
                             Grid.Column="0"
                             Style="{StaticResource BlueButton}"
                             MinWidth="60"
                             Content="Reset"
-                            Command="{Binding ResetCredentialCommand, Mode=OneTime}"
-                            Margin="20,2,8,2"
+                            Command="{Binding ResetCommand, Mode=OneTime}"
+                            Margin="20,2,8,20"
                             TabIndex="2">
                         <Button.Background>
                             <SolidColorBrush Color="#000000"
                                              Opacity="0.4" />
                         </Button.Background>
                     </Button>
-                    <Button Grid.Row="5"
+                    <Button x:Name="BtnSubmit"
+                            Grid.Row="7"
                             Grid.Column="1"
                             Style="{StaticResource BlueButton}"
                             MinWidth="60"
@@ -299,7 +325,7 @@
                             Content="Update"
                             Command="{Binding UpdateCredentialCommand, Mode=OneTime}"
                             CommandParameter="{Binding ElementName=TxtPassword}"
-                            Margin="8,2,20,2"
+                            Margin="8,2,20,20"
                             TabIndex="2" />
                 </Grid>
             </Grid>

@@ -36,6 +36,8 @@ namespace Vantage.WPF.Services
 
         public async Task UpdateCredential(User user)
         {
+            var hashedPassword = Helpers.Helper.GenerateSHA256String(user.Password);
+            user.Password = hashedPassword;
             var response = await PutRequest($"api/Users/{user.UserID}", user);
             if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
                 throw new System.Exception("Some error in updating driver");

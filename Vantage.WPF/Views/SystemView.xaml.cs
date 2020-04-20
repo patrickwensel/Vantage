@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPOI.SS.Formula.Functions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -32,7 +33,25 @@ namespace Vantage.WPF.Views
         {
             _systemViewModel = systemViewModel;
             ViewModel = _systemViewModel;
+            _systemViewModel.ResetData += OnResetData;
+            _systemViewModel.ErrorOccurred += OnErrorOccurred;
             InitializeComponent();            
+        }
+
+        private void Password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            BtnSubmit.IsEnabled = TxtPassword.Password == TxtConfirmPassword.Password;
+        }
+
+        private void OnResetData(object sender, EventArgs e)
+        {
+            TxtPassword.Password = null;
+            TxtConfirmPassword.Password = null;
+        }
+
+        private void OnErrorOccurred(object sender, EventArgs e)
+        {
+            TxtUsername.Focus();
         }
     }
 }
