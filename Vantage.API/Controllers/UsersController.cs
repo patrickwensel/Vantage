@@ -105,9 +105,8 @@ namespace Vantage.API.Controllers
         [HttpPost("authenticate")]
         [SwaggerOperation("GetUserAuthenticate")]
         public UserReturnObject Authenticate([FromBody] User loginParam)
-        {
-            var upperUserName = loginParam.UserName.ToUpper();
-            User user = _context.Users.Where(u => u.UserName.ToUpper() == (upperUserName)).FirstOrDefault();
+        {            
+            User user = _context.Users.Where(u => u.UserName == loginParam.UserName).FirstOrDefault();
 
             if (user != null)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Vantage.Common.Models;
 using Vantage.WPF.Controls.Models;
@@ -8,8 +9,8 @@ using Vantage.WPF.Interfaces;
 namespace Vantage.WPF.ViewModels
 {
     public class SystemViewModel : BaseViewModel
-    {
-        private readonly IAuthenticationService _authenticationService;
+    {        
+        private readonly IUserService _userService;
         private readonly INavigationService _navigationService;
         private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly ICommand _trainingCommand;
@@ -59,10 +60,10 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand UpdateCredentialCommand { get { return _updateCredentialCommand; } }
 
-        public SystemViewModel(INavigationService navigationService, IAuthenticationService authenticationService, MainWindowViewModel mainWindowViewModel)
+        public SystemViewModel(INavigationService navigationService, IUserService userService, MainWindowViewModel mainWindowViewModel)
         {
             _navigationService = navigationService;
-            _authenticationService = authenticationService;
+            _userService = userService;
             _mainWindowViewModel = mainWindowViewModel;
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
             Username = mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName;
@@ -113,7 +114,15 @@ namespace Vantage.WPF.ViewModels
         {
             System.Windows.Controls.PasswordBox passwordBox = parameter as System.Windows.Controls.PasswordBox;
             App.SetCursorToWait();
-            User user = await _authenticationService.GetUserByUsername(Username);
+            User user = await _userService.GetUserByUsername(Username);
+
+            // user might enter empty username, in such case above method return user object with default property values.
+            if(user != null && user.UserID == 0)
+            {
+                IList<User> users = await _userService.GetUsers();
+                user = users.FirstOrDefault(x => x.UserName == this.Username);
+            }
+            
             if (user != null && user.UserID != _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId)
             {
                 App.SetCursorToArrow();
@@ -122,7 +131,7 @@ namespace Vantage.WPF.ViewModels
                 return;
             }
             
-            await _authenticationService.UpdateCredential(new User()
+            await _userService.UpdateCredential(new User()
             {
                 UserID = _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId,
                 UserName = this.Username,

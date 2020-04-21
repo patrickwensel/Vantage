@@ -22,7 +22,10 @@ namespace Vantage.WPF.Services
 
         public async Task<UserReturnObject> AuthenticateUser(string username, string clearTextPassword)
         {
-            var hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);
+            string hashedPassword = null;
+            if (!string.IsNullOrEmpty(clearTextPassword))
+                hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);
+
             UserAuthentication userAuthentication = new UserAuthentication
             {
                 UserName = username,
@@ -32,24 +35,6 @@ namespace Vantage.WPF.Services
             UserReturnObject userReturnObject = await Authenticate(userAuthentication);
 
             return userReturnObject;
-        }
-
-        public async Task UpdateCredential(User user)
-        {
-            var hashedPassword = Helpers.Helper.GenerateSHA256String(user.Password);
-            user.Password = hashedPassword;
-            var response = await PutRequest($"api/Users/{user.UserID}", user);
-            if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
-                throw new System.Exception("Some error in updating driver");
-
-            System.Console.WriteLine($"Driver update response : {response}");
-        }
-
-        public async Task<User> GetUserByUsername(string username)
-        {
-            User user = await GetRequest<User>($"api/Users/GetUserByUsername/{username}");
-
-            return user;
         }
 
         private async Task<UserReturnObject> Authenticate(UserAuthentication userAuthentication)

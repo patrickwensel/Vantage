@@ -75,16 +75,7 @@ namespace Vantage.WPF.ViewModels
             PasswordBox passwordBox = parameter as PasswordBox;
             string clearTextPassword = passwordBox.Password;
             try
-            {
-                // Allow user to login if username and password both empty
-                if (string.IsNullOrEmpty(Username) && string.IsNullOrEmpty(clearTextPassword))
-                {
-                    //dashboard.Show();
-
-                    OnRequestClose?.Invoke(this, new EventArgs());
-                    return;
-                }
-
+            {                
                 App.SetCursorToWait();
                 //Validate credentials through the authentication service
                 UserReturnObject user = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
