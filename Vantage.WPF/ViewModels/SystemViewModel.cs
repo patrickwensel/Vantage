@@ -1,4 +1,6 @@
-﻿using System;
+﻿using iTextSharp.text.pdf.parser;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -9,8 +11,9 @@ using Vantage.WPF.Interfaces;
 namespace Vantage.WPF.ViewModels
 {
     public class SystemViewModel : BaseViewModel
-    {        
+    {
         private readonly IUserService _userService;
+        private readonly IDatabaseService _databaseService;
         private readonly INavigationService _navigationService;
         private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly ICommand _trainingCommand;
@@ -60,10 +63,11 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand UpdateCredentialCommand { get { return _updateCredentialCommand; } }
 
-        public SystemViewModel(INavigationService navigationService, IUserService userService, MainWindowViewModel mainWindowViewModel)
+        public SystemViewModel(INavigationService navigationService, IUserService userService, IDatabaseService databaseService, MainWindowViewModel mainWindowViewModel)
         {
             _navigationService = navigationService;
             _userService = userService;
+            _databaseService = databaseService;
             _mainWindowViewModel = mainWindowViewModel;
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
             Username = mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName;
@@ -94,14 +98,53 @@ namespace Vantage.WPF.ViewModels
             _navigationService.NavigateTo(Enums.PageKey.ManageDriver);
         }
 
-        private void CreateBackup(object parameter)
+        private async void CreateBackup(object parameter)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Database Backup (*.bak) | *.bak ";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.Title = $"Backup Database";
+            if (saveFileDialog.ShowDialog() == false)
+            {
+                return;
+            }
 
+            App.SetCursorToWait();
+            var backupResponse = await _databaseService.BackupDatabase(saveFileDialog.FileName.Trim());
+            App.SetCursorToArrow();
+
+            if (backupResponse.Result)
+            {
+                System.Windows.MessageBox.Show("Database backup created successfully.", "Backup", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show(backupResponse.Message, "Backup Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
         }
 
-        private void RestoreBackup(object parameter)
+        private async void RestoreBackup(object parameter)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Database Backup (*.bak) | *.bak ";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            openFileDialog.Title = $"Restore Database";            
+            if (openFileDialog.ShowDialog() == false)
+            {
+                return;
+            }
 
+            App.SetCursorToWait();
+            var restoreResponse = await _databaseService.RestoreDatabase(openFileDialog.FileName.Trim());
+            App.SetCursorToArrow();
+            if (restoreResponse.Result)
+            {
+                System.Windows.MessageBox.Show("Database restored successfully.", "Restore", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show(restoreResponse.Message, "Restore Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
         }
 
         private void ResetCredential(object parameter)
@@ -117,12 +160,12 @@ namespace Vantage.WPF.ViewModels
             User user = await _userService.GetUserByUsername(Username);
 
             // user might enter empty username, in such case above method return user object with default property values.
-            if(user != null && user.UserID == 0)
+            if (user != null && user.UserID == 0)
             {
                 IList<User> users = await _userService.GetUsers();
                 user = users.FirstOrDefault(x => x.UserName == this.Username);
             }
-            
+
             if (user != null && user.UserID != _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId)
             {
                 App.SetCursorToArrow();
@@ -130,7 +173,7 @@ namespace Vantage.WPF.ViewModels
                 ErrorOccurred?.Invoke(this, new EventArgs());
                 return;
             }
-            
+
             await _userService.UpdateCredential(new User()
             {
                 UserID = _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId,

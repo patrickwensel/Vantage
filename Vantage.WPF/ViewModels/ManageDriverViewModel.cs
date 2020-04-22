@@ -447,7 +447,7 @@ namespace Vantage.WPF.ViewModels
         private async void OnDeleteDriver(object parameter)
         {
             Driver driver = parameter as Driver;
-            var shouldDelete = System.Windows.MessageBox.Show("Are you Sure?", "Delete", System.Windows.MessageBoxButton.YesNo);
+            var shouldDelete = System.Windows.MessageBox.Show("Are you Sure?", "Delete", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
             if (shouldDelete != System.Windows.MessageBoxResult.Yes)
                 return;
 

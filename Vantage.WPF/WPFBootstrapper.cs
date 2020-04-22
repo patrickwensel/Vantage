@@ -58,6 +58,7 @@ namespace Vantage.WPF
             container.RegisterType<IDriverService, DriverService>(new TransientLifetimeManager());
             container.RegisterType<IGroupService, GroupService>(new TransientLifetimeManager());
             container.RegisterType<IUserService, UserService>(new TransientLifetimeManager());
+            container.RegisterType<IDatabaseService, DatabaseService>(new TransientLifetimeManager());
         }
     }
 }
