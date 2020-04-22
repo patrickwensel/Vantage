@@ -80,6 +80,16 @@ namespace Vantage.WPF.ViewModels
                 //Validate credentials through the authentication service
                 UserReturnObject user = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
+                if(user == null)
+                {
+                    _mainWindowViewModel.Status = "No any user found for the entered credential.";
+                    passwordBox.Password = string.Empty;
+                    Username = string.Empty;
+                    App.SetCursorToArrow();
+                    OnRequestFocus?.Invoke(this, new EventArgs());
+                    return;
+                }
+
                 //Get the current principal object
                 CustomPrincipal customPrincipal = App.CurrentPrincipal as CustomPrincipal;
                 var currentPrincipal = Thread.CurrentPrincipal;
