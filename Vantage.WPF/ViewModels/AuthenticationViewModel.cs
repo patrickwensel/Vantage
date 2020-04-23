@@ -21,6 +21,7 @@ namespace Vantage.WPF.ViewModels
 
         private string _username;
         private string _loggedInName;
+        private string _status;
 
         #region Properties
         public string Username
@@ -33,6 +34,12 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _loggedInName; }
             set { SetProperty(ref _loggedInName, value); }
+        }
+
+        public string Status 
+        {
+            get { return _status; }
+            set { SetProperty(ref _status, value); }
         }
 
         public bool IsAuthenticated
@@ -75,14 +82,15 @@ namespace Vantage.WPF.ViewModels
             PasswordBox passwordBox = parameter as PasswordBox;
             string clearTextPassword = passwordBox.Password;
             try
-            {                
+            {
+                Status = string.Empty;
                 App.SetCursorToWait();
                 //Validate credentials through the authentication service
                 UserReturnObject user = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 if(user == null)
                 {
-                    _mainWindowViewModel.Status = "No any user found for the entered credential.";
+                    Status = "Invalid username or password.";
                     passwordBox.Password = string.Empty;
                     Username = string.Empty;
                     App.SetCursorToArrow();
@@ -117,7 +125,7 @@ namespace Vantage.WPF.ViewModels
                 _logoutCommand.RaiseCanExecuteChanged();
                 Username = string.Empty; //reset
                 passwordBox.Password = string.Empty; //reset
-                _mainWindowViewModel.Status = string.Empty;
+                Status = string.Empty;
                 App.SetCursorToArrow();
                 _navigationService.NavigateTo(Enums.PageKey.Dashboard);
 
@@ -129,7 +137,7 @@ namespace Vantage.WPF.ViewModels
             {
                 App.SetCursorToArrow();
 
-                _mainWindowViewModel.Status = "Please enter valid admin name and password.";
+                Status = "Please enter valid admin name and password.";                
                 passwordBox.Password = string.Empty;
                 Username = string.Empty;
                 OnRequestFocus?.Invoke(this, new EventArgs());
