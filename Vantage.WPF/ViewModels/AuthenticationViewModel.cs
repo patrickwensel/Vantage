@@ -90,7 +90,7 @@ namespace Vantage.WPF.ViewModels
 
                 if(user == null)
                 {
-                    Status = "Invalid username or password.";
+                    Status = "Please enter valid Admin name and password.";
                     passwordBox.Password = string.Empty;
                     Username = string.Empty;
                     App.SetCursorToArrow();
