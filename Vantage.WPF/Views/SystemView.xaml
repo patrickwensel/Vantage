@@ -281,6 +281,7 @@
                                Margin="20,2"
                                HorizontalAlignment="Left" />
                     <PasswordBox x:Name="TxtPassword"
+                                 MaxLength="8"
                                  Grid.Row="4"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2"
@@ -295,6 +296,7 @@
                                Margin="20,2"
                                HorizontalAlignment="Left" />
                     <PasswordBox x:Name="TxtConfirmPassword"
+                                 MaxLength="8"
                                  Grid.Row="6"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2"

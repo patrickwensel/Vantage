@@ -326,8 +326,10 @@ namespace Vantage.WPF.ViewModels
             if (SelectedProduct == null)
                 return;
 
-            //SetGroupsAsPerTheSelectedProduct();
+            //SetGroupsAsPerTheSelectedProduct();             
             await FetchGroupsAsync();
+            IsAllSelected = false;
+            EnableDisableReportTypeDropdown();
         }
 
         private void OnManageClicked(object parameter)

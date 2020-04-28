@@ -25,6 +25,7 @@ namespace Vantage.WPF
             ViewModel = mainWindowViewModel;
             _messagingService = messagingService;
             InitializeComponent();
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             this.FontFamily = new System.Windows.Media.FontFamily("Segoe UI");
             mainWindowViewModel.InitializeNavigationService(FrmContentArea);
         }

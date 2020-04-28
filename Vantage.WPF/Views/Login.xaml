@@ -117,7 +117,7 @@
                        Grid.Row="5"
                        Grid.Column="0"
                        Text="{Binding Status}"
-                       HorizontalAlignment="Right"
+                       HorizontalAlignment="Center"
                        Foreground="Red" />
             <Button Grid.Row="6"
                     Grid.Column="0"
