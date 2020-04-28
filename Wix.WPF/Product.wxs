@@ -19,7 +19,7 @@
 		</Directory>
 
 		<Component Id="ProductComponent" Directory="INSTALLFOLDER">
-			<File Id="VantageExe" Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\publish\Vantage.WPF.exe" KeyPath="yes">
+			<File Id="VantageExe" Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\win-x64\publish\Vantage.WPF.exe" KeyPath="yes">
 				<Shortcut Id="VantageShortcut"
                   Directory="VantageShortcuts"
                   Name="Vantage"
@@ -33,7 +33,7 @@
                     On="uninstall" />
 		</Component>
 		    <Component Id="AppSetting" Directory="INSTALLFOLDER">
-      <File Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\publish\appsettings.json" />
+      <File Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\win-x64\appsettings.json" />
     </Component>
 
 		<Feature Id="ProductFeature" Title="Vantage" Level="1">
