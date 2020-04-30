@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Vantage.Common.Models;
 
@@ -17,6 +18,8 @@ namespace Vantage.WPF.Models
                 OnPropertyChanged("IsSelected");
             }
         }
+
+        public int LessonsCompleted => GroupedAttemptsByLessons != null ? GroupedAttemptsByLessons.Count(x => x.IsComplete) : 0;
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

@@ -260,6 +260,14 @@
                                TextWrapping="Wrap"
                                Style="{StaticResource ErrorLabel}"
                                Text="{Binding ErrorMessage, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               Margin="20,2"
+                               HorizontalAlignment="Stretch"
+                               TextWrapping="Wrap"
+                               Style="{StaticResource SuccessLabel}"
+                               Text="{Binding SuccessMessage, Mode=TwoWay}"/>
                     <TextBlock Text="Username"
                                Grid.Row="1"
                                Grid.Column="0"

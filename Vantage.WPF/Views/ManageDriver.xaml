@@ -123,7 +123,8 @@
                                         Binding="{Binding FirstName}" />
                     <DataGridTemplateColumn Header="Group"
                                             MinWidth="120"
-                                            CanUserSort="False">
+                                            SortMemberPath="Group.Name"
+                                            CanUserSort="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox x:Name="CBGroup"

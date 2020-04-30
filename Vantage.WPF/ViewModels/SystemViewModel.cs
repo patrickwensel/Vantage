@@ -27,6 +27,7 @@ namespace Vantage.WPF.ViewModels
         private IList<TabItem> _tabItems;
         private string _userName;
         private string _errorMessage;
+        private string _successMessage;
 
         public EventHandler ResetData;
         public EventHandler ErrorOccurred;
@@ -53,6 +54,12 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _errorMessage; }
             set { SetProperty(ref _errorMessage, value); }
+        }
+
+        public string SuccessMessage 
+        {
+            get { return _successMessage; }
+            set { SetProperty(ref _successMessage, value); }
         }
 
         public ICommand CreateBackupCommand { get { return _createBackupCommand; } }
@@ -113,13 +120,17 @@ namespace Vantage.WPF.ViewModels
             var backupResponse = await _databaseService.BackupDatabase(saveFileDialog.FileName.Trim());
             App.SetCursorToArrow();
 
-            if (backupResponse.Result)
+            if (backupResponse != null && backupResponse.Result)
             {
                 System.Windows.MessageBox.Show("Database backup created successfully.", "Backup", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
-            else
+            else if(backupResponse != null)
             {
                 System.Windows.MessageBox.Show(backupResponse.Message, "Backup Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Backup Failed, Please make sure you are working on local database.", "Backup Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -137,13 +148,17 @@ namespace Vantage.WPF.ViewModels
             App.SetCursorToWait();
             var restoreResponse = await _databaseService.RestoreDatabase(openFileDialog.FileName.Trim());
             App.SetCursorToArrow();
-            if (restoreResponse.Result)
+            if (restoreResponse != null && restoreResponse.Result)
             {
                 System.Windows.MessageBox.Show("Database restored successfully.", "Restore", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
-            else
+            else if(restoreResponse != null)
             {
                 System.Windows.MessageBox.Show(restoreResponse.Message, "Restore Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Restore failed, Please make sure you are working on local database.", "Restore Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -156,6 +171,8 @@ namespace Vantage.WPF.ViewModels
         private async void UpdateCredential(object parameter)
         {
             System.Windows.Controls.PasswordBox passwordBox = parameter as System.Windows.Controls.PasswordBox;
+            SuccessMessage = null;
+            ErrorMessage = null;
             App.SetCursorToWait();
             User user = await _userService.GetUserByUsername(Username);
 
@@ -168,7 +185,7 @@ namespace Vantage.WPF.ViewModels
 
             if (user != null && user.UserID != _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId)
             {
-                App.SetCursorToArrow();
+                App.SetCursorToArrow();                
                 ErrorMessage = "Username already exists, Please try Another.";
                 ErrorOccurred?.Invoke(this, new EventArgs());
                 return;
@@ -183,6 +200,15 @@ namespace Vantage.WPF.ViewModels
                 Password = passwordBox.Password,
             });
             App.SetCursorToArrow();
+            if(_mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName.Equals(this.Username))
+            {
+                SuccessMessage = "Password updated successfully";
+            }
+            else
+            {
+                _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName = this.Username;
+                SuccessMessage = "Username and Password updated successfully";
+            }            
         }
     }
 }
