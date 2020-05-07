@@ -201,7 +201,7 @@
                     <TextBlock Style="{StaticResource ButtonIconTextStyle}"
                                Text="" />
                     <TextBlock Style="{StaticResource ButtonTextStyle}"
-                               Text="Manage" />
+                               Text="Manage Drivers" />
                 </StackPanel>
             </Button>
             <Button Grid.Row="2"

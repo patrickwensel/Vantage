@@ -286,7 +286,8 @@
                                         MinWidth="120"
                                         Binding="{Binding Group.Name}" />
                     <DataGridTemplateColumn Header="Lessons Completed"
-                                            CanUserSort="False">
+                                            SortMemberPath="LessonsCompleted"
+                                            CanUserSort="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid Margin="2"
