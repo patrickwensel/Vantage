@@ -48,7 +48,7 @@ namespace Vantage.WPF.Utility
                     document.Add(titlePhrase);
 
                     PdfPTable pdfPTable = new PdfPTable(6);
-                    pdfPTable.WidthPercentage = 100f;
+                    pdfPTable.WidthPercentage = 95f;
                     pdfPTable.PaddingTop = 40;
 
                     //Adding Headers Here.
@@ -69,9 +69,9 @@ namespace Vantage.WPF.Utility
                         pdfPTable.AddCell(GetContentCell(driver.LastName, infoFont, Element.ALIGN_LEFT));
                         pdfPTable.AddCell(GetContentCell(driver.FirstName, infoFont, Element.ALIGN_LEFT));
                         pdfPTable.AddCell(GetContentCell(driver.Group.Name, infoFont, Element.ALIGN_LEFT));
-                        pdfPTable.AddCell(GetContentCell(completedLessonCount.ToString(), infoFont, Element.ALIGN_RIGHT));
-                        pdfPTable.AddCell(GetContentCell(totalLessonCount.ToString(), infoFont, Element.ALIGN_RIGHT));
-                        pdfPTable.AddCell(GetContentCell(couserCompleted, infoFont, Element.ALIGN_LEFT));
+                        pdfPTable.AddCell(GetContentCell(completedLessonCount.ToString(), infoFont, Element.ALIGN_CENTER));
+                        pdfPTable.AddCell(GetContentCell(totalLessonCount.ToString(), infoFont, Element.ALIGN_CENTER));
+                        pdfPTable.AddCell(GetContentCell(couserCompleted, infoFont, Element.ALIGN_CENTER));
                     }
 
                     document.Add(pdfPTable);
@@ -129,7 +129,7 @@ namespace Vantage.WPF.Utility
                     pdfPTable.AddCell(GetHeaderCell("Lesson", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("High Score", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("# of Attempts", tableHeaderFont));
-                    pdfPTable.AddCell(GetHeaderCell("Total Time (In Mins)", tableHeaderFont));
+                    pdfPTable.AddCell(GetHeaderCell("Total Time (Mins)", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("Date Completed", tableHeaderFont));
                     // Headers Completed...
 
@@ -198,7 +198,7 @@ namespace Vantage.WPF.Utility
                     pdfPTable.AddCell(GetHeaderCell("Lesson", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("High Score", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("# of Attempts", tableHeaderFont));
-                    pdfPTable.AddCell(GetHeaderCell("Total Time (In Mins)", tableHeaderFont));
+                    pdfPTable.AddCell(GetHeaderCell("Total Time (Mins)", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("Date Completed", tableHeaderFont));
                     // Headers Completed...
 
@@ -220,7 +220,7 @@ namespace Vantage.WPF.Utility
 
                         //Adding infractions Headers Here.
                         infractionsTable.AddCell(GetHeaderCell("Infractions", tableHeaderFont));
-                        infractionsTable.AddCell(GetHeaderCell("# of Occurances", tableHeaderFont));
+                        infractionsTable.AddCell(GetHeaderCell("# of Occurrences", tableHeaderFont));
                         infractionsTable.AddCell(GetHeaderCell("Points Deducted", tableHeaderFont));
                         // Headers Completed...
 

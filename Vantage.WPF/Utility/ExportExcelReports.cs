@@ -12,7 +12,7 @@ namespace Vantage.WPF.Utility
 {
     public class ExportExcelReports
     {
-        private static string DateFormat = "dd-MMM-yyyy h:mm tt";
+        private static string DateFormat = "dd-MMM-yyyy";
 
         public static void TrainingReport(IList<SelectableDriver> drivers, string absoluteFileName)
         {
@@ -24,6 +24,7 @@ namespace Vantage.WPF.Utility
             ICellStyle titleCellStyle = GetTitleStyle(workbook);
             ICellStyle tableHeaderCellStyle = GetTableHeaderStyle(workbook);
             ICellStyle infoCellStyle = GetInfoStyle(workbook);
+            ICellStyle centeredInfoCellStyle = GetCenteredInfoStyle(workbook);
             ICellStyle boldInfoCellStyle = GetBoldInfoFont(workbook);            
 
             // Add Titles and Date in Report.
@@ -55,9 +56,9 @@ namespace Vantage.WPF.Utility
                 AddCell(row, 0, driver.LastName, infoCellStyle);
                 AddCell(row, 1, driver.FirstName, infoCellStyle);
                 AddCell(row, 2, driver.Group.Name, infoCellStyle);
-                AddCell(row, 3, completedLessonCount.ToString(), infoCellStyle);
-                AddCell(row, 4, totalLessonCount.ToString(), infoCellStyle);
-                AddCell(row, 5, couserCompleted, infoCellStyle);
+                AddCell(row, 3, completedLessonCount.ToString(), centeredInfoCellStyle);
+                AddCell(row, 4, totalLessonCount.ToString(), centeredInfoCellStyle);
+                AddCell(row, 5, couserCompleted, centeredInfoCellStyle);
                 rowIndex++;
             }
 
@@ -84,6 +85,8 @@ namespace Vantage.WPF.Utility
                 ICellStyle titleCellStyle = GetTitleStyle(workbook);
                 ICellStyle tableHeaderCellStyle = GetTableHeaderStyle(workbook);
                 ICellStyle infoCellStyle = GetInfoStyle(workbook);
+                ICellStyle rightAlignedCellStyle = GetRightAlignedInfoStyle(workbook);
+                ICellStyle centeredCellStyle = GetCenteredInfoStyle(workbook);
                 ICellStyle boldInfoCellStyle = GetBoldInfoFont(workbook);                
 
                 // Add Titles and Date in Report.
@@ -104,7 +107,7 @@ namespace Vantage.WPF.Utility
                 AddCell(headerRow, 0, "Lesson", tableHeaderCellStyle);
                 AddCell(headerRow, 1, "High Score", tableHeaderCellStyle);
                 AddCell(headerRow, 2, "# of Attempts", tableHeaderCellStyle);
-                AddCell(headerRow, 3, "Total Time (In Mins)", tableHeaderCellStyle);
+                AddCell(headerRow, 3, "Total Time (Mins)", tableHeaderCellStyle);
                 AddCell(headerRow, 4, "Date Completed", tableHeaderCellStyle);
 
                 // Add data now.
@@ -118,10 +121,10 @@ namespace Vantage.WPF.Utility
                     string couserCompleted = completedLessonCount == totalLessonCount ? "Yes" : "No";
                     IRow row = mainWorksheet.CreateRow(rowIndex);
                     AddCell(row, 0, attempt.Lesson.Name, infoCellStyle);
-                    AddCell(row, 1, attempt.HighScore.ToString(), infoCellStyle);
-                    AddCell(row, 2, attempt.TotalAttempts.ToString(), infoCellStyle);
-                    AddCell(row, 3, attempt.TotalTimes.ToString(), infoCellStyle);
-                    AddCell(row, 4, attempt.TotalDeduction.ToString(), infoCellStyle);
+                    AddCell(row, 1, attempt.HighScore.ToString(), rightAlignedCellStyle);
+                    AddCell(row, 2, attempt.TotalAttempts.ToString(), rightAlignedCellStyle);
+                    AddCell(row, 3, attempt.TotalTimes.ToString(), rightAlignedCellStyle);
+                    AddCell(row, 4, attempt.DateCompleted != null ? attempt.DateCompleted?.ToString("dd-MMM-yyyy") : string.Empty, rightAlignedCellStyle);
                     rowIndex++;
                 }
 
@@ -149,7 +152,10 @@ namespace Vantage.WPF.Utility
                 ICellStyle titleCellStyle = GetTitleStyle(workbook);
                 ICellStyle tableHeaderCellStyle = GetTableHeaderStyle(workbook);
                 ICellStyle infoCellStyle = GetInfoStyle(workbook);
-                ICellStyle boldInfoCellStyle = GetBoldInfoFont(workbook);                
+                ICellStyle rightAlignedCellStyle = GetRightAlignedInfoStyle(workbook);
+                ICellStyle centeredCellStyle = GetCenteredInfoStyle(workbook);
+                ICellStyle boldInfoCellStyle = GetBoldInfoFont(workbook);
+                ICellStyle rightAlignedBoldInfoCellStyle = GetRightAlignedBoldInfoFont(workbook);
 
                 // Add Titles and Date in Report.
                 IRow titleRow = mainWorksheet.CreateRow(0);
@@ -169,7 +175,7 @@ namespace Vantage.WPF.Utility
                 AddCell(headerRow, 0, "Lesson", tableHeaderCellStyle);
                 AddCell(headerRow, 1, "High Score", tableHeaderCellStyle);
                 AddCell(headerRow, 2, "# of Attempts", tableHeaderCellStyle);
-                AddCell(headerRow, 3, "Total Time (In Mins)", tableHeaderCellStyle);
+                AddCell(headerRow, 3, "Total Time (Mins)", tableHeaderCellStyle);
                 AddCell(headerRow, 4, "Date Completed", tableHeaderCellStyle);
 
                 // Add data now.
@@ -183,10 +189,10 @@ namespace Vantage.WPF.Utility
                     string couserCompleted = completedLessonCount == totalLessonCount ? "Yes" : "No";
                     IRow row = mainWorksheet.CreateRow(rowIndex);
                     AddCell(row, 0, attempt.Lesson.Name, infoCellStyle);
-                    AddCell(row, 1, attempt.HighScore.ToString(), infoCellStyle);
-                    AddCell(row, 2, attempt.TotalAttempts.ToString(), infoCellStyle);
-                    AddCell(row, 3, attempt.TotalTimes.ToString(), infoCellStyle);
-                    AddCell(row, 4, attempt.TotalDeduction.ToString(), infoCellStyle);
+                    AddCell(row, 1, attempt.HighScore.ToString(), rightAlignedCellStyle);
+                    AddCell(row, 2, attempt.TotalAttempts.ToString(), rightAlignedCellStyle);
+                    AddCell(row, 3, attempt.TotalTimes.ToString(), rightAlignedCellStyle);
+                    AddCell(row, 4, attempt.DateCompleted != null ? attempt.DateCompleted?.ToString("dd-MMM-yyyy") : string.Empty, rightAlignedCellStyle);
                     rowIndex++;
 
                     if (attempt.GroupedInfractions == null || attempt.GroupedInfractions.Count == 0)
@@ -203,7 +209,7 @@ namespace Vantage.WPF.Utility
                     // Adding Infractions Tables Headers.
                     IRow infractionsHeaderRow = mainWorksheet.CreateRow(rowIndex);
                     AddCell(infractionsHeaderRow, 1, "Infractions", boldInfoCellStyle);
-                    AddCell(infractionsHeaderRow, 2, "# of Occurances", boldInfoCellStyle);
+                    AddCell(infractionsHeaderRow, 2, "# of Occurrences", boldInfoCellStyle);
                     AddCell(infractionsHeaderRow, 3, "Points Deducted", boldInfoCellStyle);
 
                     rowIndex++;
@@ -212,16 +218,16 @@ namespace Vantage.WPF.Utility
                     {
                         IRow infractionsDataRow = mainWorksheet.CreateRow(rowIndex);
                         AddCell(infractionsDataRow, 1, groupedInfractions.Infraction.Name, infoCellStyle);
-                        AddCell(infractionsDataRow, 2, groupedInfractions.Occurances.ToString(), infoCellStyle);
-                        AddCell(infractionsDataRow, 3, groupedInfractions.Deduction.ToString(), infoCellStyle);
+                        AddCell(infractionsDataRow, 2, groupedInfractions.Occurances.ToString(), rightAlignedCellStyle);
+                        AddCell(infractionsDataRow, 3, groupedInfractions.Deduction.ToString(), rightAlignedCellStyle);
 
                         rowIndex++;                        
                     }
 
                     // Adding total of infractions
                     IRow infractionsTotalRow = mainWorksheet.CreateRow(rowIndex);
-                    AddCell(infractionsTotalRow, 2, "Total", boldInfoCellStyle);
-                    AddCell(infractionsTotalRow, 3, attempt.TotalDeduction.ToString(), boldInfoCellStyle);
+                    AddCell(infractionsTotalRow, 2, "Total", boldInfoCellStyle);                    
+                    AddCell(infractionsTotalRow, 3, attempt.TotalDeduction.ToString(), rightAlignedBoldInfoCellStyle);
 
                     // Merge First and Last column
                     int infractionTableStartRowIndex = rowIndex - (attempt.GroupedInfractions.Count + 1);
@@ -299,6 +305,7 @@ namespace Vantage.WPF.Utility
 
             ICellStyle tableHeaderStyle = workbook.CreateCellStyle();
             tableHeaderStyle.SetFont(tableHeaderFont);
+            tableHeaderStyle.Alignment = HorizontalAlignment.Center;
             return tableHeaderStyle;
         }
 
@@ -313,6 +320,20 @@ namespace Vantage.WPF.Utility
             return infoStyle;
         }
 
+        private static ICellStyle GetCenteredInfoStyle(IWorkbook workbook)
+        {
+            ICellStyle infoStyle = GetInfoStyle(workbook);
+            infoStyle.Alignment = HorizontalAlignment.Center;
+            return infoStyle;
+        }
+
+        private static ICellStyle GetRightAlignedInfoStyle(IWorkbook workbook)
+        {
+            ICellStyle infoStyle = GetInfoStyle(workbook);
+            infoStyle.Alignment = HorizontalAlignment.Right;
+            return infoStyle;
+        }
+
         private static ICellStyle GetBoldInfoFont(IWorkbook workbook)
         {
             IFont infoFont = workbook.CreateFont();
@@ -322,6 +343,13 @@ namespace Vantage.WPF.Utility
 
             ICellStyle boldInfoStyle = workbook.CreateCellStyle();
             boldInfoStyle.SetFont(infoFont);
+            return boldInfoStyle;
+        }
+
+        private static ICellStyle GetRightAlignedBoldInfoFont(IWorkbook workbook)
+        {            
+            ICellStyle boldInfoStyle = GetBoldInfoFont(workbook);
+            boldInfoStyle.Alignment = HorizontalAlignment.Right;
             return boldInfoStyle;
         }
     }

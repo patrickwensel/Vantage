@@ -336,18 +336,22 @@
                                     <DataGridTextColumn Header="High Score"
                                                         IsReadOnly="True"
                                                         MinWidth="120"
+                                                        CellStyle="{StaticResource RightAlignedContentStyle}"
                                                         Binding="{Binding HighScore}" />
                                     <DataGridTextColumn Header="Date Completed"
                                                         IsReadOnly="True"
                                                         MinWidth="140"
+                                                        CellStyle="{StaticResource RightAlignedContentStyle}"
                                                         Binding="{Binding DateCompleted, StringFormat='MM/dd/yyyy'}" />
                                     <DataGridTextColumn Header="Total Attempts"
                                                         IsReadOnly="True"
                                                         MinWidth="120"
+                                                        CellStyle="{StaticResource RightAlignedContentStyle}"
                                                         Binding="{Binding TotalAttempts}" />
                                     <DataGridTextColumn Header="Total Times"
                                                         MinWidth="120"
                                                         IsReadOnly="True"
+                                                        CellStyle="{StaticResource RightAlignedContentStyle}"
                                                         Binding="{Binding TotalTimes}" />
                                     <DataGridTextColumn Header="Passed"
                                                         CanUserSort="False"
@@ -368,6 +372,10 @@
                                                         Value="Stretch" />
                                                 <Setter Property="HorizontalContentAlignment"
                                                         Value="Stretch" />
+                                                <Setter Property="TextBlock.HorizontalAlignment"
+                                                        Value="Center" />
+                                                <Setter Property="TextBlock.TextAlignment"
+                                                        Value="Center" />
                                                 <Setter Property="TextBlock.FontSize"
                                                         Value="14" />
                                                 <Setter Property="TextBlock.Foreground"
@@ -425,10 +433,12 @@
                                                     <DataGridTextColumn Header="Occurances"
                                                                         IsReadOnly="True"
                                                                         MinWidth="120"
+                                                                        CellStyle="{StaticResource RightAlignedContentStyle}"
                                                                         Binding="{Binding Occurances}" />
                                                     <DataGridTextColumn Header="Deduction"
                                                                         IsReadOnly="True"
                                                                         MinWidth="120"
+                                                                        CellStyle="{StaticResource RightAlignedContentStyle}"
                                                                         Binding="{Binding Deduction}" />
                                                 </DataGrid.Columns>
                                             </DataGrid>
@@ -449,12 +459,16 @@
                                                 <TextBlock Grid.Column="1"
                                                            Text="Total"
                                                            VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           TextAlignment="Center"
                                                            FontSize="14"
                                                            FontWeight="Bold"
                                                            Foreground="White" />
                                                 <TextBlock Grid.Column="2"
                                                            Text="{Binding TotalDeduction}"
                                                            VerticalAlignment="Center"
+                                                           HorizontalAlignment="Right"
+                                                           TextAlignment="Right"
                                                            FontSize="14"
                                                            FontWeight="Bold"
                                                            Foreground="White" />

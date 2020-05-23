@@ -858,6 +858,22 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="DataGridCell"
+           x:Key="RightAlignedContentStyle"
+           BasedOn="{StaticResource DataGridCellStyle}">
+        <Setter Property="TextBlock.HorizontalAlignment"
+                Value="Right" />
+        <Setter Property="TextBlock.TextAlignment"
+                Value="Right" />
+    </Style>
+    <Style TargetType="DataGridCell"
+           x:Key="CenterAlignedContentStyle"
+           BasedOn="{StaticResource DataGridCellStyle}">
+        <Setter Property="TextBlock.HorizontalAlignment"
+                Value="Center" />
+        <Setter Property="TextBlock.TextAlignment"
+                Value="Center" />
+    </Style>
     <Style TargetType="DataGridColumnHeader"
            x:Key="DataGridHeaderStyle">
         <Style.Triggers>
