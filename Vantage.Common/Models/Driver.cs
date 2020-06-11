@@ -18,10 +18,14 @@ namespace Vantage.Common.Models
         public bool IsActive { get; set; }
 
         [ForeignKey("Group")]
-        public int GroupID { get; set; }
+        public int? GroupID { get; set; }
         public Group Group { get; set; }
 
         public virtual List<Attempt> Attempts { get; set; }
+
+        [ForeignKey("Product")]
+        public int ProductID { get; set; }
+        public Product Product { get; set; }
 
         [NotMapped]
         public List<GroupedAttemptsByLesson> GroupedAttemptsByLessons => GetGroupedAttempts();
