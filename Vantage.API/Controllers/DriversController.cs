@@ -27,6 +27,7 @@ namespace Vantage.API.Controllers
         public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
         {
             return await _context.Drivers
+                .Include(x => x.Product)
                 .Include(x => x.Group)
                 .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
                 .Include(x => x.Attempts).ThenInclude(x => x.Lesson)

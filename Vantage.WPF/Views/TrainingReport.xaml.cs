@@ -46,7 +46,11 @@ namespace Vantage.WPF.Views
         private void DataGridCell_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {            
             DataGridCell cell = sender as DataGridCell;
-            Console.WriteLine($"Clicked Cell : {cell}");
+            Console.WriteLine($"Clicked Cell : {cell}, Name : {cell.Name}");
+            ComboBox groupComboBox = VisualHelper.FindChild<ComboBox>(cell);
+            if (groupComboBox != null)
+                return;
+
             if (cell != null && !cell.IsEditing)
             {
                 DataGridRow row = VisualHelper.FindParent<DataGridRow>(cell);

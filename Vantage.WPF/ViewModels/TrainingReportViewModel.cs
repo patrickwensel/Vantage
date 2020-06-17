@@ -25,6 +25,7 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _systemCommand;
         private readonly ICommand _selectAllCheckedChangedCommand;
         private readonly ICommand _driverSelectCheckedChangedCommand;
+        private readonly ICommand _driversGroupUpdatedCommand;
         private readonly ICommand _productSelectedCommand;
         private readonly ICommand _showActiveDriverStateChangedCommand;
         private readonly ICommand _exportReportCommand;
@@ -33,6 +34,7 @@ namespace Vantage.WPF.ViewModels
         private Group _selectedGroup;
         private UserInfo _loggedInUserInfo;
         private ObservableCollection<Group> _groups;
+        private ObservableCollection<Group> _onlyGroups;
         private IList<SelectableDriver> _allDrivers;
         private IList<SelectableDriver> _drivers;
         private IList<TabItem> _tabItems;
@@ -68,6 +70,12 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _groups; }
             set { SetProperty(ref _groups, value); }
+        }
+
+        public ObservableCollection<Group> OnlyGroups
+        {
+            get { return _onlyGroups; }
+            set { SetProperty(ref _onlyGroups, value); }
         }
 
         public IList<SelectableDriver> Drivers
@@ -136,6 +144,8 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand DriverSelectCheckedChangedCommand { get { return _driverSelectCheckedChangedCommand; } }
 
+        public ICommand DriversGroupUpdatedCommand { get { return _driversGroupUpdatedCommand; } }
+
         public ICommand ShowActiveDriverStateChangedCommand { get { return _showActiveDriverStateChangedCommand; } }
 
         public ICommand ExportReportCommand { get { return _exportReportCommand; } }
@@ -149,6 +159,7 @@ namespace Vantage.WPF.ViewModels
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
             _selectAllCheckedChangedCommand = new DelegateCommand(OnSelectAllCheckedChanged);
             _driverSelectCheckedChangedCommand = new DelegateCommand(OnDriverSelectCheckedChanged);
+            _driversGroupUpdatedCommand = new DelegateCommand(OnDriversGroupUpdated);
             _groupSelectedCommand = new DelegateCommand(OnGroupSelected);
             _productSelectedCommand = new DelegateCommand(OnProductSelected);
             _showActiveDriverStateChangedCommand = new DelegateCommand(OnShowActiveDriverStateChanged);
@@ -163,6 +174,7 @@ namespace Vantage.WPF.ViewModels
             };
 
             Groups = new ObservableCollection<Group>() { AllGroupForComboBox };
+            OnlyGroups = new ObservableCollection<Group>();
         }
 
         public async Task OnInitializedAsync()
@@ -182,6 +194,8 @@ namespace Vantage.WPF.ViewModels
         {
             ClearDriverList();
             Groups.Clear();
+            OnlyGroups.Clear();
+
             var groups = await _groupService.GetGroups();
 
             UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
@@ -191,6 +205,7 @@ namespace Vantage.WPF.ViewModels
         private void UpdateGroupList(IList<Group> groups)
         {
             Groups.Clear();
+            OnlyGroups.Clear();
             Groups.Add(AllGroupForComboBox);
 
             if (groups == null)
@@ -202,6 +217,7 @@ namespace Vantage.WPF.ViewModels
             foreach (Group group in groups)
             {
                 Groups.Add(group);
+                OnlyGroups.Add(group);
             }
 
             SelectedGroup = Groups[0];
@@ -232,6 +248,26 @@ namespace Vantage.WPF.ViewModels
 
             _allDrivers = GetSelectableDrivers(driversList);
             GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
+        }
+
+        private async Task FetchAllDriversAsync()
+        {
+            ClearDriverList();
+            IList<Driver> driversList;
+
+            driversList = await _driverService.GetAllDrivers();
+            foreach (Driver driver in driversList)
+            {
+                if (driver.GroupID == null)
+                    continue;
+
+                var group = Groups.FirstOrDefault(x => x.GroupID == driver.GroupID);
+                driver.Group = group;
+            }
+
+            _allDrivers = GetSelectableDrivers(driversList);
+            GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
+            Console.WriteLine($"Drivers : {Drivers}");
         }
 
         private async Task FetchDriversByGroupId(int groupId)
@@ -286,6 +322,36 @@ namespace Vantage.WPF.ViewModels
             EnableDisableReportTypeDropdown();
         }
 
+        private async void OnDriversGroupUpdated(object parameter)
+        {
+            Console.WriteLine($"Group updated for Driver : {parameter}");
+            UpdateDriversGroup updateDriverGroup = parameter as UpdateDriversGroup;
+            if (updateDriverGroup.Group == null || updateDriverGroup.Driver.GroupID == updateDriverGroup.Group.GroupID)
+                return;
+
+            Driver driver = new Driver()
+            {
+                LastName = updateDriverGroup.Driver.LastName,
+                FirstName = updateDriverGroup.Driver.FirstName,
+                UserName = updateDriverGroup.Driver.UserName,
+                DriverID = updateDriverGroup.Driver.DriverID,
+                Pin = updateDriverGroup.Driver.Pin,
+                IsActive = updateDriverGroup.Driver.IsActive,
+                GroupID = updateDriverGroup.Group.GroupID,
+                ProductID = updateDriverGroup.Driver.ProductID,
+            };
+
+            await UpdateDriverAsync(driver);
+            OnGroupSelected(null);
+        }
+
+        private async Task UpdateDriverAsync(Driver driver)
+        {
+            App.SetCursorToWait();
+            await _driverService.UpdateDriver(driver);
+            App.SetCursorToArrow();
+        }
+
         private void EnableDisableReportTypeDropdown()
         {
             IsReportTypeDropdownEnabled = Drivers.Any(x => x.IsSelected);
@@ -316,7 +382,7 @@ namespace Vantage.WPF.ViewModels
 
             Console.WriteLine($"Selected Group : {SelectedGroup.GroupID}");
             if (SelectedGroup.GroupID == -1)
-                FetchDriversFromAllTheGroups();
+                await FetchAllDriversAsync();
             else
                 await FetchDriversByGroupId(SelectedGroup.GroupID);
         }
@@ -417,7 +483,8 @@ namespace Vantage.WPF.ViewModels
                     IsActive = driver.IsActive,
                     GroupID = driver.GroupID,
                     Group = driver.Group,
-                    Attempts = driver.Attempts
+                    Attempts = driver.Attempts,
+                    ProductID = driver.ProductID,
                 });
             }
 

@@ -11,6 +11,11 @@
       mc:Ignorable="d"
       x:Name="TrainingPage"
       Title="TrainingReport">
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:DriversGroupUpdatedConverter x:Key="DriversGroupUpdatedConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -281,10 +286,40 @@
                                         IsReadOnly="True"
                                         MinWidth="222"
                                         Binding="{Binding FirstName}" />
-                    <DataGridTextColumn Header="Group"
+                    <DataGridTemplateColumn Header="Group"
+                                            MinWidth="120"
+                                            x:Name="DGCGroup"
+                                            SortMemberPath="Group.Name"
+                                            CanUserSort="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox x:Name="CBGroup"
+                                          Style="{StaticResource LightComboBoxStyle}"
+                                          ItemsSource="{Binding ElementName=TrainingPage, Path=DataContext.OnlyGroups}"
+                                          SelectedItem="{Binding Group, Mode=TwoWay}"
+                                          DisplayMemberPath="Name">
+                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:EventTrigger EventName="SelectionChanged">
+                                            <interactivity:InvokeCommandAction Command="{Binding ElementName=TrainingPage, Path=DataContext.DriversGroupUpdatedCommand}">
+                                                <interactivity:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource DriversGroupUpdatedConverter}">
+                                                        <Binding ElementName="CBGroup"
+                                                                 Path="DataContext" />
+                                                        <Binding ElementName="CBGroup"
+                                                                 Path="SelectedItem" />
+                                                    </MultiBinding>
+                                                </interactivity:InvokeCommandAction.CommandParameter>
+                                            </interactivity:InvokeCommandAction>
+                                        </interactivity:EventTrigger>
+                                    </interactivity:Interaction.Triggers>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--<DataGridTextColumn Header="Group"
                                         IsReadOnly="True"
                                         MinWidth="120"
-                                        Binding="{Binding Group.Name}" />
+                                        Binding="{Binding Group.Name}" />-->
                     <DataGridTemplateColumn Header="Lessons Completed"
                                             SortMemberPath="LessonsCompleted"
                                             CanUserSort="True">
