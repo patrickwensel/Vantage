@@ -39,6 +39,7 @@ namespace Vantage.API.Controllers
         public async Task<ActionResult<Driver>> GetDriver(int id)
         {
             var driver = await _context.Drivers
+                .Include(x => x.Product)
                 .Include(x => x.Group)
                 .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
                 .Include(x => x.Attempts).ThenInclude(x => x.Lesson)
@@ -57,6 +58,7 @@ namespace Vantage.API.Controllers
         public async Task<ActionResult<Driver>> GetDriverByUsername(string username)
         {
             var driver = await _context.Drivers
+                .Include(x => x.Product)
                 .Include(x => x.Group)
                 .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
                 .Include(x => x.Attempts).ThenInclude(x => x.Lesson)
@@ -75,7 +77,13 @@ namespace Vantage.API.Controllers
         public ActionResult Authenticate([FromBody] Driver loginParam)
         {
             var upperUserName = loginParam.UserName.ToUpper();
-            Driver driver = _context.Drivers.Where(u => u.UserName.ToUpper().Contains(upperUserName)).FirstOrDefault();
+            Driver driver = _context.Drivers
+                .Include(x => x.Product)
+                .Include(x => x.Group)
+                .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
+                .Include(x => x.Attempts).ThenInclude(x => x.Lesson)
+                .AsNoTracking()
+                .FirstOrDefault(x => x.UserName.ToUpper().Contains(upperUserName));
 
             if (driver != null)
             {
