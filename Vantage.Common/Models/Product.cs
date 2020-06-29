@@ -14,5 +14,7 @@ namespace Vantage.Common.Models
 
         public virtual List<Group> Groups { get; set; }
         public virtual List<Lesson> Lessons { get; set; }
+
+        public virtual List<Driver> Drivers { get; set; }
     }
 }

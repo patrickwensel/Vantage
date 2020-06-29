@@ -25,7 +25,11 @@ namespace Vantage.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.Include(x => x.Lessons).ToListAsync();
+            return await _context.Products
+                .Include(x => x.Groups)
+                .Include(x => x.Lessons)
+                .Include(x => x.Drivers)
+                .ToListAsync();
         }
 
         // GET: api/Products/5
@@ -100,6 +104,31 @@ namespace Vantage.API.Controllers
             await _context.SaveChangesAsync();
 
             return product;
+        }
+
+        [HttpDelete("DeleteAll/{id}")]
+        public async Task<ActionResult<Product>> DeleteAll(int id)
+        {
+            var product = await _context.Products
+                .Include(x => x.Groups)
+                .Include(x => x.Lessons)
+                .Include(x => x.Drivers)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ProductID == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Drivers.RemoveRange(product.Drivers);
+            _context.Groups.RemoveRange(product.Groups);
+            _context.Lessons.RemoveRange(product.Lessons);
+            _context.Products.Remove(product);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(product);
         }
 
         private bool ProductExists(int id)

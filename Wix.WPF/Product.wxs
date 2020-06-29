@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Vantage" Language="1033" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="abed5b68-546f-412f-ac3f-2e32b8a740fa">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+  <Product Id="*" Name="Vantage" Language="1033" Version="1.0.0.1" Manufacturer="Virtual Driver Interactive" UpgradeCode="abed5b68-546f-412f-ac3f-2e32b8a740fa">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Upgrade Id="abed5b68-546f-412f-ac3f-2e32b8a740fa">
+      <UpgradeVersion OnlyDetect="yes" Minimum="1.0.0.0" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
+      <UpgradeVersion OnlyDetect="no" Maximum="99.0.0.0" Property="OLDERVERSIONBEINGUPGRADED" IncludeMaximum="no" />
+    </Upgrade>
 
-		<MediaTemplate EmbedCab="yes" />
-		<UIRef Id="WixUI_Minimal" />
-		<Icon Id="appicon.ico" SourceFile="vdm_icon.ico"/>
-		    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallInitialize" />
+    </InstallExecuteSequence>
+    <MediaTemplate EmbedCab="yes" />
+    <UIRef Id="WixUI_Minimal" />
+    <Icon Id="appicon.ico" SourceFile="vdm_icon.ico"/>
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
     <WixVariable Id="WixUIDialogBmp" Value="vdm.bmp" />
-		
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="Vantage" />
-			</Directory>
-			<Directory Id="ProgramMenuFolder">
-				<Directory Id="VantageShortcuts" Name="Vantage" />
-			</Directory>
-		</Directory>
 
-		<Component Id="ProductComponent" Directory="INSTALLFOLDER">
-			<File Id="VantageExe" Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\win-x64\publish\Vantage.WPF.exe" KeyPath="yes">
-				<Shortcut Id="VantageShortcut"
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Vantage" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="VantageShortcuts" Name="Vantage" />
+      </Directory>
+    </Directory>
+
+    <Component Id="ProductComponent" Directory="INSTALLFOLDER">
+      <File Id="VantageExe" Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\publish\Vantage.WPF.exe" KeyPath="yes">
+        <Shortcut Id="VantageShortcut"
                   Directory="VantageShortcuts"
                   Name="Vantage"
                   Description="Vantage Driver Management"
                   WorkingDirectory="INSTALLFOLDER"
                   Advertise="yes"
                   Icon="appicon.ico"/>
-			</File>
-			<RemoveFolder Id="DeleteTheVantageShortcut"
+      </File>
+      <RemoveFolder Id="DeleteTheVantageShortcut"
                     Directory="VantageShortcuts"
                     On="uninstall" />
-		</Component>
-		    <Component Id="AppSetting" Directory="INSTALLFOLDER">
-      <File Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\win-x64\appsettings.json" />
+    </Component>
+    <Component Id="AppSetting" Directory="INSTALLFOLDER">
+      <File Source="..\Vantage.WPF\bin\Release\netcoreapp3.0\publish\appsettings.json" />
     </Component>
 
-		<Feature Id="ProductFeature" Title="Vantage" Level="1">
-			<ComponentRef Id="ProductComponent" />
-		      <Feature Id="AppSetting" Title="AppSetting" Level="1">
+    <Feature Id="ProductFeature" Title="Vantage" Level="1">
+      <ComponentRef Id="ProductComponent" />
+      <Feature Id="AppSetting" Title="AppSetting" Level="1">
         <ComponentRef Id="AppSetting"/>
       </Feature>
-		</Feature>
-	</Product>
+    </Feature>
+  </Product>
 
 </Wix>
