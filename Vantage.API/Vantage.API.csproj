@@ -37,4 +37,13 @@
     <None Include="wwwroot\app_data\VantageDB_log.ldf" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\app_data\VantageDB.mdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\app_data\VantageDB_log.ldf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

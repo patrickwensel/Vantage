@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vantage.Data;
 using Vantage.Common.Models;
+using Vantage.API.Models;
 
 namespace Vantage.API.Controllers
 {
@@ -74,23 +75,70 @@ namespace Vantage.API.Controllers
 
         [HttpPost("authenticate")]
         [SwaggerOperation("AuthenticateDriver")]
-        public ActionResult Authenticate([FromBody] Driver loginParam)
+        public async Task<ActionResult> Authenticate([FromBody] Driver loginParam)
         {
             var upperUserName = loginParam.UserName.ToUpper();
             Driver driver = _context.Drivers
-                .Include(x => x.Product)
-                .Include(x => x.Group)
-                .Include(x => x.Attempts).ThenInclude(x => x.Infractions)
-                .Include(x => x.Attempts).ThenInclude(x => x.Lesson)
-                .AsNoTracking()
                 .FirstOrDefault(x => x.UserName.ToUpper().Contains(upperUserName));
 
             if (driver != null)
             {
                 if (driver.Pin == loginParam.Pin)
                 {
-                    return Ok(driver);
+                    DriverInfo driverInfo = new DriverInfo()
+                    {
+                        DriverID = driver.DriverID,
+                        FirstName = driver.FirstName,
+                        LastName = driver.LastName,
+                        UserName = driver.UserName,
+                        Pin = driver.Pin,
+                        IsActive = driver.IsActive,
+                        GroupID = driver.GroupID,
+                        Group = driver.Group,
+                        ProductID = driver.ProductID,
+                    };
+
+                    var lessons = _context.Lessons
+                        .Include(x => x.Attempts)
+                        .AsNoTracking()
+                        .Where(x => x.ProductID == driver.ProductID)
+                        .OrderBy(x => x.LessonOrder);
+
+                    var lessonInfoList = new List<LessonInfo>();
+                    foreach (Lesson lesson in lessons)
+                    {
+                        LessonInfo lessonInfo = new LessonInfo()
+                        {
+                            LessonID = lesson.LessonID,
+                            PackType = lesson.PackType,
+                            PackID = lesson.PackID,
+                            IsActive = lesson.IsActive,
+                            Name = lesson.Name,
+                            LessonOrder = lesson.LessonOrder
+                        };
+
+                        var highScoreAttempt = lesson.Attempts.Where(x => x.DriverID == driver.DriverID).OrderByDescending(x => x.Score).FirstOrDefault();
+                        if (highScoreAttempt != null)
+                        {
+                            lessonInfo.Attempt = new HighScoreAttempt()
+                            {
+                                AttemptID = highScoreAttempt.AttemptID,
+                                CumulativeLessonTime = highScoreAttempt.CumulativeLessonTime,
+                                DateCompleted = highScoreAttempt.DateCompleted,
+                                IsComplete = highScoreAttempt.IsComplete,
+                                Score = highScoreAttempt.Score,
+                                TimeToComplete = highScoreAttempt.TimeToComplete,
+                            };
+                        }
+
+                        lessonInfoList.Add(lessonInfo);
+                    }
+
+                    driverInfo.Lessons = lessonInfoList;
+
+                    return Ok(driverInfo);
                 }
+
                 return Unauthorized();
             }
 
