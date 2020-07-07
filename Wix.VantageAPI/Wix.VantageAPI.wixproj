@@ -20,10 +20,24 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DialogFlow.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="UIDialogs.wxs" />
     <Compile Include="WebSiteContent.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixIIsExtension">
       <HintPath>$(WixExtDir)\WixIIsExtension.dll</HintPath>
       <Name>WixIIsExtension</Name>
@@ -31,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConfigurationInitialize.wxi" />
+    <Content Include="license.rtf" />
+    <Content Include="VDM.bmp" />
+    <Content Include="vdm_icon.ico" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
@@ -47,5 +64,15 @@
 	-->
   <Target Name="BeforeBuild">
     <HeatDirectory Directory="..\Vantage.API\bin\Release\netcoreapp3.0\publish" PreprocessorVariable="var.HarvestPath" OutputFile="WebSiteContent.wxs" ComponentGroupName="HeatGenerated" DirectoryRefId="INSTALLLOCATION" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" />
+  </Target>
+  <!-- Define creating installer in another target -->
+  <Target Name="CreateInstaller">
+    <!-- Remove complete publish folder in order to 
+             be sure that evrything will be newly compiled -->
+    <!-- At last create an installer -->
+    <Exec Command="&quot;$(WixPath)candle&quot; -ext WixIISExtension -ext WixUtilExtension &#xD;&#xA;                     -ext WiXNetFxExtension -dpublishDir=. &#xD;&#xA;                     -dMyWebResourceDir=. @(WixCode, ' ')" ContinueOnError="false" WorkingDirectory="." />
+    <Exec Command="&quot;$(WixPath)light&quot; -ext WixUIExtension -ext WixIISExtension &#xD;&#xA;                     -ext WixUtilExtension -ext WiXNetFxExtension -out &#xD;&#xA;                     $(MsiOut) @(WixObject, ' ')" ContinueOnError="false" WorkingDirectory="." />
+    <!-- A message at the end -->
+    <Message Text="Install package has been created." />
   </Target>
 </Project>

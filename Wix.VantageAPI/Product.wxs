@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+     xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product Id="*" Name="Wix.VantageAPI" Language="1033" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="b91eb418-cfe1-463d-9aa2-c76cc67bbc49">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
@@ -12,21 +13,92 @@
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="HeatGenerated" />
     </Feature>
+
+    <!-- .NET Framework 3.0 SP 1 must be installed -->
+    <Property Id="FRAMEWORKBASEPATH">
+      <RegistrySearch Id="FindFrameworkDir" Root="HKLM"
+        Key="SOFTWARE\Microsoft\.NETFramework"
+        Name="InstallRoot" Type="raw"/>
+    </Property>
+
+    <Property Id="ASPNETREGIIS" >
+      <DirectorySearch Path="[FRAMEWORKBASEPATH]"
+                  Depth="4" Id="FindAspNetRegIis">
+        <FileSearch Name="aspnet_regiis.exe" MinVersion="2.0.5"/>
+      </DirectorySearch>
+    </Property>
+
+    <!-- Switch ASP.NET to version 2.0 -->
+    <CustomAction Id="MakeWepApp20" Directory="INSTALLLOCATION"
+      ExeCommand="[ASPNETREGIIS] -norestart -s W3SVC/1/ROOT/[WEB_APP_NAME]"
+      Return="check"/>
+
+    <InstallExecuteSequence>
+      <Custom Action="MakeWepApp20" After="InstallFinalize">
+        ASPNETREGIIS AND NOT Installed
+      </Custom>
+    </InstallExecuteSequence>
+
+    <!-- License and images -->
+    <Icon Id="appicon.ico" SourceFile="vdm_icon.ico"/>
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value="vdm.bmp" />
+
+    <!-- Specify UI -->
+    <UIRef Id="VantageAPIInstallerUI" />
+
+    <!-- Below code will check for the IIS Installation  -->
+    <UI>
+      <ProgressText Action="InstallIIS">Enabling IIS Feature</ProgressText>
+    </UI>
+
+    <!-- Use DISM to setup IIS (see also http://support.microsoft.com/kb/2736284) -->
+    <!-- Build path to dism.exe (full path is important, just calling dism.exe without path will fail) -->
+    <CustomAction Id="InstallIISSetProperty" Property="InstallIIS" Execute="immediate"
+                      Value="&quot;[System64Folder]dism.exe&quot; /Online /Enable-Feature /All /FeatureName:IIS-WebServerRole /FeatureName:IIS-WebServer /FeatureName:IIS-ManagementConsole " />
+    
+    <!-- Call dism.exe quietly (without showing command prompt). 
+    (see also http://wixtoolset.org/documentation/manual/v3/customactions/qtexec.html) -->
+    <CustomAction Id="InstallIIS" BinaryKey="WixCA" DllEntry="CAQuietExec64"
+                    Execute="deferred" HideTarget="no" Return="ignore" Impersonate="no"/>
+
+    <InstallExecuteSequence>
+      <Custom Action="InstallIISSetProperty" After="CostFinalize">
+        <![CDATA[NOT Installed AND NOT IISMAJORVERSION]]>
+      </Custom>
+      <Custom Action="InstallIIS" Before="WriteRegistryValues">
+        <![CDATA[NOT Installed AND NOT IISMAJORVERSION]]>
+      </Custom>
+    </InstallExecuteSequence>
   </Product>
 
   <Fragment>
+    <?include ConfigurationInitialize.wxi ?>
+
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="IISMain" Name='inetpub'>
         <Directory Id="WWWMain" Name="wwwroot" ComponentGuidGenerationSeed="c7362a19-f89e-4f6b-9732-43fffd7a9ca2">
           <Directory Id="INSTALLLOCATION" Name="VantageAPI">
             <Component Id="WebVirtualDirComponent" Guid="b9a091d7-1e48-4279-8f7e-c02683859244">
-              <iis:WebVirtualDir Id="VDir" Alias="VantageAPI" Directory="INSTALLLOCATION" WebSite="DefaultWebSite">
+              <iis:WebVirtualDir Id="VDir" Alias="[VIRTUAL_DIR_VAL]" Directory="INSTALLLOCATION" WebSite="DefaultWebSite">
                 <iis:WebDirProperties Id="VantageApiVirtDirProperties"
                        AnonymousAccess="yes" BasicAuthentication="no"
                        WindowsAuthentication="yes" />
-                <iis:WebApplication Id="VantageAPIAppApplication" Name="VantageAPI" />
+                <iis:WebApplication Id="VantageAPIAppApplication" Name="[VIRTUAL_DIR_VAL]" />
               </iis:WebVirtualDir>
-              <CreateFolder />              
+
+              <util:User Id="VantageAPIAppPoolUser"
+                           CreateUser="no"
+                           Name="[WEB_APP_POOL_IDENTITY_NAME]"
+                           Password="[WEB_APP_POOL_IDENTITY_PWD]"
+                           Domain="[WEB_APP_POOL_IDENTITY_DOMAIN]" />
+              <iis:WebAppPool Id="VantageAPIAppPool"
+                              Name="[WEB_APP_NAME]"
+                              Identity="other"
+                              User="VantageAPIAppPoolUser" />
+
+              <CreateFolder />
+
             </Component>
           </Directory>
         </Directory>

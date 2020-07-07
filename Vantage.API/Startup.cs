@@ -38,6 +38,11 @@ namespace Vantage.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vantage API", Version = "v1" });
             });
 
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+
             string conn = Configuration.GetConnectionString("DefaultConnection");
             if (conn.Contains("%CONTENTROOTPATH%"))
             {
