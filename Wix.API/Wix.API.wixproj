@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.10</ProductVersion>
+    <ProjectGuid>fe53f42c-e49e-4934-9f92-9baf8c4c03d1</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>Vantage.API.Installer</OutputName>
+    <OutputType>Package</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <WebSiteSource>..\Vantage.API\</WebSiteSource>
+    <PublishF>publish\</PublishF>
+    <Publish>..\..\Setup\$(PublishF)</Publish>
+    <MsiOut>bin\Release\Wix.API.msi</MsiOut>
+    <WebSiteContentCode>WebSiteContent.wxs</WebSiteContentCode>
+    <WebSiteContentObject>WebSiteContent.wixobj</WebSiteContentObject>
+    <DefineConstants>HarvestPath=...\Vantage.API\bin\Release\netcoreapp3.0\publish</DefineConstants>
+    <WixPath>
+    </WixPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="IISConfiguration.wxs" />
+    <Compile Include="MyWebUI.wxs" />
+    <Compile Include="Product.wxs" />
+    <Compile Include="UIDialogs.wxs" />
+    <Compile Include="WebSiteContent.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixIIsExtension">
+      <HintPath>$(WixExtDir)\WixIIsExtension.dll</HintPath>
+      <Name>WixIIsExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ConfigurationInitialize.wxi" />
+    <Content Include="license.rtf" />
+    <Content Include="VDM.bmp" />
+    <Content Include="vdm_icon.ico" />
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
+  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
+    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
+  </Target>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+  <Target Name="BeforeBuild">
+    <!--<HeatDirectory Directory="..\Vantage.API\bin\Release\netcoreapp3.0\publish" PreprocessorVariable="var.HarvestPath" OutputFile="WebSiteContent.wxs" ComponentGroupName="HeatGenerated" DirectoryRefId="MYWEBWEBSITE" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" />-->
+  </Target>
+  <!-- Define default target with name 'Build' -->
+  <!--<Target Name="Build">
+    -->
+  <!-- Compile whole solution in release mode -->
+  <!--
+    <MSBuild Projects="..\Vantage.API\Vantage.API.csproj" Targets="ReBuild" Properties="Configuration=Release" />
+  </Target>
+  -->
+  <!-- Define creating installer in another target -->
+  <!--
+  <Target Name="CreateInstaller">
+    -->
+  <!-- Remove complete publish folder in order to 
+             be sure that evrything will be newly compiled -->
+  <!--
+    <RemoveDir Directories="$(PublishF)" ContinueOnError="false" />
+    <MSBuild Projects="..\Vantage.API\Vantage.API.csproj" Targets="ResolveReferences;_CopyWebApplication" Properties="OutDir=$(Publish)bin\;WebProjectOutputDir=&#xD;&#xA;                        $(Publish);Configuration=Release" />
+    -->
+  <!-- Delete debug and setup web.configs to prevent 'heat' from harveting it -->
+  <!--
+    -->
+  <!-- Delete all wix object which remain from previous build -->
+  <!--
+    -->
+  <!-- Delete all other temporary files -->
+  <!--
+    <Delete Files="@(WixObject)" />
+    <Delete Files="@(WebSiteContent)" />
+    -->
+  <!-- Harvest all content of published result -->
+  <!--
+    <Exec Command="&quot;$(WixPath)heat&quot; dir $(PublishF) -dr MYWEBWEBSITE &#xD;&#xA; -ke -srd -cg MyWebWebComponents -var var.publishDir &#xD;&#xA;                     -gg -out $(WebSiteContentCode)" ContinueOnError="false" WorkingDirectory="." />
+    -->
+  <!-- After the files are beeing harvested, copy the setup web.config 
+             as regular web.config back to publish location -->
+  <!--
+    -->
+  <!--<Copy
+
+        SourceFiles="$(WebSiteSource)$(ReleaseWebConfig)"
+        DestinationFiles="$(PublishF)Web.config"
+        ContinueOnError="false" />-->
+  <!--
+    -->
+  <!-- At last create an installer -->
+  <!--
+    <Exec Command="&quot;$(WixPath)candle&quot; -ext WixIISExtension -ext WixUtilExtension &#xD;&#xA;                     -ext WiXNetFxExtension -dpublishDir=$(PublishF) &#xD;&#xA;                     -dMyWebResourceDir=. @(WixCode, ' ')" ContinueOnError="false" WorkingDirectory="." />
+    <Exec Command="&quot;$(WixPath)light&quot; -ext WixUIExtension -ext WixIISExtension &#xD;&#xA;                     -ext WixUtilExtension -ext WiXNetFxExtension -out &#xD;&#xA;                     $(MsiOut) @(WixObject, ' ')" ContinueOnError="false" WorkingDirectory="." />
+    -->
+  <!-- A message at the end -->
+  <!--
+    <Message Text="Install package has been created." />
+  </Target>
+  -->
+  <!-- Optional target for deleting temporary files. Usually after build -->
+  <!--
+  <Target Name="DeleteTmpFiles">
+    <RemoveDir Directories="$(PublishF)" ContinueOnError="false" />
+    <Delete Files="@(WebConfigs);@(WixObject);@(WebSiteContent)" />
+  </Target>-->
+</Project>

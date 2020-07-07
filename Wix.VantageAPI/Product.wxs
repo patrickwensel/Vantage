@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+  <Product Id="*" Name="Wix.VantageAPI" Language="1033" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="b91eb418-cfe1-463d-9aa2-c76cc67bbc49">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="VantageAPI Installer" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="HeatGenerated" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="IISMain" Name='inetpub'>
+        <Directory Id="WWWMain" Name="wwwroot" ComponentGuidGenerationSeed="c7362a19-f89e-4f6b-9732-43fffd7a9ca2">
+          <Directory Id="INSTALLLOCATION" Name="VantageAPI">
+            <Component Id="WebVirtualDirComponent" Guid="b9a091d7-1e48-4279-8f7e-c02683859244">
+              <iis:WebVirtualDir Id="VDir" Alias="VantageAPI" Directory="INSTALLLOCATION" WebSite="DefaultWebSite">
+                <iis:WebDirProperties Id="VantageApiVirtDirProperties"
+                       AnonymousAccess="yes" BasicAuthentication="no"
+                       WindowsAuthentication="yes" />
+                <iis:WebApplication Id="VantageAPIAppApplication" Name="VantageAPI" />
+              </iis:WebVirtualDir>
+              <CreateFolder />              
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <iis:WebSite Id="DefaultWebSite" Description="Default Web Site" Directory="INSTALLLOCATION">
+      <iis:WebAddress Id="AllUnassigned" Port="80" />
+    </iis:WebSite>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLLOCATION">
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <ComponentRef Id="WebVirtualDirComponent" />
+      <!-- TODO: Insert files, registry keys, and other resources here. -->
+      <!-- </Component> -->
+    </ComponentGroup>
+  </Fragment>
+</Wix>
