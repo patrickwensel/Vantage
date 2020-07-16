@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConfigurationInitialize.wxi" />
+    <Content Include="DotnetHosting.exe" />
     <Content Include="license.rtf" />
     <Content Include="VDM.bmp" />
     <Content Include="vdm_icon.ico" />
