@@ -9,7 +9,7 @@
       <DialogRef Id="IisSetupDlg" />
       <!-- Injection of custom UI. -->
       <Publish Dialog="LicenseAgreementDlg" Control="Next"
-           Event="NewDialog" Value="IisSetupDlg"
+           Event="NewDialog" Value="PoolSettingsDlg"
            Order="3">LicenseAccepted = "1"</Publish>
       <Publish Dialog="CustomizeDlg" Control="Back"
            Event="NewDialog" Value="PoolSettingsDlg">1</Publish>

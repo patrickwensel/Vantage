@@ -71,7 +71,7 @@
         <!-- Back button -->
         <Control Id="Back" Type="PushButton" X="180" Y="243"
           Width="56" Height="17" Text="&amp;Back">
-          <Publish Event="NewDialog" Value="IisSetupDlg">1</Publish>
+          <Publish Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
         </Control>
         
         <Control Id="Next" Type="PushButton" X="236" Y="243"
