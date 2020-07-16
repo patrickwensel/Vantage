@@ -67,7 +67,7 @@
     <CustomAction Id="InstallIIS" BinaryKey="WixCA" DllEntry="CAQuietExec64"
                     Execute="deferred" HideTarget="no" Return="ignore" Impersonate="no"/>
 
-    <CustomAction Id="InstallDotNetHosting" FileKey="DotnetHosting" ExeCommand="/q" Impersonate="no" Execute="deferred" Return="asyncNoWait" />
+    <!--<CustomAction Id="InstallDotNetHosting" FileKey="DotnetHosting" ExeCommand="/q" Impersonate="no" Execute="deferred" Return="asyncNoWait" />-->
 
     <InstallExecuteSequence>
       <Custom Action="InstallIISSetProperty" After="CostFinalize">
@@ -77,9 +77,9 @@
         <![CDATA[NOT Installed AND NOT IISMAJORVERSION]]>
       </Custom>
 
-      <Custom Action="InstallDotNetHosting" After="InstallIIS">
+      <!--<Custom Action="InstallDotNetHosting" After="InstallIIS">
         <![CDATA[NOT Installed]]>
-      </Custom>
+      </Custom>-->
     </InstallExecuteSequence>
   </Product>
 
@@ -127,9 +127,9 @@
       <ComponentRef Id="WebVirtualDirComponent" />
       <!-- TODO: Insert files, registry keys, and other resources here. -->
       <!-- </Component> -->
-      <Component Id="DotNetHostingSetup" Guid="4800392a-ddb2-45c5-a0dc-1bc5e4243ef6">
+      <!--<Component Id="DotNetHostingSetup" Guid="4800392a-ddb2-45c5-a0dc-1bc5e4243ef6">
         <File Id="DotnetHosting" KeyPath="yes" Source="DotnetHosting.exe"/>
-      </Component>
+      </Component>-->
     </ComponentGroup>
   </Fragment>
 </Wix>
