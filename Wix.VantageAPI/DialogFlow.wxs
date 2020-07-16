@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<!-- TODO: Put your code here. -->
+    <UI Id="VantageAPIInstallerUI">
+      <UIRef Id="WixUI_FeatureTree" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+
+      <DialogRef Id="IisSetupDlg" />
+      <!-- Injection of custom UI. -->
+      <Publish Dialog="LicenseAgreementDlg" Control="Next"
+           Event="NewDialog" Value="IisSetupDlg"
+           Order="3">LicenseAccepted = "1"</Publish>
+      <Publish Dialog="CustomizeDlg" Control="Back"
+           Event="NewDialog" Value="PoolSettingsDlg">1</Publish>
+    </UI>
+	</Fragment>
+</Wix>
