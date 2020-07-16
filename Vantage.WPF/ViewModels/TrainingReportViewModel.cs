@@ -184,14 +184,17 @@ namespace Vantage.WPF.ViewModels
             if (SelectedProduct == null)
                 return;
 
+            App.SetCursorToWait();
             await FetchGroupsAsync();
             SelectedGroup = Groups[0];
 
-            //SetGroupsAsPerTheSelectedProduct();            
+            //SetGroupsAsPerTheSelectedProduct(); 
+            App.SetCursorToArrow();
         }
 
         private async Task FetchGroupsAsync()
         {
+            App.SetCursorToWait();
             ClearDriverList();
             Groups.Clear();
             OnlyGroups.Clear();
@@ -200,6 +203,7 @@ namespace Vantage.WPF.ViewModels
 
             UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
             Console.WriteLine($"Groups : {Groups}");
+            App.SetCursorToWait();
         }
 
         private void UpdateGroupList(IList<Group> groups)
@@ -252,10 +256,12 @@ namespace Vantage.WPF.ViewModels
 
         private async Task FetchAllDriversAsync()
         {
+            App.SetCursorToWait();
             ClearDriverList();
             IList<Driver> driversList;
 
             driversList = await _driverService.GetAllDrivers();
+            driversList = driversList.Where(x => x.ProductID == SelectedProduct.ProductID).ToList();
             foreach (Driver driver in driversList)
             {
                 if (driver.GroupID == null)
@@ -268,6 +274,7 @@ namespace Vantage.WPF.ViewModels
             _allDrivers = GetSelectableDrivers(driversList);
             GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
             Console.WriteLine($"Drivers : {Drivers}");
+            App.SetCursorToArrow();
         }
 
         private async Task FetchDriversByGroupId(int groupId)
@@ -354,7 +361,7 @@ namespace Vantage.WPF.ViewModels
 
         private void EnableDisableReportTypeDropdown()
         {
-            IsReportTypeDropdownEnabled = Drivers.Any(x => x.IsSelected);
+            IsReportTypeDropdownEnabled = Drivers != null ? Drivers.Any(x => x.IsSelected) : false;
             if (!IsReportTypeDropdownEnabled)
             {
                 _previouslySelectedReportType = SelectedReportType;
@@ -391,8 +398,7 @@ namespace Vantage.WPF.ViewModels
         {
             if (SelectedProduct == null)
                 return;
-
-            //SetGroupsAsPerTheSelectedProduct();             
+                        
             await FetchGroupsAsync();
             IsAllSelected = false;
             EnableDisableReportTypeDropdown();

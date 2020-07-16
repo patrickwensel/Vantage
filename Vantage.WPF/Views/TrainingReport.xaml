@@ -383,7 +383,7 @@
                                                         MinWidth="120"
                                                         CellStyle="{StaticResource RightAlignedContentStyle}"
                                                         Binding="{Binding TotalAttempts}" />
-                                    <DataGridTextColumn Header="Total Times"
+                                    <DataGridTextColumn Header="Total Time (m)"
                                                         MinWidth="120"
                                                         IsReadOnly="True"
                                                         CellStyle="{StaticResource RightAlignedContentStyle}"

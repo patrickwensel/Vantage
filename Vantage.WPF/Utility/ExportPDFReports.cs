@@ -23,11 +23,11 @@ namespace Vantage.WPF.Utility
         {
             using (FileStream fs = new FileStream(absoluteFileName, FileMode.OpenOrCreate))
             {
-                // Create an instance of the document class which represents the PDF document itself.  
+                // Create an instance of the document class which represents the PDF document itself.
                 Document document = new Document(PageSize.A4, 40, 40, 40, 40);
 
                 // Create an instance to the PDF file by creating an instance of the PDF   
-                // Writer class using the document and the filestrem in the constructor.  
+                // Writer class using the document and the filestrem in the constructor. 
                 PdfWriter writer = PdfWriter.GetInstance(document, fs);
 
                 AddMetaInformationForDocument(document, "Driver Training Report", "Training Report");
@@ -129,7 +129,7 @@ namespace Vantage.WPF.Utility
                     pdfPTable.AddCell(GetHeaderCell("Lesson", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("High Score", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("# of Attempts", tableHeaderFont));
-                    pdfPTable.AddCell(GetHeaderCell("Total Time (Mins)", tableHeaderFont));
+                    pdfPTable.AddCell(GetHeaderCell("Total Time (m)", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("Date Completed", tableHeaderFont));
                     // Headers Completed...
 
@@ -198,7 +198,7 @@ namespace Vantage.WPF.Utility
                     pdfPTable.AddCell(GetHeaderCell("Lesson", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("High Score", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("# of Attempts", tableHeaderFont));
-                    pdfPTable.AddCell(GetHeaderCell("Total Time (Mins)", tableHeaderFont));
+                    pdfPTable.AddCell(GetHeaderCell("Total Time (m)", tableHeaderFont));
                     pdfPTable.AddCell(GetHeaderCell("Date Completed", tableHeaderFont));
                     // Headers Completed...
 

@@ -307,6 +307,7 @@ namespace Vantage.WPF.ViewModels
             IList<Driver> driversList;
 
             driversList = await _driverService.GetAllDrivers();
+            driversList = driversList.Where(x => x.ProductID == SelectedProduct.ProductID).ToList();
             foreach (Driver driver in driversList)
             {
                 if (driver.GroupID == null)
@@ -396,7 +397,10 @@ namespace Vantage.WPF.ViewModels
             LastName = EditingDriver.LastName;
             Username = EditingDriver.UserName;
             Pin = EditingDriver.Pin;
-            AddEditSelectedGroup = Groups.First(x => x.GroupID == EditingDriver.GroupID);
+
+            if (EditingDriver.GroupID != null)
+                AddEditSelectedGroup = Groups.FirstOrDefault(x => x.GroupID == EditingDriver.GroupID);
+
             IsActive = EditingDriver.IsActive;
         }
 
@@ -426,7 +430,7 @@ namespace Vantage.WPF.ViewModels
 
         private async void AddDriver(object parameter)
         {
-            Console.WriteLine("Adding driver");           
+            Console.WriteLine("Adding driver");
             if (!ValidateDriverInfo())
                 return;
 
@@ -448,7 +452,7 @@ namespace Vantage.WPF.ViewModels
                 Pin = this.Pin,
                 IsActive = this.IsActive,
                 GroupID = this.AddEditSelectedGroup != null ? this.AddEditSelectedGroup.GroupID : default(int?),
-                ProductID = this.SelectedProduct.ProductID,               
+                ProductID = this.SelectedProduct.ProductID,
             };
 
             await _driverService.AddNewDriver(driver);
@@ -484,9 +488,9 @@ namespace Vantage.WPF.ViewModels
         private bool ValidateDriverInfo()
         {
             ErrorMessage = null;
-            IsErrorInFirstName = !ValidationHelper.IsValidAlphaString(FirstName);            
-            IsErrorInLastName = !ValidationHelper.IsValidAlphaString(LastName);            
-            IsErrorInUsername = !ValidationHelper.IsValidAlphanumericString(Username);            
+            IsErrorInFirstName = !ValidationHelper.IsValidAlphaString(FirstName);
+            IsErrorInLastName = !ValidationHelper.IsValidAlphaString(LastName);
+            IsErrorInUsername = !ValidationHelper.IsValidAlphanumericString(Username);
             IsErrorInPin = !ValidationHelper.IsValidDigit(Pin, 4);
             //IsErrorInGroup = AddEditSelectedGroup == null;            
             IsErrorInGroup = false;
