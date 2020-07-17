@@ -15,6 +15,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Wix.WPF", "Wix.WPF\Wix.WPF.
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Wix.VantageAPI", "Wix.VantageAPI\Wix.VantageAPI.wixproj", "{FF561315-3F76-42EC-A086-7C619D33F465}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Wix.VantageAPIFull", "Wix.VantageAPIFull\Wix.VantageAPIFull.wixproj", "{295A5092-8E65-4927-93DE-4AE3B1079323}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,12 @@ Global
 		{FF561315-3F76-42EC-A086-7C619D33F465}.Release|Any CPU.ActiveCfg = Release|x86
 		{FF561315-3F76-42EC-A086-7C619D33F465}.Release|x86.ActiveCfg = Release|x86
 		{FF561315-3F76-42EC-A086-7C619D33F465}.Release|x86.Build.0 = Release|x86
+		{295A5092-8E65-4927-93DE-4AE3B1079323}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{295A5092-8E65-4927-93DE-4AE3B1079323}.Debug|x86.ActiveCfg = Debug|x86
+		{295A5092-8E65-4927-93DE-4AE3B1079323}.Debug|x86.Build.0 = Debug|x86
+		{295A5092-8E65-4927-93DE-4AE3B1079323}.Release|Any CPU.ActiveCfg = Release|x86
+		{295A5092-8E65-4927-93DE-4AE3B1079323}.Release|x86.ActiveCfg = Release|x86
+		{295A5092-8E65-4927-93DE-4AE3B1079323}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

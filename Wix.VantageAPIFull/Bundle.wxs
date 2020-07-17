@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+  <Bundle Name="Wix.VantageAPIFull" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="295a5092-8e65-4927-93de-4ae3b1079323">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication
+            LicenseFile="license.rtf" />
+    </BootstrapperApplicationRef>
+    
+    <Chain>
+      <!-- TODO: Define the list of chained packages. -->
+      <!-- <MsiPackage SourceFile="path\to\your.msi" /> -->
+      <MsiPackage Id="ApiInstaller" Compressed="yes" Vital="yes" SourceFile="..\Wix.VantageAPI\bin\Release\Wix.VantageAPI.msi" DisplayInternalUI="yes" />
+
+      <PackageGroupRef
+                Id="DotNetHosting"/>
+    </Chain>
+  </Bundle>
+  <Fragment>
+    <util:RegistrySearch
+        Root="HKLM"
+        Key="SOFTWARE\Microsoft\IIS Extensions\IIS AspNetCore Module V2"
+        Value="Version"
+        Variable="DotNetCoreHostingVersion" />
+    <PackageGroup
+        Id="DotNetHosting">
+      <ExePackage
+          After="ApiInstaller"
+          Id="DotNetHosting"
+          Cache="no"
+          Compressed="yes"
+          PerMachine="yes"
+          Permanent="yes"
+          Vital="yes"
+          SourceFile="dotnet-hosting-3.0.3-win.exe"
+          DownloadUrl="https://download.visualstudio.microsoft.com/download/pr/18e13f02-1a28-4fe4-b642-6674408c3673/108e75fd84bf9153ea03ed4011252f9b/dotnet-hosting-3.0.3-win.exe"
+          DetectCondition="DotNetCoreHostingVersion" />
+    </PackageGroup>
+  </Fragment>
+</Wix>

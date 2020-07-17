@@ -69,6 +69,14 @@
 
     <!--<CustomAction Id="InstallDotNetHosting" FileKey="DotnetHosting" ExeCommand="/q" Impersonate="no" Execute="deferred" Return="asyncNoWait" />-->
 
+    <!--<CustomAction Id="InstallDotNetHosting"
+                  Directory="INSTALLLOCATION"
+                  ExeCommand="&quot;[INSTALLLOCATION]DotnetHosting.exe&quot; /Register"
+                  Execute="deferred"
+                  Return="asyncNoWait"  
+                  Impersonate="no"
+                 />-->
+    
     <InstallExecuteSequence>
       <Custom Action="InstallIISSetProperty" After="CostFinalize">
         <![CDATA[NOT Installed AND NOT IISMAJORVERSION]]>
@@ -77,8 +85,7 @@
         <![CDATA[NOT Installed AND NOT IISMAJORVERSION]]>
       </Custom>
 
-      <!--<Custom Action="InstallDotNetHosting" After="InstallIIS">
-        <![CDATA[NOT Installed]]>
+      <!--<Custom Action="InstallDotNetHosting" After="InstallIIS">          
       </Custom>-->
     </InstallExecuteSequence>
   </Product>
