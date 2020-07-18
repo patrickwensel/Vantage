@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension"
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Product Id="*" Name="Wix.VantageAPI" Language="1033" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="b91eb418-cfe1-463d-9aa2-c76cc67bbc49">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
@@ -9,6 +10,8 @@
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
+    <!--<PropertyRef Id="NETFRAMEWORK30_SP_LEVEL" />-->
+    
     <Feature Id="ProductFeature" Title="VantageAPI Installer" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="HeatGenerated" />
@@ -52,11 +55,6 @@
       <ProgressText Action="InstallIIS">Enabling IIS Feature</ProgressText>
     </UI>
 
-    <!-- Below code will check for the DotNet Hosting Installation  -->
-    <UI>
-      <ProgressText Action="InstallDotNetHosting">Installing DotNet Hosting 3.0.3</ProgressText>
-    </UI>
-
     <!-- Use DISM to setup IIS (see also http://support.microsoft.com/kb/2736284) -->
     <!-- Build path to dism.exe (full path is important, just calling dism.exe without path will fail) -->
     <CustomAction Id="InstallIISSetProperty" Property="InstallIIS" Execute="immediate"
@@ -66,16 +64,6 @@
     (see also http://wixtoolset.org/documentation/manual/v3/customactions/qtexec.html) -->
     <CustomAction Id="InstallIIS" BinaryKey="WixCA" DllEntry="CAQuietExec64"
                     Execute="deferred" HideTarget="no" Return="ignore" Impersonate="no"/>
-
-    <!--<CustomAction Id="InstallDotNetHosting" FileKey="DotnetHosting" ExeCommand="/q" Impersonate="no" Execute="deferred" Return="asyncNoWait" />-->
-
-    <!--<CustomAction Id="InstallDotNetHosting"
-                  Directory="INSTALLLOCATION"
-                  ExeCommand="&quot;[INSTALLLOCATION]DotnetHosting.exe&quot; /Register"
-                  Execute="deferred"
-                  Return="asyncNoWait"  
-                  Impersonate="no"
-                 />-->
     
     <InstallExecuteSequence>
       <Custom Action="InstallIISSetProperty" After="CostFinalize">
@@ -84,9 +72,6 @@
       <Custom Action="InstallIIS" Before="WriteRegistryValues">
         <![CDATA[NOT Installed AND NOT IISMAJORVERSION]]>
       </Custom>
-
-      <!--<Custom Action="InstallDotNetHosting" After="InstallIIS">          
-      </Custom>-->
     </InstallExecuteSequence>
   </Product>
 
@@ -134,9 +119,6 @@
       <ComponentRef Id="WebVirtualDirComponent" />
       <!-- TODO: Insert files, registry keys, and other resources here. -->
       <!-- </Component> -->
-      <!--<Component Id="DotNetHostingSetup" Guid="4800392a-ddb2-45c5-a0dc-1bc5e4243ef6">
-        <File Id="DotnetHosting" KeyPath="yes" Source="DotnetHosting.exe"/>
-      </Component>-->
     </ComponentGroup>
   </Fragment>
 </Wix>

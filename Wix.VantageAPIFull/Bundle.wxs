@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
-     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  
+  <?define NetFx45MinRelease = 461308 ?>
+  <?define NetFx45WebLink = http://go.microsoft.com/fwlink/?LinkId=852092 ?>
+  <?define NetFx45RedistLink = http://go.microsoft.com/fwlink/?LinkId=852104 ?>
+  <?define NetFx45RedistLink = http://referencesource.microsoft.com/license.html ?>
+      
   <Bundle Name="Wix.VantageAPIFull" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="295a5092-8e65-4927-93de-4ae3b1079323">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
@@ -9,14 +16,67 @@
     </BootstrapperApplicationRef>
     
     <Chain>
+      
+      <!--Install .Net Framework 4.7.1-->
+      <!--<PackageGroupRef Id="NetFx45Web"/>-->
+      
       <!-- TODO: Define the list of chained packages. -->
       <!-- <MsiPackage SourceFile="path\to\your.msi" /> -->
+      <PackageGroupRef
+                Id="DotNetFramework30"/>
+      <!--<PackageGroupRef
+                Id="DotNetFramework"/>-->
+      <PackageGroupRef
+                Id="DotNetHosting"/>      
       <MsiPackage Id="ApiInstaller" Compressed="yes" Vital="yes" SourceFile="..\Wix.VantageAPI\bin\Release\Wix.VantageAPI.msi" DisplayInternalUI="yes" />
 
-      <PackageGroupRef
-                Id="DotNetHosting"/>
+      
     </Chain>
-  </Bundle>
+  </Bundle>  
+  
+  <Fragment>
+    <util:RegistrySearch
+        Root="HKLM"
+        Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.0"
+        Value="Install"
+        Variable="DotNetFrm30IsInstalled" />
+    <PackageGroup
+        Id="DotNetFramework30">
+      <ExePackage          
+          Id="DotNetFramework30"
+          Cache="no"
+          Compressed="yes"
+          PerMachine="yes"
+          Permanent="yes"
+          Vital="yes"
+          SourceFile="dotnetfx30SP1setup.exe"
+          DownloadUrl="https://www.microsoft.com/en-us/download/confirmation.aspx?id=3005"
+          DetectCondition="DotNetFrm30IsInstalled" />
+    </PackageGroup>
+  </Fragment>
+    
+  <Fragment>
+    <util:RegistrySearch
+        Root="HKLM"
+        Key="SOFTWARE\Microsoft\.NetFramework\v4.0.30319\SKUs\.NETFramework,Version=v4.8"
+        Value="Version"
+        Variable="DotNetFrameworkVersion" />
+    <PackageGroup
+        Id="DotNetFramework">
+      <ExePackage
+          After="DotNetFramework30"
+          Id="DotNetFramework"
+          Cache="no"
+          Compressed="yes"
+          PerMachine="yes"
+          Permanent="yes"
+          Vital="yes"
+          SourceFile="ndp48-web.exe"
+          DownloadUrl="https://download.visualstudio.microsoft.com/download/pr/014120d7-d689-4305-befd-3cb711108212/1f81f3962f75eff5d83a60abd3a3ec7b/ndp48-web.exe"
+          DetectCondition="DotNetFrameworkVersion" />
+    </PackageGroup>
+  </Fragment>
+    
   <Fragment>
     <util:RegistrySearch
         Root="HKLM"
@@ -26,7 +86,7 @@
     <PackageGroup
         Id="DotNetHosting">
       <ExePackage
-          After="ApiInstaller"
+          After="DotNetFramework30"
           Id="DotNetHosting"
           Cache="no"
           Compressed="yes"
