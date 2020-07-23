@@ -64,6 +64,8 @@ namespace Vantage.WPF.ViewModels
             LoggedInUserInfo = _mainWindowViewModel.LoggedInUserInfo;
             await _mainWindowViewModel.GetAllProductsAsync();
             Products = _mainWindowViewModel.Products;
+            if (Products != null && Products.Count >= 1)
+                SelectedProduct = Products[0];
         }
 
         private void NavigateOnReportScreen(object parameter)

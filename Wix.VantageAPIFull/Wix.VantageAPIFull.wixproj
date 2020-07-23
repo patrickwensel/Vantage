@@ -40,6 +40,8 @@
     <Content Include="dotnetfx30SP1setup.exe" />
     <Content Include="license.rtf" />
     <Content Include="ndp48-web.exe" />
+    <Content Include="SqlLocalDB64.MSI" />
+    <Content Include="SqlLocaLDB86.MSI" />
     <Content Include="VDM.bmp" />
     <Content Include="vdm_icon.ico" />
   </ItemGroup>

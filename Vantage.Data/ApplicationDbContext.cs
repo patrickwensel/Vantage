@@ -64,7 +64,7 @@ namespace Vantage.Data
                 UserName = "Admin",
                 FirstName = "Admin",
                 LastName = "Admin",
-                Password = GenerateSHA256String("P@55word")
+                Password = GenerateSHA256String("admin")
             });
 
             modelBuilder.Entity<User>().HasData(new User

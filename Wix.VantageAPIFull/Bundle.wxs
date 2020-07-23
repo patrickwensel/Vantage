@@ -3,37 +3,52 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
      xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  
+
   <?define NetFx45MinRelease = 461308 ?>
   <?define NetFx45WebLink = http://go.microsoft.com/fwlink/?LinkId=852092 ?>
   <?define NetFx45RedistLink = http://go.microsoft.com/fwlink/?LinkId=852104 ?>
   <?define NetFx45RedistLink = http://referencesource.microsoft.com/license.html ?>
-      
+
   <Bundle Name="Wix.VantageAPIFull" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="295a5092-8e65-4927-93de-4ae3b1079323">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
             LicenseFile="license.rtf" />
     </BootstrapperApplicationRef>
-    
+
     <Chain>
-      
+
       <!--Install .Net Framework 4.7.1-->
       <!--<PackageGroupRef Id="NetFx45Web"/>-->
-      
+
       <!-- TODO: Define the list of chained packages. -->
       <!-- <MsiPackage SourceFile="path\to\your.msi" /> -->
       <PackageGroupRef
                 Id="DotNetFramework30"/>
+
+      <PackageGroupRef
+        Id="SQLLocalDBInstaller"/>
       <!--<PackageGroupRef
                 Id="DotNetFramework"/>-->
-      <PackageGroupRef
-                Id="DotNetHosting"/>      
       <MsiPackage Id="ApiInstaller" Compressed="yes" Vital="yes" SourceFile="..\Wix.VantageAPI\bin\Release\Wix.VantageAPI.msi" DisplayInternalUI="yes" />
-
-      
+      <PackageGroupRef
+                Id="DotNetHosting"/>
     </Chain>
-  </Bundle>  
-  
+  </Bundle>
+
+  <Fragment>
+    <util:RegistrySearch Id="Sql32" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server Local DB\Installed Versions\12.0" Value="ParentInstance" Result="exists" Variable="Sql32"/>
+    <util:RegistrySearch Id="Sql64" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server Local DB\Installed Versions\12.0" Value="ParentInstance" Result="exists" Variable="Sql64" Win64="yes"/>
+
+    <PackageGroup Id="SQLLocalDBInstaller">
+      <MsiPackage Id="SqlLocalDB2012x32" SourceFile="SqlLocaLDB86.msi" Permanent="yes" ForcePerMachine="yes" Vital="yes" DisplayInternalUI="yes" InstallCondition="NOT (Sql32) AND NOT(VersionNT64)">
+        <MsiProperty Name="IACCEPTSQLLOCALDBLICENSETERMS" Value="YES" />
+      </MsiPackage>
+      <MsiPackage Id="SqlLocalDB2012x64" SourceFile="SqlLocaLDB64.msi" Permanent="yes" ForcePerMachine="yes" Vital="yes" DisplayInternalUI="yes" InstallCondition="NOT (Sql64) AND VersionNT64">
+        <MsiProperty Name="IACCEPTSQLLOCALDBLICENSETERMS" Value="YES" />
+      </MsiPackage>
+    </PackageGroup>
+  </Fragment>
+
   <Fragment>
     <util:RegistrySearch
         Root="HKLM"
@@ -42,7 +57,7 @@
         Variable="DotNetFrm30IsInstalled" />
     <PackageGroup
         Id="DotNetFramework30">
-      <ExePackage          
+      <ExePackage
           Id="DotNetFramework30"
           Cache="no"
           Compressed="yes"
@@ -54,7 +69,7 @@
           DetectCondition="DotNetFrm30IsInstalled" />
     </PackageGroup>
   </Fragment>
-    
+
   <Fragment>
     <util:RegistrySearch
         Root="HKLM"
@@ -76,7 +91,7 @@
           DetectCondition="DotNetFrameworkVersion" />
     </PackageGroup>
   </Fragment>
-    
+
   <Fragment>
     <util:RegistrySearch
         Root="HKLM"

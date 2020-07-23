@@ -12,11 +12,6 @@
 
     <!--<PropertyRef Id="NETFRAMEWORK30_SP_LEVEL" />-->
     
-    <Feature Id="ProductFeature" Title="VantageAPI Installer" Level="1">
-      <ComponentGroupRef Id="ProductComponents" />
-      <ComponentGroupRef Id="HeatGenerated" />
-    </Feature>
-
     <!-- .NET Framework 3.0 SP 1 must be installed -->
     <Property Id="FRAMEWORKBASEPATH">
       <RegistrySearch Id="FindFrameworkDir" Root="HKLM"
@@ -72,7 +67,12 @@
       <Custom Action="InstallIIS" Before="WriteRegistryValues">
         <![CDATA[NOT Installed AND NOT IISMAJORVERSION]]>
       </Custom>
-    </InstallExecuteSequence>
+    </InstallExecuteSequence>   
+
+    <Feature Id="ProductFeature" Title="VantageAPI Installer" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="HeatGenerated" />
+    </Feature>
   </Product>
 
   <Fragment>
@@ -89,7 +89,6 @@
                        WindowsAuthentication="yes" />
                 <iis:WebApplication Id="VantageAPIAppApplication" Name="[VIRTUAL_DIR_VAL]" />
               </iis:WebVirtualDir>
-
               <util:User Id="VantageAPIAppPoolUser"
                            CreateUser="no"
                            Name="[WEB_APP_POOL_IDENTITY_NAME]"
@@ -97,11 +96,8 @@
                            Domain="[WEB_APP_POOL_IDENTITY_DOMAIN]" />
               <iis:WebAppPool Id="VantageAPIAppPool"
                               Name="[WEB_APP_NAME]"
-                              Identity="other"
-                              User="VantageAPIAppPoolUser" />
-
+                              Identity="localSystem" />
               <CreateFolder />
-
             </Component>
           <!--</Directory>-->
         </Directory>
