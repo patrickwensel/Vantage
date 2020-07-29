@@ -519,6 +519,7 @@ namespace Vantage.WPF.ViewModels
 
         private void ExportTrainingReportAsPDF(IList<SelectableDriver> drivers, string absoluteFileName)
         {
+            //Utility.ExportPDFReports.TestTrainingReport();
             Utility.ExportPDFReports.TrainingReport(drivers, absoluteFileName);
         }
 
