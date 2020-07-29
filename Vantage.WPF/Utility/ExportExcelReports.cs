@@ -55,7 +55,7 @@ namespace Vantage.WPF.Utility
                 IRow row = mainWorksheet.CreateRow(rowIndex);
                 AddCell(row, 0, driver.LastName, infoCellStyle);
                 AddCell(row, 1, driver.FirstName, infoCellStyle);
-                AddCell(row, 2, driver.Group.Name, infoCellStyle);
+                AddCell(row, 2, driver.Group != null ? driver.Group.Name : string.Empty, infoCellStyle);
                 AddCell(row, 3, completedLessonCount.ToString(), centeredInfoCellStyle);
                 AddCell(row, 4, totalLessonCount.ToString(), centeredInfoCellStyle);
                 AddCell(row, 5, couserCompleted, centeredInfoCellStyle);
