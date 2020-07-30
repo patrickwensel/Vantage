@@ -23,8 +23,8 @@ namespace Vantage.WPF.Services
         public async Task<UserReturnObject> AuthenticateUser(string username, string clearTextPassword)
         {
             string hashedPassword = null;
-            if (!string.IsNullOrEmpty(clearTextPassword))
-                hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);
+            //if (!string.IsNullOrEmpty(clearTextPassword))
+            hashedPassword = Helpers.Helper.GenerateSHA256String(clearTextPassword);
 
             UserAuthentication userAuthentication = new UserAuthentication
             {

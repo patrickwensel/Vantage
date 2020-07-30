@@ -86,6 +86,12 @@ namespace Vantage.WPF.ViewModels
                 Status = string.Empty;
                 App.SetCursorToWait();
                 //Validate credentials through the authentication service
+                if (string.IsNullOrEmpty(Username))
+                    Username = string.Empty;
+
+                if (string.IsNullOrEmpty(clearTextPassword))
+                    clearTextPassword = string.Empty;
+
                 UserReturnObject user = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 if(user == null)

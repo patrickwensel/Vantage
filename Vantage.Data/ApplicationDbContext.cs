@@ -85,11 +85,22 @@ namespace Vantage.Data
                 Password = GenerateSHA256String("P@55word")
             });
 
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                UserID = 4,
+                UserName = "",
+                FirstName = "Default",
+                LastName = "Admin",
+                Password = GenerateSHA256String("")
+            });
+
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 1, RoleID = 1, UserID = 1 });
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 2, RoleID = 2, UserID = 1 });
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 3, RoleID = 2, UserID = 2 });
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 4, RoleID = 1, UserID = 3 });
             modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 5, RoleID = 2, UserID = 3 });
+            modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 6, RoleID = 1, UserID = 4 });
+            modelBuilder.Entity<UserRole>().HasData(new UserRole { UserRoleID = 7, RoleID = 2, UserID = 4 });
 
             #endregion
 
