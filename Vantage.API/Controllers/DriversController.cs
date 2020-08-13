@@ -79,7 +79,7 @@ namespace Vantage.API.Controllers
         {
             var upperUserName = loginParam.UserName.ToUpper();
             Driver driver = _context.Drivers
-                .FirstOrDefault(x => x.UserName.ToUpper().Contains(upperUserName));
+                .FirstOrDefault(x => x.UserName.ToUpper().Equals(upperUserName));
 
             if (driver != null)
             {

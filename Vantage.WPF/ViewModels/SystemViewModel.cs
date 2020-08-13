@@ -107,7 +107,8 @@ namespace Vantage.WPF.ViewModels
         private async void CreateBackup(object parameter)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Database Backup (*.bak) | *.bak ";
+            saveFileDialog.DefaultExt = ".bak";
+            saveFileDialog.Filter = "Database Backup (*.bak) | *.bak";
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             saveFileDialog.Title = $"Backup Database";
             if (saveFileDialog.ShowDialog() == false)
@@ -136,7 +137,8 @@ namespace Vantage.WPF.ViewModels
         private async void RestoreBackup(object parameter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Database Backup (*.bak) | *.bak ";
+            openFileDialog.DefaultExt = ".bak";
+            openFileDialog.Filter = "Database Backup (*.bak) | *.bak";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             openFileDialog.Title = $"Restore Database";            
             if (openFileDialog.ShowDialog() == false)

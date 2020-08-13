@@ -94,7 +94,7 @@
                        Margin="24,2"
                        HorizontalAlignment="Left" />
             <TextBox x:Name="TxtUsername"
-                     MaxLength="8"
+                     MaxLength="16"
                      Text="{Binding Username}"
                      Grid.Row="2"
                      Grid.Column="0"
@@ -106,7 +106,7 @@
                        Margin="24,2"
                        HorizontalAlignment="Left" />
             <PasswordBox x:Name="TxtPassword"
-                         MaxLength="8"
+                         MaxLength="16"
                          Grid.Row="4"
                          Grid.Column="0"                         
                          Margin="24,0,24,10"

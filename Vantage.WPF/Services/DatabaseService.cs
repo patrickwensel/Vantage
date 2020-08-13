@@ -24,14 +24,14 @@ namespace Vantage.WPF.Services
 
         public async Task<ApiResponse> BackupDatabase(string filePath)
         {
-            string backupRequestUrl = @"api/DatabaseUtility/BackUpDatabase/" + HttpUtility.UrlEncode(filePath.Trim());
+            string backupRequestUrl = @"api/DatabaseUtility/BackUpDatabase/" + Uri.EscapeDataString(filePath.Trim());
             ApiResponse apiResponse = await GetRequest<ApiResponse>(backupRequestUrl);
             return apiResponse;
         }
 
         public async Task<ApiResponse> RestoreDatabase(string filePath)
         {
-            string restoreRequestUrl = @"api/DatabaseUtility/RestoreDatabase/" + HttpUtility.UrlEncode(filePath.Trim());
+            string restoreRequestUrl = @"api/DatabaseUtility/RestoreDatabase/" + Uri.EscapeDataString(filePath.Trim());
             ApiResponse apiResponse = await GetRequest<ApiResponse>(restoreRequestUrl);
             return apiResponse;
         }
