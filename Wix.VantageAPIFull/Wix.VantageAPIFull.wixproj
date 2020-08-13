@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>295a5092-8e65-4927-93de-4ae3b1079323</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Wix.VantageAPIFull</OutputName>
+    <OutputName>VantageAPIFull</OutputName>
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">

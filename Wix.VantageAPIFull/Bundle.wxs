@@ -9,7 +9,7 @@
   <?define NetFx45RedistLink = http://go.microsoft.com/fwlink/?LinkId=852104 ?>
   <?define NetFx45RedistLink = http://referencesource.microsoft.com/license.html ?>
 
-  <Bundle Name="Wix.VantageAPIFull" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="295a5092-8e65-4927-93de-4ae3b1079323">
+  <Bundle Name="VantageAPIFull" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="295a5092-8e65-4927-93de-4ae3b1079323">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
             LicenseFile="license.rtf" />
@@ -29,7 +29,7 @@
         Id="SQLLocalDBInstaller"/>
       <!--<PackageGroupRef
                 Id="DotNetFramework"/>-->
-      <MsiPackage Id="ApiInstaller" Compressed="yes" Vital="yes" SourceFile="..\Wix.VantageAPI\bin\Release\Wix.VantageAPI.msi" DisplayInternalUI="yes" />
+      <MsiPackage Id="ApiInstaller" Compressed="yes" Vital="yes" SourceFile="..\Wix.VantageAPI\bin\Release\VantageAPI.msi" DisplayInternalUI="yes" />
       <PackageGroupRef
                 Id="DotNetHosting"/>
     </Chain>

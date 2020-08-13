@@ -3,7 +3,7 @@
      xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="*" Name="Wix.VantageAPI" Language="1033" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="b91eb418-cfe1-463d-9aa2-c76cc67bbc49">
+  <Product Id="*" Name="VantageAPI" Language="1033" Version="1.0.0.0" Manufacturer="Virtual Driver Interactive" UpgradeCode="b91eb418-cfe1-463d-9aa2-c76cc67bbc49">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

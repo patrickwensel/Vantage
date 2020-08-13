@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>b6867ebc-90b1-4f54-8d44-54988267fb82</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Wix.WPF</OutputName>
+    <OutputName>Vantage</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">

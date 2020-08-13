@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>ff561315-3f76-42ec-a086-7c619d33f465</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Wix.VantageAPI</OutputName>
+    <OutputName>VantageAPI</OutputName>
     <OutputType>Package</OutputType>
     <DefineConstants>HarvestPath=..\Vantage.API\bin\Release\netcoreapp3.0\publish</DefineConstants>
   </PropertyGroup>
