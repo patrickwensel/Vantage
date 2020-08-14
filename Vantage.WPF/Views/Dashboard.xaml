@@ -136,6 +136,7 @@
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    Margin="19,0"
+                                   Visibility="Hidden"
                                    UserInfo="{Binding LoggedInUserInfo}" />
         <Grid Grid.Row="2"
               Grid.Column="0"

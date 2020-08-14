@@ -152,6 +152,12 @@ namespace Vantage.WPF.ViewModels
             if (restoreResponse != null && restoreResponse.Result)
             {
                 System.Windows.MessageBox.Show("Database restored successfully.", "Restore", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                
+                // reload all the products again and check whether selected product is in restored database or not
+                Product selectedProduct = _mainWindowViewModel.SelectedProduct;
+                await _mainWindowViewModel.GetAllProductsAsync();
+                if (selectedProduct != null && !_mainWindowViewModel.Products.Any(x => x.ProductID == selectedProduct.ProductID))
+                    _mainWindowViewModel.SelectedProduct = null;
             }
             else if(restoreResponse != null)
             {

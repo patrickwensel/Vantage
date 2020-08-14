@@ -183,6 +183,12 @@ namespace Vantage.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Driver>> PostDriver(Driver driver)
         {
+            var existingDriver = await _context.Drivers.OrderBy(x => x.DriverID).FirstOrDefaultAsync(x => x.UserName == driver.UserName);
+            if(existingDriver != null && existingDriver.DriverID != 0)
+            {
+                return BadRequest("Username already exists. Please try another.");
+            }
+
             _context.Drivers.Add(driver);
             await _context.SaveChangesAsync();
 

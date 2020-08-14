@@ -134,10 +134,10 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Stretch"
                     Margin="19,32,19,10">
-            <controls:LoggedInUserInfo VerticalAlignment="Bottom"
+            <!--<controls:LoggedInUserInfo VerticalAlignment="Bottom"
                                        HorizontalAlignment="Right"
-                                       Margin="0,5"
-                                       UserInfo="{Binding LoggedInUserInfo}" />
+                                       Margin="0,5"                                       
+                                       UserInfo="{Binding LoggedInUserInfo}" />-->
         </StackPanel>
         <Grid Grid.Row="1"
               Grid.Column="0"

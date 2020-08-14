@@ -69,10 +69,10 @@
                     </interactivity:EventTrigger>
                 </interactivity:Interaction.Triggers>
             </ComboBox>
-            <controls:LoggedInUserInfo VerticalAlignment="Bottom"
+            <!--<controls:LoggedInUserInfo VerticalAlignment="Bottom"
                                        HorizontalAlignment="Right"
                                        Margin="0,5"
-                                       UserInfo="{Binding LoggedInUserInfo}" />
+                                       UserInfo="{Binding LoggedInUserInfo}" />-->
         </StackPanel>
         <Grid Grid.Row="1"
               Grid.Column="0"
