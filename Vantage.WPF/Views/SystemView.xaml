@@ -277,6 +277,8 @@
                     <TextBox x:Name="TxtUsername"
                              MaxLength="8"
                              Text="{Binding Username}"
+                             Background="Silver"
+                             IsReadOnly="True"
                              Grid.Row="2"
                              Grid.Column="0"
                              Grid.ColumnSpan="2"

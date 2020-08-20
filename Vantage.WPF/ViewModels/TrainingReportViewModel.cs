@@ -182,7 +182,12 @@ namespace Vantage.WPF.ViewModels
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
             if (SelectedProduct == null)
+            {
+                ClearDriverList();
+                Groups.Clear();
+                OnlyGroups.Clear();
                 return;
+            }
 
             App.SetCursorToWait();
             await FetchGroupsAsync();
@@ -398,7 +403,7 @@ namespace Vantage.WPF.ViewModels
         {
             if (SelectedProduct == null)
                 return;
-                        
+
             await FetchGroupsAsync();
             IsAllSelected = false;
             EnableDisableReportTypeDropdown();

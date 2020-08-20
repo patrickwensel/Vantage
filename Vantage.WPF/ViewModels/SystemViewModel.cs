@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Vantage.Common.Models;
+using Vantage.WPF.Controls;
 using Vantage.WPF.Controls.Models;
 using Vantage.WPF.Interfaces;
 
@@ -55,7 +56,7 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _errorMessage, value); }
         }
 
-        public string SuccessMessage 
+        public string SuccessMessage
         {
             get { return _successMessage; }
             set { SetProperty(ref _successMessage, value); }
@@ -124,7 +125,7 @@ namespace Vantage.WPF.ViewModels
             {
                 System.Windows.MessageBox.Show("Database backup created successfully.", "Backup", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
-            else if(backupResponse != null)
+            else if (backupResponse != null)
             {
                 System.Windows.MessageBox.Show(backupResponse.Message, "Backup Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
@@ -138,13 +139,17 @@ namespace Vantage.WPF.ViewModels
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.DefaultExt = ".bak";
-            openFileDialog.Filter = "Database Backup (*.bak) | *.bak";
+            openFileDialog.Filter = "Database Restore (*.bak) | *.bak";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            openFileDialog.Title = $"Restore Database";            
+            openFileDialog.Title = $"Restore Database";
             if (openFileDialog.ShowDialog() == false)
             {
                 return;
             }
+            
+            var dialogResult = CustomMessageBox.ShowYesNo("Warning: The restore function will overwrite the existing database.", "Restore Warning!", "Proceed", "Cancel", System.Windows.MessageBoxImage.Warning);
+            if (dialogResult == System.Windows.MessageBoxResult.No)
+                return;
 
             App.SetCursorToWait();
             var restoreResponse = await _databaseService.RestoreDatabase(openFileDialog.FileName.Trim());
@@ -152,14 +157,16 @@ namespace Vantage.WPF.ViewModels
             if (restoreResponse != null && restoreResponse.Result)
             {
                 System.Windows.MessageBox.Show("Database restored successfully.", "Restore", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-                
+
                 // reload all the products again and check whether selected product is in restored database or not
                 Product selectedProduct = _mainWindowViewModel.SelectedProduct;
                 await _mainWindowViewModel.GetAllProductsAsync();
                 if (selectedProduct != null && !_mainWindowViewModel.Products.Any(x => x.ProductID == selectedProduct.ProductID))
                     _mainWindowViewModel.SelectedProduct = null;
+                else                
+                    _mainWindowViewModel.SelectedProduct = _mainWindowViewModel.Products.First(x => x.ProductID == selectedProduct.ProductID);                
             }
-            else if(restoreResponse != null)
+            else if (restoreResponse != null)
             {
                 System.Windows.MessageBox.Show(restoreResponse.Message, "Restore Failed!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
@@ -192,7 +199,7 @@ namespace Vantage.WPF.ViewModels
 
             if (user != null && user.UserID != _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId)
             {
-                App.SetCursorToArrow();                
+                App.SetCursorToArrow();
                 ErrorMessage = "Username already exists, Please try Another.";
                 ErrorOccurred?.Invoke(this, new EventArgs());
                 return;
@@ -207,7 +214,7 @@ namespace Vantage.WPF.ViewModels
                 Password = passwordBox.Password,
             });
             App.SetCursorToArrow();
-            if(_mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName.Equals(this.Username))
+            if (_mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName.Equals(this.Username))
             {
                 SuccessMessage = "Password updated successfully";
             }
@@ -215,7 +222,7 @@ namespace Vantage.WPF.ViewModels
             {
                 _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName = this.Username;
                 SuccessMessage = "Username and Password updated successfully";
-            }            
-        }
+            }
+        }        
     }
 }

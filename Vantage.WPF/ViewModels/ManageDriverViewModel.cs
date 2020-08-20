@@ -241,7 +241,10 @@ namespace Vantage.WPF.ViewModels
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
             if (SelectedProduct == null)
+            {
+                ClearDriverList();
                 return;
+            }
 
             await FetchGroupsAsync();
             //FetchDriversFromAllTheGroups();
