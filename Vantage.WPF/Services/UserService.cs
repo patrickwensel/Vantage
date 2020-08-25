@@ -29,11 +29,11 @@ namespace Vantage.WPF.Services
 
         public async Task UpdateCredential(User user)
         {
-            if(!string.IsNullOrEmpty(user.Password))
-            {
+            //if(!string.IsNullOrEmpty(user.Password))
+            //{
                 var hashedPassword = Helpers.Helper.GenerateSHA256String(user.Password);
                 user.Password = hashedPassword;
-            }
+            //}
             
             var response = await PutRequest($"api/Users/{user.UserID}", user);
             if (response.StatusCode != System.Net.HttpStatusCode.NoContent)

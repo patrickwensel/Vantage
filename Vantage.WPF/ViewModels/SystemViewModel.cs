@@ -77,7 +77,7 @@ namespace Vantage.WPF.ViewModels
             _databaseService = databaseService;
             _mainWindowViewModel = mainWindowViewModel;
             LoggedInUserInfo = mainWindowViewModel.LoggedInUserInfo;
-            Username = mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName;
+            Username = "instructor"; //mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName;
             _trainingCommand = new DelegateCommand(OnTrainingClicked);
             _manageCommand = new DelegateCommand(OnManageClicked);
             TabItems = new List<TabItem>()
@@ -178,7 +178,7 @@ namespace Vantage.WPF.ViewModels
 
         private void ResetCredential(object parameter)
         {
-            Username = null;
+            //Username = null;
             ResetData?.Invoke(this, new EventArgs());
         }
 
@@ -197,22 +197,18 @@ namespace Vantage.WPF.ViewModels
                 user = users.FirstOrDefault(x => x.UserName == this.Username);
             }
 
-            if (user != null && user.UserID != _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId)
-            {
-                App.SetCursorToArrow();
-                ErrorMessage = "Username already exists, Please try Another.";
-                ErrorOccurred?.Invoke(this, new EventArgs());
-                return;
-            }
+            //if (user != null && user.UserID != _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId)
+            //{
+            //    App.SetCursorToArrow();
+            //    ErrorMessage = "Username already exists, Please try Another.";
+            //    ErrorOccurred?.Invoke(this, new EventArgs());
+            //    return;
+            //}
 
-            await _userService.UpdateCredential(new User()
-            {
-                UserID = _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserId,
-                UserName = this.Username,
-                FirstName = _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.FirstName,
-                LastName = _mainWindowViewModel.LoggedInUserInfo.FullUserInfo.LastName,
-                Password = passwordBox.Password,
-            });
+            user.Password = passwordBox.Password;
+
+            await _userService.UpdateCredential(user);
+
             App.SetCursorToArrow();
             if (_mainWindowViewModel.LoggedInUserInfo.FullUserInfo.UserName.Equals(this.Username))
             {
