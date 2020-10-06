@@ -167,7 +167,7 @@ namespace Vantage.WPF.Utility
                     pdfPTable.AddCell(GetHeaderCell("Last Name"));
                     pdfPTable.AddCell(GetHeaderCell("First Name"));
                     pdfPTable.AddCell(GetHeaderCell("Group"));
-                    pdfPTable.AddCell(GetHeaderCell("Lessons Completed"));
+                    pdfPTable.AddCell(GetHeaderCell("Lesson(s) Completed"));
                     pdfPTable.AddCell(GetHeaderCell("Total Lessons"));
                     pdfPTable.AddCell(GetHeaderCell("Course Completed?"));
                     // Headers Completed...
@@ -213,14 +213,15 @@ namespace Vantage.WPF.Utility
 
                 Paragraph titlePhrase = new Paragraph();
                 Text reportTitle = new Text("Individual Driver Report").AddStyle(titleStyle);
-                Text dateTime = new Text($"\n{DateTime.Now.ToString(DateFormat)}").AddStyle(titleStyle);
+                Text dateTime = new Text($"\n{DateTime.Now.ToString(DateFormat)}").AddStyle(infoStyle);
 
                 titlePhrase.Add(reportTitle);
                 titlePhrase.Add(dateTime);
 
                 Paragraph driverName = new Paragraph();
-                Text driverNameText = new Text($"{driver.LastName}, {driver.FirstName}\n\n").AddStyle(tableHeaderStyle);
-                driverName.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);                
+                Text driverNameText = new Text($"{driver.LastName}, {driver.FirstName}\n\n").AddStyle(titleStyle);
+                driverName.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                driverName.Add(driverNameText);
 
                 try
                 {
@@ -282,7 +283,9 @@ namespace Vantage.WPF.Utility
                 titlePhrase.Add(dateTime);
 
                 Paragraph driverName = new Paragraph();
-                Text driveNameText = new Text($"{driver.LastName}, {driver.FirstName}\n\n").AddStyle(tableHeaderStyle).SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);                
+                Text driverNameText = new Text($"{driver.LastName}, {driver.FirstName}\n\n").AddStyle(titleStyle);
+                driverName.SetTextAlignment(TextAlignment.CENTER);
+                driverName.Add(driverNameText);
 
                 try
                 {                   

@@ -39,7 +39,7 @@ namespace Vantage.WPF.Utility
             AddCell(headerRow, 0, "Last Name", tableHeaderCellStyle);
             AddCell(headerRow, 1, "First Name", tableHeaderCellStyle);
             AddCell(headerRow, 2, "Group", tableHeaderCellStyle);
-            AddCell(headerRow, 3, "Lesson Completed", tableHeaderCellStyle);
+            AddCell(headerRow, 3, "Lesson(s) Completed", tableHeaderCellStyle);
             AddCell(headerRow, 4, "Total Lessons", tableHeaderCellStyle);
             AddCell(headerRow, 5, "Course Completed?", tableHeaderCellStyle);
 
