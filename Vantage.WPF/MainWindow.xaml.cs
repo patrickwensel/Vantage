@@ -65,7 +65,7 @@ namespace Vantage.WPF
 
         private void MyWindow_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ChangeWindowState();
+            //ChangeWindowState();
         }
 
         private void ChangeWindowState()

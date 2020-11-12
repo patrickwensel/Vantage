@@ -338,7 +338,7 @@ namespace Vantage.WPF.ViewModels
         {
             Console.WriteLine($"Group updated for Driver : {parameter}");
             UpdateDriversGroup updateDriverGroup = parameter as UpdateDriversGroup;
-            if (updateDriverGroup.Group == null || updateDriverGroup.Driver.GroupID == updateDriverGroup.Group.GroupID)
+            if (updateDriverGroup == null || updateDriverGroup.Group == null || updateDriverGroup.Driver.GroupID == updateDriverGroup.Group.GroupID)
                 return;
 
             Driver driver = new Driver()
