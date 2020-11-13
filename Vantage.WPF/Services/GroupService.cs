@@ -29,5 +29,11 @@ namespace Vantage.WPF.Services
         {
             return await GetRequest<Group>($"/api/Groups/{Id}");
         }
+
+        public async Task<Group> AddGroup(Group group)
+        {
+            var addedGroup = await PostRequest<Group>($"api/groups", group);
+            return addedGroup;
+        }
     }
 }

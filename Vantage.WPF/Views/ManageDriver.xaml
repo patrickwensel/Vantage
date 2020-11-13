@@ -85,24 +85,44 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="0"
-                    Grid.Column="0"
-                    Command="{Binding AddNewDriverCommand}"
-                    Margin="19,21"
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right">
+                <Button Command="{Binding AddNewGroupCommand}"
+                    Margin="5,21"
                     Style="{StaticResource WhiteButton}"
                     HorizontalAlignment="Right">
-                <Button.Content>
-                    <StackPanel HorizontalAlignment="Center"
+                    <Button.Content>
+                        <StackPanel HorizontalAlignment="Center"
                                 Orientation="Horizontal"
                                 Margin="14,5"
                                 VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource WhiteButtonIconTextBlockBaseStyle}"
+                            <TextBlock Style="{StaticResource WhiteButtonIconTextBlockBaseStyle}"
+                                   Text="" />
+                            <TextBlock Style="{StaticResource WhiteButtonTextBlockBaseStyle}"
+                                   Text=" Add A New Group" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Command="{Binding AddNewDriverCommand}"
+                    Margin="5,21,19,21"
+                    Style="{StaticResource WhiteButton}"
+                    HorizontalAlignment="Right">
+                    <Button.Content>
+                        <StackPanel HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Margin="14,5"
+                                VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource WhiteButtonIconTextBlockBaseStyle}"
                                    Text="" />
-                        <TextBlock Style="{StaticResource WhiteButtonTextBlockBaseStyle}"
+                            <TextBlock Style="{StaticResource WhiteButtonTextBlockBaseStyle}"
                                    Text=" Add A New Driver" />
-                    </StackPanel>
-                </Button.Content>
-            </Button>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
             <DataGrid Grid.Row="1"
                       Grid.Column="0"
                       HorizontalAlignment="Stretch"
@@ -571,6 +591,141 @@
 
             </Grid>
         </Grid>
-        <controls:CircularProgressBar Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsLoading="{Binding IsDataLoading}" />
+        <!-- Add Group Popup -->
+        <Grid Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Grid.RowSpan="2"
+              Background="{StaticResource BluredBlueBackground}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility"
+                            Value="Hidden" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAddingGroup}"
+                                     Value="True">
+                            <Setter Property="Visibility"
+                                    Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Background="#F0F0F0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid HorizontalAlignment="Stretch"
+                      VerticalAlignment="Top"
+                      Grid.Column="0"
+                      Grid.Row="0">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0"
+                                             EndPoint="1,1">
+                            <GradientStop Color="#006896"
+                                          Offset="0.0" />
+                            <GradientStop Color="#00344B"
+                                          Offset="0.60" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               Margin="21,21,15,16"
+                               FontSize="23"
+                               Foreground="White"
+                               Text="">
+                    </TextBlock>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="22"
+                               Foreground="White"
+                               Text="Add Group">
+                    </TextBlock>
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            Style="{StaticResource IconButton}"
+                            Command="{Binding ClosePopupCommand}"
+                            Foreground="White"
+                            FontSize="23"
+                            Margin="16,0"
+                            Content=""
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center" />
+                </Grid>
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Margin="16,16,16,3"
+                           Text="Group Name">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock"
+                               BasedOn="{StaticResource FieldHeader}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInGroupName}"
+                                             Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox x:Name="TxtGroupName"
+                         Grid.Row="2"
+                         Grid.Column="0"                         
+                         VerticalContentAlignment="Center"
+                         Margin="16,0,8,0"
+                         MinWidth="296"
+                         Text="{Binding GroupName}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox"
+                               BasedOn="{StaticResource baseControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorInGroupName}"
+                                             Value="True">
+                                    <Setter Property="BorderBrush"
+                                            Value="Red" />
+                                    <Setter Property="BorderThickness"
+                                            Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Button x:Name="BtnAddGroup"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        IsDefault="True"
+                        HorizontalAlignment="Right"
+                        Content="Add New Group"
+                        Command="{Binding AddGroupCommand}"
+                        Margin="16,16,16,29">
+                </Button>
+                <TextBlock Grid.Row="5"
+                           Grid.Column="0"
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource ErrorLabel}"
+                           Text="{Binding ErrorMessage, Mode=TwoWay}"/>
+            </Grid>
+        </Grid>
+        <controls:CircularProgressBar Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsLoading="{Binding IsDataLoading}" Margin="0,4,0,-4" />
     </Grid>
 </Page>

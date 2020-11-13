@@ -68,6 +68,6 @@ namespace Vantage.WPF.Views
                 CBGroup.Focus();
                 return;
             }
-        }
+        }        
     }
 }

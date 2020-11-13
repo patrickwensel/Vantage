@@ -22,11 +22,13 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _systemCommand;
         private readonly ICommand _productSelectedCommand;
         private readonly ICommand _addNewDriverCommand;
+        private readonly ICommand _addNewGroupCommand;
         private readonly ICommand _editDriverCommand;
         private readonly ICommand _deleteDriverCommand;
         private readonly ICommand _driversGroupUpdatedCommand;
         private readonly ICommand _editCommand;
         private readonly ICommand _addCommand;
+        private readonly ICommand _addGroupCommand;
         private readonly ICommand _closePopupCommand;
 
         private IList<Product> _products;
@@ -38,12 +40,15 @@ namespace Vantage.WPF.ViewModels
 
         private bool _isEditingDriver = false;
         private bool _isAddingDriver = false;
+        private bool _isAddingGroup = false;
 
         private string _errorMessage;
         private string _firstName;
         private string _lastName;
         private string _username;
         private string _pin;
+        private string _groupName;
+
         private Group _addEditSelectedGroup;
         private bool _isActive = true;
         private bool _isErrorInFirstName;
@@ -51,6 +56,7 @@ namespace Vantage.WPF.ViewModels
         private bool _isErrorInUsername;
         private bool _isErrorInPin;
         private bool _isErrorInGroup;
+        private bool _isErrorInGroupName;
 
         public EventHandler OnErrorOccurred;
         
@@ -106,6 +112,12 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _isAddingDriver, value); }
         }
 
+        public bool IsAddingGroup
+        {
+            get { return _isAddingGroup; }
+            set { SetProperty(ref _isAddingGroup, value); }
+        }
+
         public string ErrorMessage
         {
             get { return _errorMessage; }
@@ -134,6 +146,12 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _pin; }
             set { SetProperty(ref _pin, value); }
+        }
+
+        public string GroupName
+        {
+            get { return _groupName; }
+            set { SetProperty(ref _groupName, value); }
         }
 
         public Group AddEditSelectedGroup
@@ -172,6 +190,12 @@ namespace Vantage.WPF.ViewModels
             set { SetProperty(ref _isErrorInPin, value); }
         }
 
+        public bool IsErrorInGroupName
+        {
+            get { return _isErrorInGroupName; }
+            set { SetProperty(ref _isErrorInGroupName, value); }
+        }
+
         public bool IsErrorInGroup
         {
             get { return _isErrorInGroup; }
@@ -194,6 +218,10 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand ClosePopupCommand { get { return _closePopupCommand; } }
 
+        public ICommand AddNewGroupCommand { get { return _addNewGroupCommand; } }
+
+        public ICommand AddGroupCommand { get { return _addGroupCommand; } }
+
         public ManageDriverViewModel(IGroupService groupService, IDriverService driverService, INavigationService navigationService, MainWindowViewModel mainWindowViewModel)
         {
             _groupService = groupService;
@@ -206,10 +234,12 @@ namespace Vantage.WPF.ViewModels
             _systemCommand = new DelegateCommand(OnSystemClicked);
             _driversGroupUpdatedCommand = new DelegateCommand(OnDriversGroupUpdated);
             _addNewDriverCommand = new DelegateCommand(OpenAddDriverPopup);
+            _addNewGroupCommand = new DelegateCommand(OpenAddGroupPopup);
             _editDriverCommand = new DelegateCommand(OpenEditDriverPopup);
             _deleteDriverCommand = new DelegateCommand(OnDeleteDriver);
             _editCommand = new DelegateCommand(EditDriver);
             _addCommand = new DelegateCommand(AddDriver);
+            _addGroupCommand = new DelegateCommand(AddGroup);
             _closePopupCommand = new DelegateCommand(ClosePopup);
 
             TabItems = new List<TabItem>()
@@ -378,7 +408,15 @@ namespace Vantage.WPF.ViewModels
         {
             Console.WriteLine("New Driver added...");
             IsEditingDriver = false;
+            IsAddingGroup = false;
             IsAddingDriver = true;
+        }
+
+        private void OpenAddGroupPopup(object parameter)
+        {
+            IsAddingDriver = false;
+            IsEditingDriver = false;
+            IsAddingGroup = true;
         }
 
         private void OpenEditDriverPopup(object parameter)
@@ -460,8 +498,34 @@ namespace Vantage.WPF.ViewModels
             ClosePopup(parameter);
         }
 
+        private async void AddGroup(object parameter)
+        {
+            if(string.IsNullOrEmpty(GroupName))
+            {
+                IsErrorInGroupName = true;
+                ErrorMessage = "Group Name Can not be empty or null.";
+                return;
+            }
+
+            Group group = new Group()
+            {
+                ProductID = SelectedProduct.ProductID,
+                Name = GroupName,
+            };
+
+            IsDataLoading = true;
+            var addedGroup = await _groupService.AddGroup(group);
+            IsDataLoading = false;
+            await FetchGroupsAsync(false);
+            await FetchAllDriversAsync();
+
+            Console.WriteLine("New group added...");
+            ClosePopup(parameter);
+        }
+
         private void ClosePopup(object parameter)
         {
+            IsAddingGroup = false;
             IsEditingDriver = false;
             IsAddingDriver = false;
             ClearAddEditDriverProperties();

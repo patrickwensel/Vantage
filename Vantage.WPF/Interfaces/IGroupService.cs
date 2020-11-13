@@ -11,5 +11,7 @@ namespace Vantage.WPF.Interfaces
         Task<IList<Group>> GetGroups();
 
         Task<Group> GetGroup(int Id);
+
+        Task<Group> AddGroup(Group group);
     }
 }
