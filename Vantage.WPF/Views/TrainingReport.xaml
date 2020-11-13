@@ -522,5 +522,12 @@
                 </DataGrid>
             </ScrollViewer>
         </Grid>
+        <controls:CircularProgressBar Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.RowSpan="2"
+                                      Grid.ColumnSpan="2"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      IsLoading="{Binding IsDataLoading}" />
     </Grid>
 </Page>

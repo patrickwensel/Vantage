@@ -23,26 +23,12 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _resetCommand;
         private readonly ICommand _updateCredentialCommand;
 
-        private UserInfo _loggedInUserInfo;
-        private IList<TabItem> _tabItems;
         private string _userName;
         private string _errorMessage;
         private string _successMessage;
 
         public EventHandler ResetData;
         public EventHandler ErrorOccurred;
-
-        public UserInfo LoggedInUserInfo
-        {
-            get { return _loggedInUserInfo; }
-            set { SetProperty(ref _loggedInUserInfo, value); }
-        }
-
-        public IList<TabItem> TabItems
-        {
-            get { return _tabItems; }
-            set { SetProperty(ref _tabItems, value); }
-        }
 
         public string Username
         {

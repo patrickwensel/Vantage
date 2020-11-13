@@ -78,8 +78,11 @@
   <Fragment>
     <?include ConfigurationInitialize.wxi ?>
 
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="IISMain" Name='inetpub'>
+    <SetDirectory Id="CDrive" Value="C:\" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">      
+      <Directory Id="CDrive" Name="CDrive">
+        <Directory Id="IISMain" Name='inetpub'>
         <Directory Id="INSTALLLOCATION" Name="wwwroot" ComponentGuidGenerationSeed="c7362a19-f89e-4f6b-9732-43fffd7a9ca2">
           <!--<Directory Id="INSTALLLOCATION" Name="VantageAPI">-->
             <Component Id="WebVirtualDirComponent" Guid="b9a091d7-1e48-4279-8f7e-c02683859244">
@@ -102,8 +105,9 @@
           <!--</Directory>-->
         </Directory>
       </Directory>
+      </Directory>
     </Directory>
-
+    
     <iis:WebSite Id="DefaultWebSite" Description="Default Web Site" Directory="INSTALLLOCATION">
       <iis:WebAddress Id="AllUnassigned" Port="80" />
     </iis:WebSite>

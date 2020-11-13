@@ -32,12 +32,10 @@ namespace Vantage.WPF.ViewModels
 
         private int _fetchedDriversCount;
         private Group _selectedGroup;
-        private UserInfo _loggedInUserInfo;
         private ObservableCollection<Group> _groups;
         private ObservableCollection<Group> _onlyGroups;
         private IList<SelectableDriver> _allDrivers;
         private IList<SelectableDriver> _drivers;
-        private IList<TabItem> _tabItems;
         private IList<Product> _products;
         private Product _selectedProduct;
         private bool? _isAllSelected = false;
@@ -52,13 +50,7 @@ namespace Vantage.WPF.ViewModels
         {
             get { return _fetchedDriversCount; }
             private set { SetProperty(ref _fetchedDriversCount, value); }
-        }
-
-        public UserInfo LoggedInUserInfo
-        {
-            get { return _loggedInUserInfo; }
-            set { SetProperty(ref _loggedInUserInfo, value); }
-        }
+        }        
 
         public Group SelectedGroup
         {
@@ -98,13 +90,7 @@ namespace Vantage.WPF.ViewModels
                 SetProperty(ref _selectedProduct, value);
                 _mainWindowViewModel.SelectedProduct = value;
             }
-        }
-
-        public IList<TabItem> TabItems
-        {
-            get { return _tabItems; }
-            set { SetProperty(ref _tabItems, value); }
-        }
+        }       
 
         public bool? IsAllSelected
         {
@@ -189,7 +175,7 @@ namespace Vantage.WPF.ViewModels
                 return;
             }
 
-            App.SetCursorToWait();
+            App.SetCursorToWait();            
             await FetchGroupsAsync();
             SelectedGroup = Groups[0];
 
@@ -200,12 +186,13 @@ namespace Vantage.WPF.ViewModels
         private async Task FetchGroupsAsync()
         {
             App.SetCursorToWait();
+            IsDataLoading = true;
             ClearDriverList();
             Groups.Clear();
             OnlyGroups.Clear();
 
             var groups = await _groupService.GetGroups();
-
+            IsDataLoading = false;
             UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
             Console.WriteLine($"Groups : {Groups}");
             App.SetCursorToWait();
@@ -262,6 +249,7 @@ namespace Vantage.WPF.ViewModels
         private async Task FetchAllDriversAsync()
         {
             App.SetCursorToWait();
+            IsDataLoading = true;
             ClearDriverList();
             IList<Driver> driversList;
 
@@ -279,11 +267,13 @@ namespace Vantage.WPF.ViewModels
             _allDrivers = GetSelectableDrivers(driversList);
             GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
             Console.WriteLine($"Drivers : {Drivers}");
+            IsDataLoading = false;
             App.SetCursorToArrow();
         }
 
         private async Task FetchDriversByGroupId(int groupId)
         {
+            IsDataLoading = true;
             ClearDriverList();
             var group = await _groupService.GetGroup(groupId);
 
@@ -302,6 +292,7 @@ namespace Vantage.WPF.ViewModels
             }
 
             GetDriversBasedOnActiveStatus(ShowOnlyActiveDrivers);
+            IsDataLoading = false;
         }
 
         private void SetGroupsAsPerTheSelectedProduct()
@@ -391,7 +382,7 @@ namespace Vantage.WPF.ViewModels
         {
             if (SelectedGroup == null)
                 return;
-
+            
             Console.WriteLine($"Selected Group : {SelectedGroup.GroupID}");
             if (SelectedGroup.GroupID == -1)
                 await FetchAllDriversAsync();
@@ -403,7 +394,7 @@ namespace Vantage.WPF.ViewModels
         {
             if (SelectedProduct == null)
                 return;
-
+            
             await FetchGroupsAsync();
             IsAllSelected = false;
             EnableDisableReportTypeDropdown();

@@ -29,8 +29,6 @@ namespace Vantage.WPF.ViewModels
         private readonly ICommand _addCommand;
         private readonly ICommand _closePopupCommand;
 
-        private UserInfo _loggedInUserInfo;
-        private IList<TabItem> _tabItems;
         private IList<Product> _products;
         private Product _selectedProduct;
         private ObservableCollection<Group> _groups;
@@ -55,13 +53,7 @@ namespace Vantage.WPF.ViewModels
         private bool _isErrorInGroup;
 
         public EventHandler OnErrorOccurred;
-
-        public UserInfo LoggedInUserInfo
-        {
-            get { return _loggedInUserInfo; }
-            set { SetProperty(ref _loggedInUserInfo, value); }
-        }
-
+        
         public IList<Product> Products
         {
             get { return _products; }
@@ -202,12 +194,6 @@ namespace Vantage.WPF.ViewModels
 
         public ICommand ClosePopupCommand { get { return _closePopupCommand; } }
 
-        public IList<TabItem> TabItems
-        {
-            get { return _tabItems; }
-            set { SetProperty(ref _tabItems, value); }
-        }
-
         public ManageDriverViewModel(IGroupService groupService, IDriverService driverService, INavigationService navigationService, MainWindowViewModel mainWindowViewModel)
         {
             _groupService = groupService;
@@ -254,6 +240,7 @@ namespace Vantage.WPF.ViewModels
         private async Task FetchGroupsAsync(bool shouldClearDriverList = true)
         {
             App.SetCursorToWait();
+            IsDataLoading = true;
             if (shouldClearDriverList)
                 ClearDriverList();
 
@@ -261,6 +248,7 @@ namespace Vantage.WPF.ViewModels
             var groups = await _groupService.GetGroups();
 
             UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
+            IsDataLoading = false;
             App.SetCursorToArrow();
             Console.WriteLine($"Groups : {Groups}");
         }
@@ -306,6 +294,7 @@ namespace Vantage.WPF.ViewModels
 
         private async Task FetchAllDriversAsync()
         {
+            IsDataLoading = true;
             ClearDriverList();
             IList<Driver> driversList;
 
@@ -320,6 +309,7 @@ namespace Vantage.WPF.ViewModels
                 driver.Group = group;
             }
             Drivers = driversList != null ? driversList : new List<Driver>();
+            IsDataLoading = false;
             Console.WriteLine($"Drivers : {Drivers}");
         }
 
@@ -377,9 +367,11 @@ namespace Vantage.WPF.ViewModels
 
         private async Task UpdateDriverAsync(Driver driver)
         {
+            IsDataLoading = true;
             App.SetCursorToWait();
             await _driverService.UpdateDriver(driver);
             App.SetCursorToArrow();
+            IsDataLoading = false;
         }
 
         private void OpenAddDriverPopup(object parameter)
@@ -458,7 +450,9 @@ namespace Vantage.WPF.ViewModels
                 ProductID = this.SelectedProduct.ProductID,
             };
 
+            IsDataLoading = true;
             await _driverService.AddNewDriver(driver);
+            IsDataLoading = false;
             await FetchGroupsAsync(false);
             await FetchAllDriversAsync();
 
