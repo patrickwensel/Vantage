@@ -61,9 +61,12 @@ namespace Vantage.WPF.ViewModels
 
         public async Task OnInitializedAsync()
         {
+            IsDataLoading = true;
             LoggedInUserInfo = _mainWindowViewModel.LoggedInUserInfo;
             await _mainWindowViewModel.GetAllProductsAsync();
             Products = _mainWindowViewModel.Products;
+            IsDataLoading = false;
+
             if (Products != null && Products.Count >= 1)
                 SelectedProduct = Products[0];
         }

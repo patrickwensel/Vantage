@@ -193,9 +193,10 @@ namespace Vantage.WPF.ViewModels
 
             var groups = await _groupService.GetGroups();
             IsDataLoading = false;
+
             UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
             Console.WriteLine($"Groups : {Groups}");
-            App.SetCursorToWait();
+            App.SetCursorToWait();            
         }
 
         private void UpdateGroupList(IList<Group> groups)
