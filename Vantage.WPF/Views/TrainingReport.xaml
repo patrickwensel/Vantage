@@ -250,9 +250,7 @@
                           VerticalAlignment="Top"
                           AutoGenerateColumns="False"
                           SelectionUnit="FullRow"
-                          ScrollViewer.CanContentScroll="False"
-                          ScrollViewer.PanningMode="None"
-                          VirtualizingPanel.ScrollUnit="Item"
+                          VirtualizingPanel.ScrollUnit="Pixel"
                           ItemsSource="{Binding Drivers}">
                     <DataGrid.Resources>
                         <Style TargetType="DataGridCell"
@@ -365,6 +363,7 @@
                                           PreviewMouseWheel="DataGrid_PreviewMouseWheel"
                                           AutoGenerateColumns="False"
                                           IsReadOnly="True"
+                                          CanUserSortColumns="False"
                                           VirtualizingPanel.ScrollUnit="Pixel"
                                           ItemsSource="{Binding GroupedAttemptsByLessons}">
                                     <DataGrid.Columns>
