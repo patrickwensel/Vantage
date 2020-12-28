@@ -165,6 +165,7 @@ namespace Vantage.WPF.ViewModels
 
         public async Task OnInitializedAsync()
         {
+            IsDataLoading = true;
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
             if (SelectedProduct == null)
@@ -172,15 +173,14 @@ namespace Vantage.WPF.ViewModels
                 ClearDriverList();
                 Groups.Clear();
                 OnlyGroups.Clear();
+                IsDataLoading = false;
                 return;
             }
 
-            App.SetCursorToWait();            
             await FetchGroupsAsync();
             SelectedGroup = Groups[0];
 
-            //SetGroupsAsPerTheSelectedProduct(); 
-            App.SetCursorToArrow();
+            //SetGroupsAsPerTheSelectedProduct();             
         }
 
         private async Task FetchGroupsAsync()
@@ -188,14 +188,12 @@ namespace Vantage.WPF.ViewModels
             App.SetCursorToWait();
             IsDataLoading = true;
             ClearDriverList();
-            Groups.Clear();
-            OnlyGroups.Clear();
 
             var groups = await _groupService.GetGroups();
             IsDataLoading = false;
 
             UpdateGroupList(groups != null ? groups.Where(x => x.ProductID == SelectedProduct.ProductID).ToList() : null);
-            Console.WriteLine($"Groups : {Groups}");
+            Console.WriteLine($"Groups : {Groups}");            
             App.SetCursorToWait();            
         }
 
@@ -403,14 +401,17 @@ namespace Vantage.WPF.ViewModels
 
         private void OnManageClicked(object parameter)
         {
+            IsDataLoading = true;
             Console.WriteLine($"Manage Clicked : {parameter}");
-            _navigationService.NavigateTo(Enums.PageKey.ManageDriver);
+            _navigationService.NavigateTo(Enums.PageKey.ManageDriver); 
+            IsDataLoading = false;
         }
-
         private void OnSystemClicked(object parameter)
         {
+            IsDataLoading = true;
             Console.WriteLine($"System Clicked : {parameter}");
-            _navigationService.NavigateTo(Enums.PageKey.System);
+            _navigationService.NavigateTo(Enums.PageKey.System); 
+            IsDataLoading = false;
         }
 
         private void ExportReports(object parameter)

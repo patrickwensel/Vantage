@@ -254,11 +254,13 @@ namespace Vantage.WPF.ViewModels
 
         public async Task OnInitializedAsync()
         {
+            IsDataLoading = true;
             Products = _mainWindowViewModel.Products;
             SelectedProduct = _mainWindowViewModel.SelectedProduct;
             if (SelectedProduct == null)
             {
                 ClearDriverList();
+                IsDataLoading = false;
                 return;
             }
 
@@ -363,14 +365,18 @@ namespace Vantage.WPF.ViewModels
 
         private void OnTrainingClicked(object parameter)
         {
+            IsDataLoading = true;
             Console.WriteLine($"Training Clicked : {parameter}");
             _navigationService.NavigateTo(Enums.PageKey.TrainingReport);
+            IsDataLoading = false;
         }
 
         private void OnSystemClicked(object parameter)
         {
+            IsDataLoading = true;
             Console.WriteLine($"System Clicked : {parameter}");
             _navigationService.NavigateTo(Enums.PageKey.System);
+            IsDataLoading = false;
         }
 
         private async void OnDriversGroupUpdated(object parameter)
