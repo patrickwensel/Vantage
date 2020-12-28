@@ -178,8 +178,8 @@ namespace Vantage.WPF.ViewModels
             }
 
             await FetchGroupsAsync();
-            SelectedGroup = Groups[0];
-
+            await FetchAllDriversAsync();
+            SelectedGroup = Groups[0];         
             //SetGroupsAsPerTheSelectedProduct();             
         }
 
